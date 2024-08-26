@@ -26,12 +26,12 @@ public class MybatisConfig {
         return dataSource;
     }
 
-//    @Bean
-//    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-//        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-//        sessionFactory.setDataSource(dataSource);
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource);
 //        sessionFactory.setMapperLocations(
 //                new PathMatchingResourcePatternResolver().getResources("classpath*:../resources/mappers/*.xml"));
-//        return sessionFactory.getObject();
-//    }
+        return sessionFactory.getObject();
+    }
 }
