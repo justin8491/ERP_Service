@@ -23,4 +23,6 @@ public class InputDTO {
     private String itemName; // 물품이름
     private int price; // 물품가격
     private String unit; // 물품 견적
+    // 검수
+    private String status; // 검수 현황상태
 }
