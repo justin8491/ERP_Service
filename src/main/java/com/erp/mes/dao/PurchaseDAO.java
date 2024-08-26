@@ -1,5 +1,8 @@
 package com.erp.mes.dao;
 
-public interface PurchaseDAO {
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
+public interface PurchaseDAO {
+    
 }
