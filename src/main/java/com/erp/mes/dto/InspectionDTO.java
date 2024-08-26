@@ -15,7 +15,8 @@ import java.util.Date;
 @Slf4j
 public class InspectionDTO {
     private int ins_id;
+    
     private Date date;
-
+    private String notice;
     private int statis;
 }
