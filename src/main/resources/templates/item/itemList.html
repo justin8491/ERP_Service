@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>품목 목록</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script>
+    function confirmDeletion(event) {
+      if (!confirm("정말 이 품목을 삭제하시겠습니까?")) {
+        event.preventDefault(); // 사용자가 "아니오"를 클릭하면 폼 제출을 취소
+      }
+    }
+  </script>
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-5">품목 목록</h1>
+
+  <form action="/item/search" method="get">
+    <label for="name">품목명:</label>
+    <input type="text" id="name" name="name">
+
+    <label for="type">유형:</label>
+    <input type="text" id="type" name="type">
+
+    <label for="minPrice">최소가격:</label>
+    <input type="number" id="minPrice" name="minPrice" step="0.01">
+
+    <label for="maxPrice">최대가격:</label>
+    <input type="number" id="maxPrice" name="maxPrice" step="0.01">
+
+    <button type="submit">Search</button>
+  </form>
+  <!-- 검색 버튼 --->
+
+  <!-- 품목 추가 버튼 -->
+  <div class="mb-3">
+    <a href="/item/insert" class="btn btn-success">새 품목 추가</a>
+  </div>
+
+  <table class="table table-bordered mt-3">
+    <thead>
+    <tr>
+      <th>품목번호</th>
+      <th>유형</th>
+      <th>품목명</th>
+      <th>규격</th>
+      <th>단위</th>
+      <th>가격</th>
+      <th>등록일</th>
+      <th>작업</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}">
+      <td th:text="${item.item_id}">12345</td>
+      <td th:text="${item.type}">샘플 유형</td>
+      <td th:text="${item.name}">샘플 이름</td>
+      <td th:text="${item.spec}">샘플 규격</td>
+      <td th:text="${item.unit}">샘플 단위</td>
+      <td th:text="${item.price}">100.00</td>
+      <td th:text="${#dates.format(item.create_date, 'yyyy년 MM월 dd일')}">2024년 08월 23일</td>
+      <td>
+        <a th:href="@{'/item/detail/' + ${item.item_id}}" class="btn btn-primary btn-sm">상세보기</a>
+        <a th:href="@{'/item/edit/' + ${item.item_id}}" class="btn btn-primary btn-sm">수정</a>
+        <form th:action="@{'/item/delete/' + ${item.item_id}}" method="post" style="display:inline;" onsubmit="confirmDeletion(event)">
+          <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+        </form>
+      </td>
+    </tr>
+
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
