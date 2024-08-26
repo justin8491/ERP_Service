@@ -12,43 +12,56 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping(value = "/member/*")
+@RequestMapping(value = "/member/*") // /member/~ 경로로 들어오는 모든 API 처리
 public class MemberRestController {
 
     @Autowired
     MemberService memberService;
 
 
-
+    /**
+     * 모든 회원 검색
+     *
+     * @return
+     */
     @PostMapping(value = "findAll")
-    public Map<String, Object> findAll(){
+    public Map<String, Object> findAll() {
         Map<String, Object> map = new HashMap<>();
         try {
             List<MemberDTO> memberList = memberService.findAll();
-            map.put("memberList",memberList);
-            map.put("msg","회원전부 찾기 성공");
-        }catch (Exception e){
-            map.put("msg","회원전부 찾기 실패");
+            map.put("memberList", memberList);
+            map.put("msg", "회원전부 찾기 성공");
+        } catch (Exception e) {
+            map.put("msg", "회원전부 찾기 실패");
         }
 
         return map;
     }
 
+    /**
+     * 회원 찾기 1명
+     *
+     * @param memberDTO
+     * @return
+     */
     @PostMapping(value = "find")
-    public Map<String, Object> find(@RequestBody MemberDTO memberDTO){
+    public Map<String, Object> find(@RequestBody MemberDTO memberDTO) {
         Map<String, Object> map = new HashMap<>();
         try {
             memberDTO = memberService.find(memberDTO);
-            map.put("memberDTO",memberDTO);
-            map.put("msg","회원 찾기 성공");
-        }catch (Exception e){
-            map.put("msg","회원 찾기 실패");
+            map.put("memberDTO", memberDTO);
+            map.put("msg", "회원 찾기 성공");
+        } catch (Exception e) {
+            map.put("msg", "회원 찾기 실패");
         }
-
-
         return map;
     }
 
+    /**
+     * 로그인
+     * @param memberDTO
+     * @return
+     */
     @PostMapping(value = "login")
     public Map<String, Object> login(@RequestBody MemberDTO memberDTO) {
         Map<String, Object> map = new HashMap<>();
@@ -70,29 +83,39 @@ public class MemberRestController {
         return map;
     }
 
+    /**
+     * 회원가입
+     * @param memberDTO
+     * @return
+     */
     @PostMapping(value = "join")
     public Map<String, Object> join(@RequestBody MemberDTO memberDTO) {
         Map<String, Object> map = new HashMap<>();
         try {
             System.out.println(memberDTO);
             int status = memberService.join(memberDTO);
-            map.put("status",status);
+            map.put("status", status);
             map.put("msg", "회원가입 완료");
             map.put("loc", "member/login");
         } catch (Exception e) {
             map.put("msg", "회원가입 실패");
             map.put("loc", "member/login");
-            map.put("error",e.getMessage());
+            map.put("error", e.getMessage());
         }
         return map;
     }
 
+    /**
+     * 회원 수정
+     * @param memberDTO
+     * @return
+     */
     @PutMapping(value = "update")
     public Map<String, Object> update(@RequestBody MemberDTO memberDTO) {
         Map<String, Object> map = new HashMap<>();
         try {
             int status = memberService.update(memberDTO);
-            map.put("status",status);
+            map.put("status", status);
         } catch (Exception e) {
             e.printStackTrace();
             map.put("msg", "회원 수정 실패");
@@ -100,13 +123,18 @@ public class MemberRestController {
         return map;
     }
 
+    /**
+     * 회원 탈퇴(비활성 상태 변환)
+     * @param memberDTO
+     * @return
+     */
     @PutMapping(value = "delete")
-    public Map<String, Object> delete(@RequestBody MemberDTO memberDTO){
+    public Map<String, Object> delete(@RequestBody MemberDTO memberDTO) {
         Map<String, Object> map = new HashMap<>();
         System.out.println(memberDTO);
         try {
             int status = memberService.delete(memberDTO);
-            map.put("status",status);
+            map.put("status", status);
             map.put("msg", "회원 삭제 성공");
         } catch (Exception e) {
             e.printStackTrace();
