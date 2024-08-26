@@ -12,4 +12,12 @@ public class MemberController {
 
         return "home";
     }
+
+    @GetMapping(value = "login")
+    public String loginForm() {
+        return "member/login";
+    }
+    
+
+
 }
