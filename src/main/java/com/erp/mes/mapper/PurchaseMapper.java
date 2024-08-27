@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface PurchaseDAO {
+public interface PurchaseMapper {
 
     @Select("SELECT * FROM plan")
     List<PlanDTO> plan(PlanDTO planDTO); // 조달 계회 리스트

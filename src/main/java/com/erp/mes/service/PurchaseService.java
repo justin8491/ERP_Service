@@ -1,15 +1,19 @@
 package com.erp.mes.service;
 
-import com.erp.mes.mapper.PurchaseDAO;
+import com.erp.mes.mapper.PurchaseMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PurchaseService {
 
-    private final PurchaseDAO purchaseDAO;
+    private final PurchaseMapper purchaseMapper;
 
 
-    public PurchaseService(PurchaseDAO purchaseDAO) {
-        this.purchaseDAO = purchaseDAO;
+    public PurchaseService(PurchaseMapper purchaseMapper) {
+        this.purchaseMapper = purchaseMapper;
     }
+
+
+
+
 }
