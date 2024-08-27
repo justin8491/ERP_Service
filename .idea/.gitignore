@@ -6,7 +6,7 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 ## 프로젝트 끝날시 주석해야 할 파일
-.gradle/file-system.probe
+.gradle/
 
 # User-specific stuff
 .idea/**/workspace.xml
