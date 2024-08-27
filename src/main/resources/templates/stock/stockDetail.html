@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>재고 상세 보기</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-5">재고 상세 보기</h1>
+
+  <div class="card mt-3">
+    <div class="card-body">
+      <p><strong>재고 ID:</strong> <span th:text="${stock.stk_id}"></span></p>
+      <p><strong>수량:</strong> <span th:text="${stock.qty}"></span></p>
+      <p><strong>위치:</strong> <span th:text="${stock.loc}"></span></p>
+      <p><strong>가치:</strong> <span th:text="${stock.value}"></span></p>
+      <p><strong>상태:</strong> <span th:text="${stock.status}"></span></p>
+      <p><strong>입고 날짜:</strong> <span th:text="${#dates.format(stock.in_date, 'yyyy-MM-dd')}"></span></p>
+      <p><strong>유통기한:</strong> <span th:text="${#dates.format(stock.exp_date, 'yyyy-MM-dd')}"></span></p>
+      <p><strong>소비량:</strong> <span th:text="${stock.cons_qty}"></span></p>
+      <p><strong>소비 날짜:</strong> <span th:text="${#dates.format(stock.cons_date, 'yyyy-MM-dd')}"></span></p>
+      <p><strong>소비 위치:</strong> <span th:text="${stock.cons_loc}"></span></p>
+
+      <a th:href="@{'/stock/edit/' + ${stock.stk_id}}" class="btn btn-primary">수정</a>
+      <form th:action="@{'/stock/delete/' + ${stock.stk_id}}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger">삭제</button>
+      </form>
+    </div>
+  </div>
+
+  <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
+    <span th:text="${errorMessage}"></span>
+  </div>
+</div>
+</body>
+</html>
