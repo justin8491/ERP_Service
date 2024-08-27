@@ -13,7 +13,7 @@ public class ItemService {
 
     private final ItemMapper itemMapper;
 
-    // 생성자 주입 변경
+    // 생성자 주입
     public ItemService(ItemMapper itemMapper) {
         this.itemMapper = itemMapper;
     }
