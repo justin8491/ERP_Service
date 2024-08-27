@@ -2,8 +2,6 @@ package com.erp.mes.controller;
 
 import com.erp.mes.dto.ItemDTO;
 import com.erp.mes.service.ItemService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,20 +12,29 @@ import java.util.List;
 @RequestMapping("/item")
 public class ItemController {
 
-    @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
+
+    // 생성자 주입
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @GetMapping("/detail/{id}")
     public String getItemById(@PathVariable("id") int id, Model model) {
-        ItemDTO item = itemService.getItemById(id); //품목 상세 조회
+        ItemDTO item = itemService.getItemById(id); // 품목 상세 조회
         model.addAttribute("item", item);
         return "item/itemDetail"; // 상세 페이지 반환
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteItem(@PathVariable("id") int id) {
-        itemService.deleteItem(id); // 삭제처리
-        return "redirect:/item/itemList"; // 목록 리다이렉트 (스크립트로 삭제 예/아니오 팝업)
+    public String deleteItem(@PathVariable("id") int id, Model model) {
+        int result = itemService.deleteItem(id); // 삭제 처리
+        if (result > 0) {
+            return "redirect:/item/itemList"; // 성공 시 목록 리다이렉트
+        } else {
+            model.addAttribute("errorMessage", "삭제에 실패했습니다.");
+            return "item/itemDetail"; // 실패 시 상세 페이지로 돌아감
+        }
     }
 
     @GetMapping("/insert")
@@ -37,23 +44,33 @@ public class ItemController {
     }
 
     @PostMapping("/save")
-    public String saveItem(@ModelAttribute ItemDTO item) {
-        itemService.saveItem(item); // 업데이트
-        return "redirect:/item/itemList";
+    public String saveItem(@ModelAttribute ItemDTO item, Model model) {
+        int result = itemService.saveItem(item); // 업데이트 또는 삽입 처리
+        if (result > 0) {
+            return "redirect:/item/itemList"; // 성공 시 목록 리다이렉트
+        } else {
+            model.addAttribute("errorMessage", "저장에 실패했습니다.");
+            return "item/itemInsert"; // 실패 시 추가 폼으로 돌아감
+        }
     }
 
     @GetMapping("/itemList")
     public String itemList(Model model) {
-        List<ItemDTO> items = itemService.getAllItems(); // 목록조회
+        List<ItemDTO> items = itemService.getAllItems(); // 목록 조회
         model.addAttribute("items", items);
         return "item/itemList";
     }
 
     @PostMapping("/update/{id}")
-    public String updateItem(@PathVariable("id") int id, @ModelAttribute ItemDTO item) {
+    public String updateItem(@PathVariable("id") int id, @ModelAttribute ItemDTO item, Model model) {
         item.setItem_id(id);
-        itemService.updateItem(item);
-        return "redirect:/item/itemList";
+        int result = itemService.updateItem(item);
+        if (result > 0) {
+            return "redirect:/item/itemList"; // 성공 시 목록 리다이렉트
+        } else {
+            model.addAttribute("errorMessage", "수정에 실패했습니다.");
+            return "item/itemEdit"; // 실패 시 수정 폼으로 돌아감
+        }
     }
 
     @GetMapping("/edit/{id}")
@@ -76,4 +93,3 @@ public class ItemController {
         return "item/itemList";  // 검색 결과를 표시할 페이지
     }
 }
-
