@@ -17,7 +17,7 @@ public interface PurchaseDAO {
     List<OrderDTO> order(OrderDTO orderDTO); // 구매 발주서 리스트
 
     int orderForm(OrderDTO orderDTO); // 구매 발주서 수정
-
+ 
     int inspectionForm(Map<String, Object> map); // 검수 생성
 
     int inspection(InspectionDTO inspectionDTO); // 검수 확인
