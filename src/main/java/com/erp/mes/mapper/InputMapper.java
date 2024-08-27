@@ -41,5 +41,7 @@ public interface InputMapper {
     // 구매발주서 확인
     @Update("update `order` set status = #{status}  where order_code = #{order_code}")
     int orderForm(Map<String,Object> map);
+    // 검수
+    //    update문 where status = 100형식으로 다가가야할듯
 
 }

@@ -66,6 +66,9 @@ public class InputController {
     public String orderForm(@RequestBody Map<String,Object> map) {
         int n = service.orderForm(map);
         log.info("Update count: {}", n);
+        if(n <= 0) {
+            return "없다";
+        }
         return "ok";
     }
 }
