@@ -2,18 +2,21 @@ package com.erp.mes.service;
 
 import com.erp.mes.dao.ItemMapper;
 import com.erp.mes.dto.ItemDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Service
 @Transactional
 public class ItemService {
 
-    @Autowired
-    private ItemMapper itemMapper;
+    private final ItemMapper itemMapper;
+
+    // 생성자 주입 변경
+    public ItemService(ItemMapper itemMapper) {
+        this.itemMapper = itemMapper;
+    }
 
     public List<ItemDTO> getAllItems() {
         return itemMapper.getAllItems();
@@ -23,16 +26,16 @@ public class ItemService {
         return itemMapper.getItemById(id);
     }
 
-    public void saveItem(ItemDTO item) {
-        itemMapper.insert(item);
+    public int saveItem(ItemDTO item) {
+        return itemMapper.insert(item);
     }
 
-    public void deleteItem(int id) {
-        itemMapper.deleteItem(id);
+    public int deleteItem(int id) {
+        return itemMapper.deleteItem(id);
     }
 
-    public void updateItem(ItemDTO item) {
-        itemMapper.update(item);
+    public int updateItem(ItemDTO item) {
+        return itemMapper.update(item);
     }
 
     public List<ItemDTO> searchItems(String name, String type, Double minPrice, Double maxPrice) {
