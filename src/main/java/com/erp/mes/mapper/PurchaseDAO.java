@@ -1,6 +1,6 @@
-package com.erp.mes.dao;
+package com.erp.mes.mapper;
 
-import com.erp.mes.dto.ItemDTO;
+import com.erp.mes.dto.InspectionDTO;
 import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PlanDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,9 +18,9 @@ public interface PurchaseDAO {
 
     int orderForm(OrderDTO orderDTO); // 구매 발주서 수정
 
-    int inspectionForm(Map<String, Object> map);
+    int inspectionForm(Map<String, Object> map); // 검수 생성
 
-    int inspection(InspectionDTO inspectionDTO);
+    int inspection(InspectionDTO inspectionDTO); // 검수 확인
 
 
 

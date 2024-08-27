@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PurchaseService {
 
+    private PurchaseService(){
+        
+    }
+
     
 
 }
