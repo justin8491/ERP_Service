@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>재고 추가</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-5">새 재고 추가</h1>
+
+  <form th:action="@{/stock/save}" method="post">
+    <div class="form-group">
+      <label for="qty">수량:</label>
+      <input type="number" class="form-control" id="qty" name="qty" required>
+    </div>
+    <div class="form-group">
+      <label for="loc">위치:</label>
+      <input type="text" class="form-control" id="loc" name="loc" required>
+    </div>
+    <div class="form-group">
+      <label for="value">가치:</label>
+      <input type="number" step="0.01" class="form-control" id="value" name="value" required>
+    </div>
+    <div class="form-group">
+      <label for="status">상태:</label>
+      <input type="text" class="form-control" id="status" name="status" required>
+    </div>
+    <div class="form-group">
+      <label for="in_date">입고 날짜:</label>
+      <input type="date" class="form-control" id="in_date" name="in_date" required>
+    </div>
+    <div class="form-group">
+      <label for="exp_date">유통기한:</label>
+      <input type="date" class="form-control" id="exp_date" name="exp_date" required>
+    </div>
+    <div class="form-group">
+      <label for="cons_qty">소비량:</label>
+      <input type="number" class="form-control" id="cons_qty" name="cons_qty">
+    </div>
+    <div class="form-group">
+      <label for="cons_date">소비 날짜:</label>
+      <input type="date" class="form-control" id="cons_date" name="cons_date">
+    </div>
+    <div class="form-group">
+      <label for="cons_loc">소비 위치:</label>
+      <input type="text" class="form-control" id="cons_loc" name="cons_loc">
+    </div>
+
+    <button type="submit" class="btn btn-primary">저장</button>
+  </form>
+
+  <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
+    <span th:text="${errorMessage}"></span>
+  </div>
+</div>
+</body>
+</html>
