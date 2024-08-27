@@ -18,5 +18,5 @@ public class InspectionDTO {
 
     private Date date;
     private String notice;
-    private int statis;
+    private int status;
 }
