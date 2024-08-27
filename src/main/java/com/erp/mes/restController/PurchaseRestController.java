@@ -4,16 +4,15 @@ import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PlanDTO;
 import com.erp.mes.service.PurchaseService;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/purchase/*")
+@RequestMapping("/purchase/*")
 public class PurchaseRestController {
 
     private final PurchaseService purchaseService;
@@ -26,13 +25,13 @@ public class PurchaseRestController {
     /**
      * 조달계획 리스트 조회
      * - 조회 기준 정하기
-     *
      * @param map
      * @return
      */
     @GetMapping(value = "plan")
-    public Map<String, Object> plan(Map<String, Object> map) {
-        List<PlanDTO> planList = purchaseService.plan(map);
+    public Map<String, Object> plan() {
+        Map<String, Object> map = new HashMap<>();
+        List<PlanDTO> planList = purchaseService.plan();
         map.put("planList", planList);
         return map;
     }
@@ -43,9 +42,10 @@ public class PurchaseRestController {
      * @return
      */
     @GetMapping(value = "order")
-    public Map<String, Object> order(Map<String, Object> map) {
-        List<OrderDTO> orderList = purchaseService.order(map);
-//        map.put("",);
+    public Map<String, Object> order() {
+        Map<String, Object> map = new HashMap<>();
+        List<OrderDTO> orderList = purchaseService.order();
+        map.put("orderList",orderList);
         return map;
     }
 
@@ -57,7 +57,7 @@ public class PurchaseRestController {
     @PostMapping(value = "orderForm")
     public Map<String, Object> orderForm(Map<String, Object> map) {
         int result = purchaseService.orderForm(map);
-//        map.put("",);
+        map.put("result",result);
         return map;
     }
 
@@ -67,8 +67,9 @@ public class PurchaseRestController {
      * @return
      */
     @GetMapping(value = "inspection")
-    public Map<String, Object> inspection(Map<String,Object> map){
-        int result = purchaseService.inspection(map);
+    public Map<String, Object> inspection(){
+        Map<String, Object> map = new HashMap<>();
+        int result = purchaseService.inspection();
         return map;
     }
 
@@ -80,6 +81,12 @@ public class PurchaseRestController {
     @PostMapping(value = "inspection")
     public Map<String, Object> inspectionForm(Map<String,Object> map){
         int result = purchaseService.inspectionForm(map);
+        return map;
+    }
+
+    @PatchMapping(value = "inspection")
+    public Map<String, Object> inspectionUpdate(Map<String,Object> map){
+        int result = purchaseService.inspectionUpdate(map);
         return map;
     }
 

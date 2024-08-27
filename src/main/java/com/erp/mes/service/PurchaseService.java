@@ -19,12 +19,12 @@ public class PurchaseService {
         this.purchaseMapper = purchaseMapper;
     }
     // 조달 계획 리스트
-    public List<PlanDTO> plan(Map<String,Object> map){
-        return purchaseMapper.plan(map);
+    public List<PlanDTO> plan(){
+        return purchaseMapper.plan();
     }
     // 구매 발주서 리스트
-    public List<OrderDTO> order(Map<String,Object> map){
-        return purchaseMapper.order(map);
+    public List<OrderDTO> order(){
+        return purchaseMapper.order();
     }
     // 구매 발주서 수정
     public int orderForm(Map<String,Object> map){
@@ -32,8 +32,8 @@ public class PurchaseService {
     }
 
     // 검수 확인
-    public int inspection(Map<String,Object> map){
-        return purchaseMapper.inspection(map);
+    public int inspection(){
+        return purchaseMapper.inspection();
     }
 
     // 검수 생성
@@ -42,7 +42,7 @@ public class PurchaseService {
     }
 
 
-
-
-
+    public int inspectionUpdate(Map<String, Object> map) {
+        return purchaseMapper.inspectionUpdate(map);
+    }
 }
