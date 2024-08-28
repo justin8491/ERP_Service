@@ -25,7 +25,7 @@ public class PurchaseRestController {
     /**
      * 조달계획 리스트 조회
      * - 조회 기준 정하기
-     * @param map
+     * @param
      * @return
      */
     @GetMapping(value = "plan")
@@ -36,9 +36,16 @@ public class PurchaseRestController {
         return map;
     }
 
+    @PostMapping("orderCreate")
+    public Map<String,Object> orderCreate(@RequestBody Map<String,Object> map){
+        int result = purchaseService.orderCreate(map);
+        return map;
+    }
+
+
     /**
      * 구매발주서 리스트
-     * @param map
+     * @param
      * @return
      */
     @GetMapping(value = "order")
@@ -55,7 +62,7 @@ public class PurchaseRestController {
      * @return
      */
     @PostMapping(value = "orderForm")
-    public Map<String, Object> orderForm(Map<String, Object> map) {
+    public Map<String, Object> orderForm(@RequestBody Map<String, Object> map) {
         int result = purchaseService.orderForm(map);
         map.put("result",result);
         return map;
@@ -63,7 +70,7 @@ public class PurchaseRestController {
 
     /**
      * 검수 확인
-     * @param map
+     * @param
      * @return
      */
     @GetMapping(value = "inspection")
@@ -84,6 +91,11 @@ public class PurchaseRestController {
         return map;
     }
 
+    /**
+     * 검수 수정
+     * @param map
+     * @return
+     */
     @PatchMapping(value = "inspection")
     public Map<String, Object> inspectionUpdate(Map<String,Object> map){
         int result = purchaseService.inspectionUpdate(map);

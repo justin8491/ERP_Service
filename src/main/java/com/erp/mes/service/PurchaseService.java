@@ -12,9 +12,7 @@ import java.util.Map;
 
 @Service
 public class PurchaseService {
-
     private final PurchaseMapper purchaseMapper;
-
     public PurchaseService(PurchaseMapper purchaseMapper) {
         this.purchaseMapper = purchaseMapper;
     }
@@ -30,19 +28,19 @@ public class PurchaseService {
     public int orderForm(Map<String,Object> map){
         return purchaseMapper.orderForm(map);
     }
-
     // 검수 확인
     public int inspection(){
         return purchaseMapper.inspection();
     }
-
     // 검수 생성
     public int inspectionForm(Map<String,Object> map){
         return purchaseMapper.inspectionForm(map);
     }
-
-
     public int inspectionUpdate(Map<String, Object> map) {
         return purchaseMapper.inspectionUpdate(map);
     }
+    public int orderCreate(Map<String, Object> map) {
+        return purchaseMapper.orderCreate(map);
+    }
+
 }
