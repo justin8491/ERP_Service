@@ -16,7 +16,11 @@ public interface PurchaseMapper {
 
     @Select("SELECT * FROM plan")
     List<PlanDTO> plan(); // 조달 계회 리스트
-    @Select("SELECT * FROM `order`")
+    @Select("select i.name, p.qty, p.leadtime, s.name, value\n" +
+            "from `order` o\n" +
+            "join supplier s on s.sup_id = o.sup_id\n" +
+            "join plan p on p.plan_id = o.plan_id\n" +
+            "join item i on i.item_id = p.plan_id")
     List<OrderDTO> order(); // 구매 발주서 리스트
     @Update("UPDATE `order` SET order_code = #{order_code}, date = #{date}, leadtime = #{leadtime}, status = #{status}, value = #{value} WHERE order_id = #{order_id}")
     int orderForm(Map<String,Object> map); // 구매 발주서 수정
