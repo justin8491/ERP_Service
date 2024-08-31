@@ -3,9 +3,8 @@ package com.erp.mes.mapper;
 import com.erp.mes.dto.InputDTO;
 import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.TransactionDTO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.erp.mes.sqlBuilder.InputBuilder;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -14,34 +13,32 @@ import java.util.Map;
 public interface InputMapper {
 
     // 입고리스트
-    @Select("select inventory.name as invenName ,item.name as itemName,item.price,item.unit,input.rec_date from input" +
-            " join inventory on inventory.inven_id = input.inven_id" +
-            " join item on item.item_id = inventory.item_id")
+    @SelectProvider(type = InputBuilder.class, method = "buildSelectInputList")
     List<InputDTO> inputList();
-    // 입고확정
-    @Update("update input inner join inspection on inspection.ins_id = input.input_id" +
-            " set type = 1 where inspection.status = 100")
-    int inputForm();
+
+    // 입고수정
+    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateInputList")
+    int inputForm(InputDTO inputDTO);
+
     // 거래 명세서
-    @Select("select transaction.date AS transDate,transaction.val,transaction.status,`order`.date AS orderDate, `order`.leadtime,item.name,item.unit from transaction" +
-            " join `order`on `order`.order_code = transaction.refer_code" +
-            " join item on `order`.item_id = item.item_id")
+    @SelectProvider(type = InputBuilder.class,method = "buildSelectTransactionList")
     List<TransactionDTO> transactionList();
+
     // 거래명세서 수정
-    @Update("update transaction " +
-            "inner join `order` on `order`.order_Code = transaction.refer_code" +
-            " inner join item on `order`.item_id = item.item_id" +
-            " set item.unit = #{unit},transaction.val = #{val}, transaction.status = #{status}" +
-            " where transaction.refer_code = #{refer_code}")
-    int transactionForm(Map<String,Object> map);
+    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateTransactionList")
+    int transactionForm(TransactionDTO transactionDTO);
+
     // 구매발주서 리스트
     @Select("select `order`.date, `order`.leadtime,`order`.status,`order`.value,item.name,item.price,item.unit from `order`" +
             " join item on item.item_id = `order`.item_id")
     List<OrderDTO> orderList();
+
     // 구매발주서 확인
     @Update("update `order` set status = #{status}  where order_code = #{order_code}")
     int orderForm(Map<String,Object> map);
+
     // 검수
     //    update문 where status = 100형식으로 다가가야할듯
-
+    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateInputStatus")
+    int updateInputStatus(InputDTO inputDTO);
 }
