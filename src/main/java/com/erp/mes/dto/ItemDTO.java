@@ -18,7 +18,7 @@ public class ItemDTO {
     private String unit;           // 단위
     private BigDecimal price;      // 단가
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date create_date;
+    private Date create_date; // 품목 등록일자
 
     public Date getCreate_date() {
         return create_date;
