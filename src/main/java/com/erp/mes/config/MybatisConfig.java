@@ -22,7 +22,7 @@ public class MybatisConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl("jdbc:mysql://localhost/mes");
         dataSource.setUsername("root");
-        dataSource.setPassword("1234");
+        dataSource.setPassword("12345");
         return dataSource;
     }
 
