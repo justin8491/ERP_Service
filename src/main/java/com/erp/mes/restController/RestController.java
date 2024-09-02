@@ -64,6 +64,12 @@ public class RestController {
         return "ok";
     }
     @PostMapping("order")
+    public String insertOrder(@RequestBody OrderDTO orderDTO) {
+        int n = service.insertOrder(orderDTO);
+        log.info("Insert={}" , orderDTO);
+        return "ok";
+    }
+    @PutMapping("order")
     public String orderForm(@RequestBody Map<String,Object> map) {
         int n = service.orderForm(map);
         log.info("Update count: {}", n);

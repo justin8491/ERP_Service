@@ -27,6 +27,9 @@ public class InputService {
     public int transactionFrom(TransactionDTO transactionDTO) {
         return mapper.transactionForm(transactionDTO);
     }
+    public int insertOrder(OrderDTO orderDTO){
+        return mapper.insertOrder(orderDTO);
+    }
     public List<OrderDTO> orderList() {
         return mapper.orderList();
     }
