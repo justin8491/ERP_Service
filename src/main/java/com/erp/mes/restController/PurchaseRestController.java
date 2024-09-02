@@ -52,13 +52,13 @@ public class PurchaseRestController {
      * @param
      * @return
      */
-    @GetMapping(value = "purchase/order")
-    public Map<String, Object> order() {
-        Map<String, Object> map = new HashMap<>();
-        List<OrderDTO> orderList = purchaseService.order();
-        map.put("orderList", orderList);
-        return map;
-    }
+//    @GetMapping(value = "purchase/order")
+//    public Map<String, Object> order() {
+//        Map<String, Object> map = new HashMap<>();
+//        List<OrderDTO> orderList = purchaseService.order();
+//        map.put("orderList", orderList);
+//        return map;
+//    }
 
     /**
      * 구매발주서 수정

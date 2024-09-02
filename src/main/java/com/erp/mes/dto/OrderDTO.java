@@ -33,5 +33,5 @@ public class OrderDTO {
     private LocalDate leadtime;// 발주납기일
 
     // 협력 회사
-    private String supplierName;
+    private String supName;
 }

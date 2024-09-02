@@ -1,5 +1,6 @@
 package com.erp.mes.controller;
 
+import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PlanDTO;
 import com.erp.mes.service.PurchaseService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,14 @@ public class PurchaseController {
         map.put("planList", planList);
         logger.info(planList + "");
         return "/purchase/plan";
+    }
+
+    @GetMapping(value = "purchase/order")
+    public String order(Map<String,Object> map){
+        List<OrderDTO> orderList = purchaseService.order();
+        map.put("orderList",orderList);
+        logger.info(orderList + "");
+        return "/purchase/order";
     }
 
 
