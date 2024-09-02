@@ -79,7 +79,7 @@ public class RestController {
         return "ok";
     }
     @PostMapping("insepection")
-    public String insepctionFomr(@RequestBody InputDTO inputDTO) {
+    public String insepctionForm(@RequestBody InputDTO inputDTO) {
         int n = service.updateInputStatus(inputDTO);
         log.info("n={}",n);
         return "OK";
