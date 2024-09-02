@@ -23,17 +23,17 @@ import java.util.Map;
 public class InputController {
     private final InputService service;
 
-    @GetMapping("/list")
+    @GetMapping("/inputList")
     public String input(Model model) {
         List<InputDTO> list = service.inputList();
         model.addAttribute("list",list);
         return "input/list";
     }
-    @PostMapping("/list")
+    @PostMapping("/inputList")
     public String inputForm(InputDTO inputDTO) {
         int n = service.inputForm(inputDTO);
         if(n > 0) {
-            return "input/list";
+            return "input/inputList";
         }else {
             return "401";
         }

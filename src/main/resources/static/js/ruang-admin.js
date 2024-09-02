@@ -87,3 +87,4 @@ window.onresize = function(event){
     body.style.display = "block";
   }
 }
+
