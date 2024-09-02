@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
+
+
+<th:block layout:fragment="Content">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">계획 ID</th>
+                <th scope="col">품목 이름</th>
+                <th scope="col">수량</th>
+                <th scope="col">발주 일자</th>
+                <th scope="col">납기 일자</th>
+                <th scope="col">상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="plan : ${planList}">
+                <td th:text="${plan.plan_id}"></td>
+                <td th:text="${plan.item_name}"></td>
+                <td th:text="${plan.qty}"></td>
+                <td th:text="${plan.date}"></td>
+                <td th:text="${plan.leadtime}"></td>
+                <td th:text="${plan.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+</html>

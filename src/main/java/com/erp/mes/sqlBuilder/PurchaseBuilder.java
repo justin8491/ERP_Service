@@ -4,13 +4,16 @@ import org.apache.ibatis.jdbc.SQL;
 import java.util.Map;
 
 public class PurchaseBuilder {
+    // 조달계획 리스트
     public String selectPlans() {
         return new SQL() {{
-            SELECT("*");
-            FROM("plan");
+            SELECT("p.plan_id, i.name as item_name, p.qty, p.date, p.leadtime, p.status");
+            FROM("plan p");
+            JOIN("item i on i.item_id = p.item_id");
         }}.toString();
     }
 
+    // 발주서 발행
     public String insertOrder(Map<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("`order`");
@@ -23,6 +26,7 @@ public class PurchaseBuilder {
         }}.toString();
     }
 
+    // 발주서 리스트
     public String selectOrders(Map<String, Object> params) {
         return new SQL() {{
             SELECT("i.name, p.qty, p.leadtime, s.name AS supplierName, o.value");
@@ -35,6 +39,7 @@ public class PurchaseBuilder {
         }}.toString();
     }
 
+    // 발주서 수정
     public String updateOrder(Map<String, Object> map) {
         return new SQL() {{
             UPDATE("`order`");
@@ -45,6 +50,7 @@ public class PurchaseBuilder {
         }}.toString();
     }
 
+    // 검수 리스트 확인
     public String selectInspections() {
         return new SQL() {{
             SELECT("*");
@@ -52,6 +58,7 @@ public class PurchaseBuilder {
         }}.toString();
     }
 
+    // 검수 등록
     public String insertInspection(Map<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("inspection");
@@ -61,6 +68,7 @@ public class PurchaseBuilder {
         }}.toString();
     }
 
+    // 검수 수정
     public String updateInspection(Map<String, Object> map) {
         return new SQL() {{
             UPDATE("inspection");

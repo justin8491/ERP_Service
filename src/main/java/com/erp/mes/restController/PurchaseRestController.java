@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/purchase/*")
 public class PurchaseRestController {
 
     private final PurchaseService purchaseService;
@@ -21,6 +20,11 @@ public class PurchaseRestController {
         this.purchaseService = purchaseService;
     }
 
+//    @GetMapping(value = "purchase/plan")
+//    public String getPlan(){
+//        return "purchase/plan";
+//    }
+
     /**
      * 조달계획 리스트 조회
      * - 조회 기준 정하기
@@ -28,7 +32,7 @@ public class PurchaseRestController {
      * @param
      * @return
      */
-    @GetMapping(value = "plan")
+    @PostMapping(value = "purchase/plan")
     public Map<String, Object> plan() {
         Map<String, Object> map = new HashMap<>();
         List<PlanDTO> planList = purchaseService.plan();
@@ -36,7 +40,7 @@ public class PurchaseRestController {
         return map;
     }
 
-    @PostMapping("orderCreate")
+    @PostMapping("purchase/orderCreate")
     public Map<String, Object> orderCreate(@RequestBody Map<String, Object> map) {
         int result = purchaseService.orderCreate(map);
         return map;
@@ -48,7 +52,7 @@ public class PurchaseRestController {
      * @param
      * @return
      */
-    @GetMapping(value = "order")
+    @GetMapping(value = "purchase/order")
     public Map<String, Object> order() {
         Map<String, Object> map = new HashMap<>();
         List<OrderDTO> orderList = purchaseService.order();
@@ -62,7 +66,7 @@ public class PurchaseRestController {
      * @param map
      * @return
      */
-    @PostMapping(value = "orderForm")
+    @PostMapping(value = "purchase/orderForm")
     public Map<String, Object> orderForm(@RequestBody Map<String, Object> map) {
         int result = purchaseService.orderForm(map);
         map.put("result", result);
@@ -75,7 +79,7 @@ public class PurchaseRestController {
      * @param
      * @return
      */
-    @GetMapping(value = "inspection")
+    @GetMapping(value = "purchase/inspection")
     public Map<String, Object> inspection() {
         Map<String, Object> map = new HashMap<>();
         int result = purchaseService.inspection();
@@ -88,7 +92,7 @@ public class PurchaseRestController {
      * @param map
      * @return
      */
-    @PostMapping(value = "inspection")
+    @PostMapping(value = "purchase/inspection")
     public Map<String, Object> inspectionForm(Map<String, Object> map) {
         int result = purchaseService.inspectionForm(map);
         return map;
@@ -100,7 +104,7 @@ public class PurchaseRestController {
      * @param map
      * @return
      */
-    @PatchMapping(value = "inspection")
+    @PatchMapping(value = "purchase/inspection")
     public Map<String, Object> inspectionUpdate(Map<String, Object> map) {
         int result = purchaseService.inspectionUpdate(map);
         return map;
