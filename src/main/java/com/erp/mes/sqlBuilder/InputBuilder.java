@@ -9,13 +9,14 @@ public class InputBuilder {
     private static final Integer MIN_NUMBER =0;
     public String buildSelectInput() {
         return new SQL() {{
-            SELECT("input_id as inputId,rec_date as recDate,supplier.name as supName,inventory.name as invenName,item.name as itemName,plan.qty ");
+            SELECT("input_id as inputId, input.type,rec_date as recDate,supplier.name as supName,inventory.name as invenName,item.name as itemName,plan.qty ");
             FROM("`input`");
             JOIN("transaction on transaction.tran_id = `input`.tran_id");
             JOIN("supplier on supplier.sup_code = transaction.sup_code");
             JOIN("plan on plan.plan_id = transaction.plan_id");
             JOIN("item on item.item_id = plan.item_id");
             JOIN("inventory on inventory.inven_id = supplier.inven_id");
+            WHERE("input.type = 0");
         }}.toString();
     }
     public String buildUpdateInput(InputDTO inputDTO) {

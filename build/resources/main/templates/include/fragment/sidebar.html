@@ -60,7 +60,7 @@
     <div id="collapseInput" class="collapse" aria-labelledby="headingInput" data-parent="#accordionSidebar"
          th:classappend="${servletPath != null && servletPath.startsWith('/input')} ? 'show' : ''">
       <div class="collapse-inner">
-        <a class="collapse-item" th:href="@{/input/list}" th:classappend="${servletPath != null && servletPath == '/input/inputList'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/input/inputList}" th:classappend="${servletPath != null && servletPath == '/input/inputList'} ? 'active' : ''">
             <span>입고 조회</span>
         </a>
         <a class="collapse-item" th:href="@{/input/transaction}" th:classappend="${servletPath != null && servletPath == '/input/transaction'} ? 'active' : ''">

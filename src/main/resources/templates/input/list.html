@@ -5,8 +5,8 @@
 
 <th:block layout:fragment="Content">
     <div style="width : 80%; margin: 0 auto">
-        <div style="display:flex; justify-content:space-between">
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <div style="display:flex; justify-content:space-between;">
+            <select style="width:120px;" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option selected>10</option>
                 <option value="1">20</option>
                 <option value="2">50</option>
@@ -27,6 +27,7 @@
                 <th scope="col" colspan="2" style="text-align: center;">창고</th>
                 <th scope="col" colspan="4" style="text-align: center;">품목</th>
                 <th scope="col" colspan="1" style="text-align: center;">수량</th>
+                <th scope="col" colspan="1" style="text-align: center;">검수 상태</th>
             </tr>
             </thead>
             <tbody class="table-group-divider table-divider-color">
@@ -37,9 +38,57 @@
                 <th scope="col" colspan="2" style="text-align: center;" th:text="${list.invenName}">창고</th>
                 <th scope="col" colspan="4" style="text-align: center;" th:text="${list.itemName}">품목</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.qty}">수량</th>
+                <th scope="col" colspan="1" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">진행중</button>
+                </th>
             </tr>
             </tbody>
         </table>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">검수창</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">번호</th>
+                                    <th scope="col" style="text-align: center;">받은날짜</th>
+                                    <th scope="col" style="text-align: center;">협력회사</th>
+                                    <th scope="col" style="text-align: center;">창고</th>
+                                    <th scope="col" style="text-align: center;">품목</th>
+                                    <th scope="col" style="text-align: center;">수량</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-group-divider table-divider-color">
+                                <tr th:each="list : ${list}">
+                                    <th scope="col" th:text="${list.inputId}">번호</th>
+                                    <th scope="col" style="text-align: center;" th:text="${list.recDate}">받은날짜</th>
+                                    <th scope="col" style="text-align: center;" th:text="${list.supName}">협력회사</th>
+                                    <th scope="col" style="text-align: center;" th:text="${list.invenName}">창고</th>
+                                    <th scope="col" style="text-align: center;" th:text="${list.itemName}">품목</th>
+                                    <th scope="col" style="text-align: center;" th:text="${list.qty}">수량</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <input type="range" class="form-range" min="0" max="100" value="0" oninput="updateRangeValue(this.value)">
+                            <p>검수 현황 : <span id="rangeValue">0</span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
+<script>
+    function updateRangeValue(val) {
+        document.getElementById('rangeValue').textContent = val;
+    }
+</script>
 </th:block>
 </html>
