@@ -7,6 +7,7 @@ ERP 조달구매 서비스
 - 팀장 : 유종현
 - 팀원 : 박지혜
 - 팀원 : 박성호
+- 팀원 : 정윤휘
 테스트
 ### 개발 환경
 <img src="https://img.shields.io/badge/Java-2C2255?style=for-the-badge&logo=eclipseide&logoColor=white">

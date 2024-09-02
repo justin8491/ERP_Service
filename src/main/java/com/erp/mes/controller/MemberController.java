@@ -13,4 +13,14 @@ public class MemberController {
         return "home";
     }
 
+
+    /**
+     * 로그인 창 이동
+     * @return
+     */
+    @GetMapping(value = "login")
+    public String loginForm() {
+        return "member/login";
+    }
+
 }

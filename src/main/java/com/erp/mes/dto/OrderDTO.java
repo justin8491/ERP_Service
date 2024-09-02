@@ -21,4 +21,5 @@ public class OrderDTO {
     private String orderCode; // 발주코드
     private String supId; // 회사 외래키
     private String planId; // 발주계획 외래키
+
 }
