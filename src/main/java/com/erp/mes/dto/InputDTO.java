@@ -16,14 +16,14 @@ public class InputDTO {
     // 입고
     private int inputId; // 기본키
     private boolean type; // 0과 1 미/확정
-    private Date expDate; // 출고예정일
-    private Date recDate; // 받은날
+    private LocalDate expDate; // 출고예정일
+    private LocalDate recDate; // 받은날
     private int tranId; // 거래내역 외래키
 
     // 거래내역
 
     // 협력사
-    private String supName; // 창고이름
+    private String supName; // 협력사이름
 
     // 창고
     private String invenName; // 창고이름

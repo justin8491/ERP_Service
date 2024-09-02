@@ -13,28 +13,29 @@ import java.util.Map;
 public interface InputMapper {
 
     // 입고리스트
-    @SelectProvider(type = InputBuilder.class, method = "buildSelectInputList")
+    @SelectProvider(type = InputBuilder.class, method = "buildSelectInput")
     List<InputDTO> inputList();
 
     // 입고수정
-    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateInputList")
+    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateInput")
     int inputForm(InputDTO inputDTO);
 
     // 거래 명세서
-    @SelectProvider(type = InputBuilder.class,method = "buildSelectTransactionList")
+    @SelectProvider(type = InputBuilder.class,method = "buildSelectTransaction")
     List<TransactionDTO> transactionList();
 
     // 거래명세서 수정
-    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateTransactionList")
+    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateTransaction")
     int transactionForm(TransactionDTO transactionDTO);
-
+    // 발주서 넣기
+    @InsertProvider(type = InputBuilder.class,method = "buildInsertOrder")
+    int insertOrder(OrderDTO orderDTO);
     // 구매발주서 리스트
-    @Select("select `order`.date, `order`.leadtime,`order`.status,`order`.value,item.name,item.price,item.unit from `order`" +
-            " join item on item.item_id = `order`.item_id")
+    @SelectProvider(type = InputBuilder.class, method = "buildSelectOrder")
     List<OrderDTO> orderList();
 
     // 구매발주서 확인
-    @Update("update `order` set status = #{status}  where order_code = #{order_code}")
+    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateOrder")
     int orderForm(Map<String,Object> map);
 
     // 검수
