@@ -3,12 +3,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{include/layout/defaultLayout.html}">
 
-
 <th:block layout:fragment="Content">
+    <header>
+        <h1>구매 발주서 발행</h1>
+    </header>
+
     <div>
+        <header>
+            <h2>조달 계획 리스트</h2>
+        </header>
+        <div>
+            <input id="orderCreate" type="button" value="발주서 발행">
+        </div>
         <table class="table">
             <thead>
             <tr>
+                <th>#</th>
                 <th scope="col">계획 ID</th>
                 <th scope="col">품목 이름</th>
                 <th scope="col">수량</th>
@@ -18,16 +28,20 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="plan : ${planList}">
-                <td th:text="${plan.plan_id}"></td>
-                <td th:text="${plan.item_name}"></td>
-                <td th:text="${plan.qty}"></td>
-                <td th:text="${plan.date}"></td>
-                <td th:text="${plan.leadtime}"></td>
-                <td th:text="${plan.status}"></td>
+            <tr th:each="plan : ${planList}" th:id="${'list-item-' + plan.plan_id}">
+                <td><input type="checkbox" class="check-item" data-name="${plan.plan_id}"></td>
+                <td id="plan_id" th:text="${plan.plan_id}" data-plan_id="${plan.plan_id}"></td>
+                <td th:text="${plan.item_name}" data-item_name="${plan.item_name}"></td>
+                <td th:text="${plan.qty}" data-qty="${plan.qty}"></td>
+                <td th:text="${plan.date}" data-date="${plan.date}"></td>
+                <td th:text="${plan.leadtime}" data-leadtime="${plan.leadtime}"></td>
+                <td th:text="${plan.status}" data-status="${plan.status}"></td>
             </tr>
             </tbody>
         </table>
     </div>
+
+    <script th:src="@{/js/plan.js}"></script>
+
 </th:block>
 </html>
