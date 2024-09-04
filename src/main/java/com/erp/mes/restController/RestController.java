@@ -79,9 +79,33 @@ public class RestController {
         return "ok";
     }
     @PostMapping("insepection")
-    public String insepctionForm(@RequestBody InputDTO inputDTO) {
-        int n = service.updateInputStatus(inputDTO);
-        log.info("n={}",n);
+    public String insepctionForm(
+            String selectedValue,
+            String numValue,
+            Map<String,Object> map
+    ) {
+        log.info("a={} " , selectedValue);
+        log.info("a={} " , numValue);
+        map.put("selectValue",selectedValue);
+        map.put("inputId",numValue);
+        service.updateInputStatus(map);
         return "OK";
+    }
+    @PostMapping("search")
+    public String searchList(@RequestBody Map<String, String> searchParams) {
+        InputDTO inputDTO = new InputDTO();
+
+        // 검색어를 다양한 필드에 설정할 수 있도록 한다.
+        String searchTerm = searchParams.get("searchTerm");
+
+        if (searchTerm != null) {
+            inputDTO.setSupName(searchTerm);
+            inputDTO.setInvenName(searchTerm);
+            inputDTO.setItemName(searchTerm);
+        }
+
+        List<InputDTO> list = service.serachList(inputDTO);
+        log.info("list={}",list);
+        return "Ok";
     }
 }

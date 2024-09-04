@@ -36,8 +36,10 @@ public class InputService {
     public int orderForm(Map<String,Object> map) {
         return mapper.orderForm(map);
     }
-    public int updateInputStatus(InputDTO inputDTO) {
-        return mapper.updateInputStatus(inputDTO);
+    public int updateInputStatus(Map<String,Object> map) {
+        return mapper.updateInputStatus(map);
     }
+
+    public List<InputDTO> serachList(InputDTO inputDTO){return mapper.serachList(inputDTO);};
 
 }

@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +23,7 @@ public class InputController {
     @GetMapping("/inputList")
     public String input(Model model) {
         List<InputDTO> list = service.inputList();
+//        log.info("list={}",list);
         model.addAttribute("list",list);
         return "input/list";
     }
@@ -37,5 +35,19 @@ public class InputController {
         }else {
             return "401";
         }
+    }
+    @PostMapping("/inseception")
+    public String inseceptionForm(
+            @RequestParam("numVal") String numValue,
+            @RequestParam("inspectionStatus") String inspectionStatus,
+            Model model,
+            Map<String,Object> map
+    ) {
+        log.info("a={} " , inspectionStatus);
+        log.info("a={} " , numValue);
+        map.put("selectValue",inspectionStatus);
+        map.put("inputId",numValue);
+        service.updateInputStatus(map);
+        return "redirect:/input/inputList";
     }
 }

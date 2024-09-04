@@ -41,5 +41,10 @@ public interface InputMapper {
     // 검수
     //    update문 where status = 100형식으로 다가가야할듯
     @UpdateProvider(type = InputBuilder.class, method = "buildUpdateInputStatus")
-    int updateInputStatus(InputDTO inputDTO);
+    int updateInputStatus(Map<String,Object> map);
+
+    // 검색
+    @SelectProvider(type = InputBuilder.class, method = "buildSearch")
+    List<InputDTO> serachList(InputDTO inputDTO);
+
 }

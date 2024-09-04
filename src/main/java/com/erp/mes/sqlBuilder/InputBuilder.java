@@ -3,13 +3,16 @@ package com.erp.mes.sqlBuilder;
 import com.erp.mes.dto.InputDTO;
 import com.erp.mes.dto.TransactionDTO;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.ws.soap.SoapElement;
+
+import java.util.Map;
 
 public class InputBuilder {
     private static final String MAX_NUMBER = "100";
     private static final Integer MIN_NUMBER =0;
     public String buildSelectInput() {
         return new SQL() {{
-            SELECT("input_id as inputId, input.type,rec_date as recDate,supplier.name as supName,inventory.name as invenName,item.name as itemName,plan.qty ");
+            SELECT("input_id as inputId,input.type,rec_date as recDate,supplier.name as supName,inventory.name as invenName,item.name as itemName,plan.qty ");
             FROM("`input`");
             JOIN("transaction on transaction.tran_id = `input`.tran_id");
             JOIN("supplier on supplier.sup_code = transaction.sup_code");
@@ -105,15 +108,28 @@ public class InputBuilder {
             WHERE("order_code = #{order_code}");
         }}.toString();
     }
-    public String buildUpdateInputStatus(InputDTO inputDTO) {
+    public String buildUpdateInputStatus(Map<String,Object> map) {
         return new SQL() {{
-            UPDATE("input");
-            if (MAX_NUMBER.equals(inputDTO.getStatus())) {
+            if(map.get("selectValue").equals("완료")) {
+                UPDATE("input");
                 SET("type = 1");
-            } else {
-                SET("type = type");
+                WHERE("input_id = #{inputId}");
+            }else {
+                UPDATE("input");
+                SET("type = 0");
+                WHERE("input_id = #{inputId}");
             }
-            WHERE("input_id = #{inputId}");
+        }}.toString();
+    }
+    public String buildSearch(InputDTO inputDTO) {
+        return new SQL(){{
+            SELECT("input_id as inputId,input.type,rec_date as recDate,supplier.name as supName,inventory.name as invenName,item.name as itemName,plan.qty ");
+            FROM("`input`");
+            JOIN("transaction on transaction.tran_id = `input`.tran_id");
+            JOIN("supplier on supplier.sup_code = transaction.sup_code");
+            JOIN("plan on plan.plan_id = transaction.plan_id");
+            JOIN("item on item.item_id = plan.item_id");
+            JOIN("inventory on inventory.inven_id = supplier.inven_id");
         }}.toString();
     }
 }
