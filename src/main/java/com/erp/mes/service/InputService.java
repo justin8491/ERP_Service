@@ -18,20 +18,26 @@ public class InputService {
     public List<InputDTO> inputList() {
         return mapper.inputList();
     }
-    public int inputForm() {
-        return mapper.inputForm();
+    public int inputForm(InputDTO inputDTO) {
+        return mapper.inputForm(inputDTO);
     }
     public List<TransactionDTO> transactionList() {
         return mapper.transactionList();
     }
-    public int transactionFrom(Map<String,Object> map) {
-        return mapper.transactionForm(map);
+    public int transactionFrom(TransactionDTO transactionDTO) {
+        return mapper.transactionForm(transactionDTO);
+    }
+    public int insertOrder(OrderDTO orderDTO){
+        return mapper.insertOrder(orderDTO);
     }
     public List<OrderDTO> orderList() {
         return mapper.orderList();
     }
     public int orderForm(Map<String,Object> map) {
         return mapper.orderForm(map);
+    }
+    public int updateInputStatus(InputDTO inputDTO) {
+        return mapper.updateInputStatus(inputDTO);
     }
 
 }

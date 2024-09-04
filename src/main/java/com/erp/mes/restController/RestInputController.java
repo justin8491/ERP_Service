@@ -6,19 +6,17 @@ import com.erp.mes.dto.TransactionDTO;
 import com.erp.mes.service.InputService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("input")
+@RequestMapping("/api")
 @Slf4j
-public class InputController {
+public class RestInputController {
     private final InputService service;
 
     @GetMapping("/inputList")
@@ -30,8 +28,8 @@ public class InputController {
     }
 
     @PostMapping("/inputList")
-    public String inputForm() {
-        int n = service.inputForm();
+    public String inputForm(InputDTO inputDTO) {
+        int n = service.inputForm(inputDTO);
         log.info("info = {}", n);
         if(n == 0) {
             return "검수아직다안됨";
@@ -47,8 +45,8 @@ public class InputController {
         return "ok";
     }
     @PostMapping("/transaction")
-    public String transactionForm(@RequestBody Map<String,Object> map) {
-        int n = service.transactionFrom(map);
+    public String transactionForm(@RequestBody TransactionDTO transactionDTO) {
+        int n = service.transactionFrom(transactionDTO);
         log.info("n={}",n);
         if(n == 0) {
             return "없는 거래내역";
