@@ -9,12 +9,28 @@
     </header>
 
     <div>
+        <!-- Modal -->
+        <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orderModalLabel">발주서 발행</h5>
+                    </div>
+                    <div class="modal-body">
+                        모달 내용이 여기에 들어갑니다.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">저장하기</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id="orderCreate" type="button" value="발주서 발행" class="btn btn-primary">
+        <!-- Modal End -->
         <header>
             <h2>조달 계획 리스트</h2>
         </header>
-        <div>
-            <input id="orderCreate" type="button" value="발주서 발행">
-        </div>
         <table class="table">
             <thead>
             <tr>
