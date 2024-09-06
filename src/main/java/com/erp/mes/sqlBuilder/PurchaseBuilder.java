@@ -90,4 +90,12 @@ public class PurchaseBuilder {
             SET("notice = #{notice}");
         }}.toString();
     }
+
+    // 협력업체 리스트
+    public String getSupplier(Map<String, Object> map){
+        return new SQL() {{
+            SELECT("*");
+            FROM("supplier");
+        }}.toString();
+    }
 }

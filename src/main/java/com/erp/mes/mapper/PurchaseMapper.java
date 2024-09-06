@@ -3,6 +3,7 @@ package com.erp.mes.mapper;
 import com.erp.mes.dto.InspectionDTO;
 import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PlanDTO;
+import com.erp.mes.dto.SupplierDTO;
 import com.erp.mes.sqlBuilder.PurchaseBuilder;
 import org.apache.ibatis.annotations.*;
 
@@ -34,4 +35,6 @@ public interface PurchaseMapper {
     int inspectionUpdate(Map<String, Object> map); // 검수 업데이트
 
 
+    @SelectProvider(type = PurchaseBuilder.class,method = "getSupplier")
+    List<SupplierDTO> getSupplier();
 }
