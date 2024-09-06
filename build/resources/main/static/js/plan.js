@@ -34,13 +34,34 @@ $(document).ready(function() {
 //            console.log('체크박스 클릭 상태');
             // Modal Open
             $('#orderModal').modal('show'); // 모달 열기
-
+            updateTable(selectItem);
         } else {
             console.log('체크박스 미클릭 상태');
-            alert("리스트를 선택해주세요.")
+            alert("리스트를 선택해주세요.");
         }
 
 
     });
 
 });
+
+function updateTable(items){
+    // 기존의 테이블 내용을 초기화
+    const tableBody = $('#planModalTableBody'); // 모달 안의 테이블 본체 선택
+    tableBody.empty(); // 테이블 내용 초기화
+
+    // items 배열을 순회하여 테이블에 행 추가
+    items.forEach(item => {
+        const res = `<tr>
+            <td>${item.plan_id}</td>
+            <td>${item.item_name}</td>
+            <td>${item.qty}</td>
+            <td>${item.date}</td>
+            <td>${item.leadtime}</td>
+            <td>${item.status}</td>
+        </tr>`;
+
+        tableBody.append(res); // 테이블에 행 추가
+    });
+
+}

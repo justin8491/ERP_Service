@@ -14,13 +14,44 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="orderModalLabel">발주서 발행</h5>
+                        <h5 class="modal-title" id="orderModalLabel">발주서 입력</h5>
                     </div>
                     <div class="modal-body">
-                        모달 내용이 여기에 들어갑니다.
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">계획 ID</th>
+                                <th scope="col">품목 이름</th>
+                                <th scope="col">수량</th>
+                                <th scope="col">발주 일자</th>
+                                <th scope="col">납기 일자</th>
+                                <th scope="col">상태</th>
+                            </tr>
+                            </thead>
+                            <tbody id="planModalTableBody"></tbody>
+                        </table>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">협력업체</th>
+                                <th scope="col">품목</th>
+                                <th scope="col">수량</th>
+                                <th scope="col">금액</th>
+                                <th scope="col">납기 일자</th>
+                            </tr>
+                            </thead>
+                            <tbody id="orderModalTableBody">
+                                <td><input id="order_sup_name" type="text"></td>
+                                <td><input id="order_item_name" type="text"></td>
+                                <td><input id="order_qty" type="text"></td>
+                                <td><input id="order_date" type="text"></td>
+                                <td><input id="order_leadtime" type="text"></td>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">저장하기</button>
+                        <button type="button" class="btn btn-primary">발주서 발행</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
