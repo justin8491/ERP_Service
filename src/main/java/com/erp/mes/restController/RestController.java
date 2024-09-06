@@ -6,6 +6,9 @@ import com.erp.mes.dto.TransactionDTO;
 import com.erp.mes.service.InputService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -92,20 +95,21 @@ public class RestController {
         return "OK";
     }
     @PostMapping("search")
-    public String searchList(@RequestBody Map<String, String> searchParams) {
-        InputDTO inputDTO = new InputDTO();
-
-        // 검색어를 다양한 필드에 설정할 수 있도록 한다.
-        String searchTerm = searchParams.get("searchTerm");
-
-        if (searchTerm != null) {
-            inputDTO.setSupName(searchTerm);
-            inputDTO.setInvenName(searchTerm);
-            inputDTO.setItemName(searchTerm);
+    public ResponseEntity<String> searchList(@RequestBody InputDTO inputDTO) {
+        try {
+            vaildation(inputDTO);
+            List<InputDTO> list = service.serachList(inputDTO);
+            log.info("list={}",list);
+            return new ResponseEntity<>("검색성공" , HttpStatus.CREATED);
+        }catch(IllegalStateException e) {
+            return new ResponseEntity<>("클라이언트오류",HttpStatus.UNAUTHORIZED);
+        }catch (Exception e) {
+            return new ResponseEntity<>("서버오류",HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        List<InputDTO> list = service.serachList(inputDTO);
-        log.info("list={}",list);
-        return "Ok";
+    }
+    private void vaildation(InputDTO inputDTO) {
+        if(inputDTO.getKeyword() == null || inputDTO.getKeyword().isEmpty()) {
+            throw new IllegalStateException("값이 비어있습니다");
+        }
     }
 }

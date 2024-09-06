@@ -13,6 +13,7 @@ import java.util.Date;
 @ToString
 @NoArgsConstructor
 public class InputDTO {
+    private String keyword;
     // 입고
     private int inputId; // 기본키
     private boolean type; // 0과 1 미/확정

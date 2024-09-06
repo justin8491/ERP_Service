@@ -47,4 +47,9 @@ public interface InputMapper {
     @SelectProvider(type = InputBuilder.class, method = "buildSearch")
     List<InputDTO> serachList(InputDTO inputDTO);
 
+    @SelectProvider(type = InputBuilder.class, method = "buildPaging")
+    List<InputDTO> pagingList(Map<String, Object> map );
+
+    @SelectProvider(type = InputBuilder.class, method = "buildPageCount")
+    int boardCount();
 }

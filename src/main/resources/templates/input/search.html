@@ -19,12 +19,17 @@
                 <option value="2">50</option>
                 <option value="3">100</option>
             </select>
-            <div class="input-group rounded" style="width:210px;">
-                <form method="post" action="/input/search" style="display:flex;">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                           aria-describedby="search-addon" name="keyword"/>
-                    <button class="input-group-text border-0" id="search-addon" style="height:42px;"><i class="fas fa-search"></i></button>
-                </form>
+            <div class="input-group rounded" style="width:350px;">
+                <div style="display:flex;">
+                    <form action="/input/inputList" style="padding:5px;">
+                        <input type="submit" value="전체보기" class="input-group-text border-0">
+                    </form>
+                    <form method="post" action="/input/search" style="display:flex;">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                               aria-describedby="search-addon" name="keyword"/>
+                        <button class="input-group-text border-0" id="search-addon" style="height:42px;"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
             </div>
         </div>
         <table class="table">
@@ -40,7 +45,7 @@
             </tr>
             </thead>
             <tbody class="table-group-divider table-divider-color">
-            <tr th:each="list : ${boardList}" th:id="${list.inputId}">
+            <tr th:each="list : ${list}" th:id="${list.inputId}" th:if="${list.type == false}">
                 <th scope="col" colspan="1" th:text="${list.inputId}">번호</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.recDate}">받은날짜</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.supName}">협력회사</th>
@@ -53,13 +58,6 @@
             </tr>
             </tbody>
         </table>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"  th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}" >
-                    <a class="page-link" th:href="@{/input/paging(page=${i})}" th:text="${i}">1</a>
-                </li>
-            </ul>
-        </nav>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
