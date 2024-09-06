@@ -19,11 +19,11 @@ public class PlanDTO {
     private int plan_id; // 조달 계획 아이디
     private int qty; // 수량
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date; //계획일자
+    private Date date; // 계획일자
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date leadtime; // 납기일자
     private String status; // 상태
-
     // 품목
     private int item_id; // 품목 아이디
+    private String item_name; // 품목 이름
 }
