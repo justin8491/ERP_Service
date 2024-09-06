@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = "com.erp.mes")
 @MapperScan("com.erp.mes.mapper")
-public class MybatisConfig {
+public class MyBatisConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
