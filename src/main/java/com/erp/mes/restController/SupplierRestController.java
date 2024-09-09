@@ -24,7 +24,6 @@ public class SupplierRestController {
     public Map<String, Object> getAllSupplier(@RequestParam Map<String,Object> map){
 //        @RequestBody Map<String, Object> map
 //        Map<String, Object> map = new HashMap<>();
-        System.out.println("요기 두둥장");
         List<SupplierDTO> supList = supplierService.getAllSupplier();
         map.put("supList", supList);
         return map;
