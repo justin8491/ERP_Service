@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout}">
+
+<th:block layout:fragment="Content">
+    <div>
+        <div class="table-responsive p-3 bxShadow">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length">
+                        <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <div class="input-group rounded">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                               aria-describedby="search-addon"/>
+                        <button class="input-group-text border-0" id="search-addon"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <table class="table align-items-center table-flush" id="dataTable">
+                <thead class="thead-light">
+                    <tr>
+                        <th>번호</th>
+                        <th>받은날짜</th>
+                        <th>협력회사</th>
+                        <th>창고</th>
+                        <th>품목</th>
+                        <th>수량</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="list : ${list}">
+                        <td th:text="${list.inputId}">번호</td>
+                        <td th:text="${list.recDate}">받은날짜</td>
+                        <td th:text="${list.supName}">협력회사</td>
+                        <td th:text="${list.invenName}">창고</td>
+                        <td th:text="${list.itemName}">품목</td>
+                        <td th:text="${list.qty}">수량</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Page level custom scripts -->
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable(); // ID From dataTable
+            $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+        });
+    </script>
+</th:block>
+</html>
