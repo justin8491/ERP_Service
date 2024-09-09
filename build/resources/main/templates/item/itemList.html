@@ -4,6 +4,122 @@
       layout:decorate="~{include/layout/defaultLayout.html}">
 
 <th:block layout:fragment="Content">
-    <div>품목등록 페이지</div>
+    <div>
+        <!-- 상단 검색 -->
+        <div class="p-3 mb-3 bxShadow saerchForm">
+            <form id="searchForm" class="row">
+                <div class="searchFormInner">
+                    <div class="dateInput">
+                        <p>일자</p>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="DataInput">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>거래처</p>
+                        <div class="input-group">
+                            <input type="text" id="client" class="form-control" name="client" placeholder="거래처">
+                        </div>
+                    </div>
+                    <div class="deliveryDateInput">
+                        <p>납기일자</p>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="DeliveryDataInput">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">검색</button>
+            </form>
+        </div>
+        <!-- table -->
+        <div class="table-responsive p-3 bxShadow">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>품목코드</th>
+                        <th>품목명</th>
+                        <th>그룹명</th>
+                        <th>규격명</th>
+                        <th>바코드</th>
+                        <th>입고단가</th>
+                        <th>출고단가</th>
+                        <th>품목구분</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>1</td>
+                        <td>테스트</td>
+                        <td>테스트</td>
+                        <td>1cm</td>
+                        <td>123456789</td>
+                        <td>10,000</td>
+                        <td>50,000</td>
+                        <td>테스트</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter">
+                    신규등록
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">품목등록</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 </html>
+<script>
+        function getTodayDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        $('#DataInput').val(getTodayDate());
+        $('#DeliveryDataInput').val(getTodayDate());
+
+        $('.dateInput .date').datepicker({
+            format: "yyyy-mm-dd",
+            language: "ko",
+            todayBtn: 'linked',
+            todayHighlight: true,
+            autoclose: true,
+        });
+        $('.deliveryDateInput .date').datepicker({
+            format: "yyyy-mm-dd",
+            language: "ko",
+            todayBtn: 'linked',
+            todayHighlight: true,
+            autoclose: true,
+        });
+</script>
