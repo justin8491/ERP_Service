@@ -1,6 +1,7 @@
 $(document).ready(function() {
     // 변수 초기화
-    let supplierList = [];
+    let supplierList = []; // 협력 회사 리스트
+    let supplierEmail = '';
     let selectItem = [];
     let checkData = false;
     let isModalOpen = false;
@@ -21,6 +22,27 @@ $(document).ready(function() {
     function closeModal(modalId) {
         $(modalId).modal('hide');
         isModalOpen = false; // 모달 닫힘 상태로 변경
+    }
+
+    function sendEmail(){
+        console.log("보낸 이메일 : " + supplierEmail);
+        $.ajax({
+            url: '/purchase/orderCreate', // 요청할 URL
+            type: 'POST', // 요청 방식 (GET, POST 등)
+            data: JSON.stringify({"targetMail": supplierEmail}), // JSON 형식으로 데이터 전송
+            contentType: 'application/json', // JSON 형식으로 전송
+            dataType: 'json', // 서버에서 반환할 데이터 형식
+            success: function(data) {
+                console.log(data); // 받은 데이터 처리
+                console.log("메일발송 성공");
+//                alert("메일발송 성공");
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                console.log("메일발송 실패");
+//                alert("메일발송 실패");
+            }
+        });
     }
 
     // .check-item에 대한 change 이벤트를 바인딩
@@ -69,9 +91,8 @@ $(document).ready(function() {
             openModal('#orderModal'); // 모달 열기
             updateTable(selectItem);
             // selectItem 배열에서 데이터 대입
-                    $('#order_item_name').val(selectItem[0].item_name); // order_item_name에 데이터 대입
-                    $('#order_leadtime').val(selectItem[0].leadtime); // order_leadtime에 데이터 대입
-
+            $('#order_item_name').val(selectItem[0].item_name); // order_item_name에 데이터 대입
+            $('#order_leadtime').val(selectItem[0].leadtime); // order_leadtime에 데이터 대입
         } else {
             alert("리스트를 선택해주세요.");
         }
@@ -111,7 +132,6 @@ $(document).ready(function() {
         console.log(orderData);
 
         // AJAX 요청 (주석 해제 후 사용)
-
         $.ajax({
             url: '/purchase/orderCreate',
             type: 'POST',
@@ -121,6 +141,7 @@ $(document).ready(function() {
                 alert("주문이 성공적으로 추가되었습니다.");
                 $("#orderModalTableBody").find("input").val(''); // 입력 필드 초기화
                 closeModal("#orderModal");
+                sendEmail();
             },
             error: function(xhr, status, error) {
                 alert("주문 추가에 실패했습니다: " + (xhr.status ? xhr.status + ': ' + xhr.statusText : error));
@@ -154,7 +175,7 @@ $(document).ready(function() {
     // 협력업체 행 생성 함수
     function createSupplierRow(item) {
         return `
-            <tr class="supplier-row" data-id="${item.sup_id}" data-code="${item.sup_code}" data-name="${item.name}">
+            <tr class="supplier-row" data-id="${item.sup_id}" data-code="${item.sup_code}" data-name="${item.name}" data-email="${item.email}">
                 <td>${item.sup_id}</td>
                 <td>${item.sup_code}</td>
                 <td>${item.name}</td>
@@ -196,6 +217,7 @@ $(document).ready(function() {
     $(document).on("click", ".supplier-row", function() {
         const id = $(this).data("id");
         const name = $(this).data("name");
+        supplierEmail = $(this).data("email");
         $("#order_sup_id").val(id);
         $("#order_sup_name").val(name);
         closeModal("#searchModal"); // 모달 닫기
