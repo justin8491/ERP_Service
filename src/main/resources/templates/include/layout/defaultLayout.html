@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
@@ -27,4 +28,35 @@
 <!-- script -->
 <th:block th:replace="/include/fragment/script.html"></th:block>
 </body>
+=======
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="/include/fragment/config.html :: ConfigFragment">
+    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Debugerse</title>
+</head>
+<body id="page-top">
+<!-- sidebar -->
+<th:block th:replace="/include/fragment/sidebar.html :: SidebarFragment"></th:block>
+<!-- topbar -->
+<th:block th:replace="/include/fragment/topbar.html :: TopbarFragment"></th:block>
+
+<div id="wrapper" th:fragment="ContentLayout">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!-- Container Fluid-->
+            <div class="container-fluid" id="container-wrapper">
+                <th:block layout:fragment="Content"></th:block>
+            </div>
+            <!---Container Fluid-->
+        </div>
+        <!-- footer -->
+        <th:block th:replace="/include/fragment/footer.html"></th:block>
+    </div>
+</div>
+<!-- script -->
+<th:block th:replace="/include/fragment/script.html"></th:block>
+</body>
+>>>>>>> newjihye
 </html>

@@ -7,21 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class MemberController {
 
-//    @GetMapping(value = "/home")
-//    public String home(){
-//
-//        return "home";
-//    }
+    @GetMapping(value = "/home")
+    public String home(){
 
-    /**
-     * 로그인 창 이동
-     * @return
-     */
-    @GetMapping(value = "login")
-    public String loginForm() {
-        return "member/login";
+        return "home";
     }
-    
-
-
 }

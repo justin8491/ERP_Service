@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout}">
+
+<th:block layout:fragment="Content">
+    <div style="width : 80%; margin: 0 auto">
+        <div style="display:flex; justify-content:space-between">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option selected>10</option>
+                <option value="1">20</option>
+                <option value="2">50</option>
+                <option value="3">100</option>
+            </select>
+            <div class="input-group rounded" style="width:210px;">
+                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                       aria-describedby="search-addon"/>
+                <button class="input-group-text border-0" id="search-addon"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" colspan="1">번호</th>
+                <th scope="col" colspan="1" style="text-align: center;">받은날짜</th>
+                <th scope="col" colspan="1" style="text-align: center;">협력회사</th>
+                <th scope="col" colspan="2" style="text-align: center;">창고</th>
+                <th scope="col" colspan="4" style="text-align: center;">품목</th>
+                <th scope="col" colspan="1" style="text-align: center;">수량</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider table-divider-color">
+            <tr th:each="list : ${list}">
+                <th scope="col" colspan="1" th:text="${list.inputId}">번호</th>
+                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.recDate}">받은날짜</th>
+                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.supName}">협력회사</th>
+                <th scope="col" colspan="2" style="text-align: center;" th:text="${list.invenName}">창고</th>
+                <th scope="col" colspan="4" style="text-align: center;" th:text="${list.itemName}">품목</th>
+                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.qty}">수량</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>
+</html>
