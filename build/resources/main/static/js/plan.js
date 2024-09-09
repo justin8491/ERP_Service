@@ -2,6 +2,7 @@ $(document).ready(function() {
     // .check-item에 대한 change 이벤트를 바인딩
     let selectItem = []; // 선택 리스트 값
     let checkData = false;
+    let itemInfo = [];
     const checkedCount = $('.item-checkbox:checked').length;
 
     $('.check-item').on('change', function() {
@@ -20,6 +21,25 @@ $(document).ready(function() {
             const status = row.find('[data-status]').text();
             selectItem.push({plan_id,item_name,qty,date,leadtime,status});
             console.log(selectItem);
+
+            $.ajax({
+                url: 'item/seleteOneItem', // 요청할 URL
+                type: 'GET', // 요청 방식 (GET, POST 등)
+                dataType: 'json', // 서버에서 반환할 데이터 형식
+                success: function(
+                {
+                   item_name : item_name,
+                }
+                ) {
+                    // 요청 성공 시 호출되는 함수
+                    console.log(data); // 받은 데이터 처리
+                },
+                error: function(xhr, status, error) {
+                    // 요청 실패 시 호출되는 함수
+                    console.error('Error:', error);
+                }
+            });
+
             checkData = true;
         } else {
             selectItem = []; // 값 초기화
