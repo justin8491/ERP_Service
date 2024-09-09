@@ -15,9 +15,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="orderModalLabel">발주서 입력</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <table class="table">
@@ -32,24 +30,27 @@
                             </tr>
                             </thead>
                             <tbody id="planModalTableBody">
-                                <!-- 조달계획 데이터 -->
+                            <!-- 조달계획 데이터 -->
                             </tbody>
                         </table>
 
                         <table class="table">
                             <thead>
-                            <tr>
-                                <th scope="col">협력업체</th>
-                                <th scope="col">품목</th>
-                                <th scope="col">수량</th>
-                                <th scope="col">금액</th>
-                                <th scope="col">납기 일자</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col">협력업체</th>
+                                    <th scope="col">품목</th>
+                                    <th scope="col">수량</th>
+                                    <th scope="col">금액</th>
+                                    <th scope="col">납기 일자</th>
+                                </tr>
                             </thead>
                             <tbody id="orderModalTableBody">
                                 <tr>
                                     <td>
-                                        <input id="order_sup_id" type="text" hidden="hidden">
+                                        <input id="order_sup_id" type="text" hidden>
+                                        <input id="order_plan_id" type="text" hidden>
+                                        <input id="order_item_id" type="text" hidden>
+
                                         <div class="input-group">
                                             <input id="order_sup_name" type="text" class="form-control" readonly>
                                             <div class="input-group-append">
@@ -59,26 +60,24 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><input id="order_item_name" type="text"></td>
+                                    <td><input id="order_item_name" type="text" readonly class="form-control"></td>
                                     <td><input id="order_qty" type="text"></td>
-                                    <td><input id="order_date" type="text"></td>
-                                    <td><input id="order_leadtime" type="text"></td>
+                                    <td><input id="order_value" type="text"></td>
+                                    <td><input id="order_leadtime" type="date" readonly class="form-control"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="modal-footer">
                         <button id="createOrder" type="button" class="btn btn-primary">발주서 발행</button>
-                        <button type="button" class="btn btn-secondary closeBtn" data-dismiss="modal">닫기</button>
+                        <button id="closeBtn" type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- 발주서 발행 버튼 -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">
-            발주서 발행
-        </button>
+        <button id="orderCreate" type="button" class="btn btn-primary">발주서 발행</button>
 
         <!-- 모달 sup -->
         <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="supplierModalLabel" aria-hidden="true">
@@ -86,9 +85,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="supplierModalLabel">협력업체 검색</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <input type="text" id="searchInput" class="form-control" placeholder="검색...">
@@ -101,7 +98,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <!-- 협력업체 데이터 -->
+                            <!-- 협력업체 데이터 -->
                             </tbody>
                         </table>
                     </div>
@@ -112,7 +109,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Modal End -->
         <header>

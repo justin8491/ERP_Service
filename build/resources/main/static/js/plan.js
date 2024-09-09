@@ -1,17 +1,35 @@
 $(document).ready(function() {
+    // 변수 초기화
+    let supplierList = [];
+    let selectItem = [];
+    let checkData = false;
+    let isModalOpen = false;
+    let itemInfo = [];
+
+
+    // 모달 열기 함수
+    function openModal(modalId) {
+        if (!isModalOpen) {
+            $(modalId).modal({
+                backdrop: false // 백드롭 비활성화
+            });
+            $(modalId).modal('show');
+            isModalOpen = true; // 모달 열림 상태로 변경
+        }
+    }
+
+    function closeModal(modalId) {
+        $(modalId).modal('hide');
+        isModalOpen = false; // 모달 닫힘 상태로 변경
+    }
 
     // .check-item에 대한 change 이벤트를 바인딩
-    let supplierList = [];
-    let selectItem = []; // 선택 리스트 값
-    let checkData = false;
-
-    $('.check-item').on('change', function() {
+    $('.check-item').off('change').on('change', function() {
+        // 이벤트 핸들러 코드
         if (this.checked) {
             selectItem = []; // 값 초기화
-            // 다른 체크박스는 체크 해제
-            $('.check-item').not(this).prop('checked', false);
+            $('.check-item').not(this).prop('checked', false); // 다른 체크박스는 체크 해제
 
-            // 체크된 체크박스의 데이터 가져오기
             const row = $(this).closest('tr');
             const plan_id = row.find('[data-plan_id]').text();
             const item_name = row.find('[data-item_name]').text();
@@ -21,68 +39,138 @@ $(document).ready(function() {
             const status = row.find('[data-status]').text();
             selectItem.push({ plan_id, item_name, qty, date, leadtime, status });
             console.log(selectItem);
+
+
+            // 선택한 품목 찾기
+            $.ajax({
+                url: '/purchase/getItem',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ item_name: item_name }),
+                dataType: 'json',
+                success: function(response) {
+                    // 아이템 itemInfo에 담기
+                    console.log(response);
+                    itemInfo = response.itemDTO;
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+
             checkData = true;
         } else {
-            selectItem = []; // 값 초기화
             checkData = false;
         }
     });
 
     $('#orderCreate').on('click', function() {
-        // 체크박스 유효성검사
         if (checkData) {
-            // Modal Open
-            $('#orderModal').modal({
-                backdrop: false // 백드롭 비활성화
-            });
-            $('#orderModal').modal('show'); // 모달 열기
-
+            openModal('#orderModal'); // 모달 열기
             updateTable(selectItem);
+            // selectItem 배열에서 데이터 대입
+                    $('#order_item_name').val(selectItem[0].item_name); // order_item_name에 데이터 대입
+                    $('#order_leadtime').val(selectItem[0].leadtime); // order_leadtime에 데이터 대입
+
         } else {
             alert("리스트를 선택해주세요.");
         }
     });
 
-    $('.closeBtn').on('click', function(){
-        $("#orderModal").hide(); // 모달 닫기
+    $('#closeBtn').on('click', function() {
+        closeModal("#orderModal"); // 모달 닫기
+        closeModal("#searchModal");
     });
 
     // 발주서 발행
-    $('#createOrder').on('click', function(){
+    $('#createOrder').on('click', function() {
+        // 날짜 계산
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+        const day = String(now.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}${month}${day}`; // 현재 시스템 날짜
+
+
+
+        const order_code = "J"+formattedDate+$("#order_sup_id").val()+selectItem[0].plan_id;
+        console.log("함보자"+order_code);
         const orderData = {
             sup_id: $("#order_sup_id").val(),
-            sup_name: $("#order_sup_name").val(), // 협력업체 이름
-            item_name: $("#order_item_name").val(), // 품목 이름
-            quantity: $("#order_qty").val(), // 수량
-            order_date: $("#order_date").val(), // 주문 날짜
-            lead_time: $("#order_leadtime").val() // 리드타임
+            plan_id: selectItem[0].plan_id,
+            sup_id: $("#order_sup_id").val(),
+            order_code: order_code,
+            item_name: selectItem[0].item_name,
+            quantity: $("#order_qty").val(),
+            value: $("#order_value").val(),
+            status: "발주완료",
+            lead_time: selectItem[0].leadtime,
         };
 
+        console.log(orderData);
+
         // AJAX 요청 (주석 해제 후 사용)
-        /*
+
         $.ajax({
-            url: '/insertOrder', // 주문 삽입을 처리하는 서버의 URL
+            url: '/purchase/orderCreate',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderData),
-            success: function (response) {
+            success: function(response) {
                 alert("주문이 성공적으로 추가되었습니다.");
                 $("#orderModalTableBody").find("input").val(''); // 입력 필드 초기화
+                closeModal("#orderModal");
             },
-            error: function (xhr, status, error) {
-                alert("주문 추가에 실패했습니다: " + error);
+            error: function(xhr, status, error) {
+                alert("주문 추가에 실패했습니다: " + (xhr.status ? xhr.status + ': ' + xhr.statusText : error));
             }
         });
-        */
+
     });
 
     // 협력업체 값 지정 및 선택 모달 스크립트
-    $("#myBtn_in").click(function () {
-       $('#searchModal').modal({
-           backdrop: false // 백드롭 비활성화
-       });
-       displayPartners(supplierList);
-       $('#searchModal').modal('show');
+    $("#myBtn_in").click(function() {
+        $.ajax({
+            url: '/purchase/getAllSupplier',
+            type: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                if (response.supList && response.supList.length > 100) { // 예시: 최대 100개 항목
+                    alert("협력업체 수가 너무 많습니다.");
+                    return;
+                }
+                openModal('#searchModal'); // 모달 열기
+                supplierList = response.supList;
+                displayPartners(supplierList);
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    // 협력업체 행 생성 함수
+    function createSupplierRow(item) {
+        return `
+            <tr class="supplier-row" data-id="${item.sup_id}" data-code="${item.sup_code}" data-name="${item.name}">
+                <td>${item.sup_id}</td>
+                <td>${item.sup_code}</td>
+                <td>${item.name}</td>
+            </tr>
+        `;
+    }
+
+    $('#order_qty').on("keyup", function() {
+        // 수량과 단가 가져오기
+        console.log(itemInfo.price);
+        const orderQty = parseFloat($('#order_qty').val()) || 0;
+        const price = parseFloat(itemInfo.price) || 0;
+        // 총 금액 계산
+        const totalAmount = orderQty * price;
+        // 총 금액을 총 금액 입력란에 대입
+        $('#order_value').val(totalAmount);
     });
 
     // 협력업체 리스트 표시
@@ -91,51 +179,51 @@ $(document).ready(function() {
         tbody.empty(); // 기존 데이터 제거
 
         supList.forEach(item => {
-           tbody.append(`
-               <tr class="supplier-row" data-id="${item.sup_id}" data-code="${item.sup_code}" data-name="${item.name}">
-                   <td>${item.sup_id}</td>
-                   <td>${item.sup_code}</td>
-                   <td>${item.name}</td>
-               </tr>
-           `);
+            tbody.append(createSupplierRow(item));
         });
     }
 
     // 검색 기능
-    $("#searchInput").on("keyup", function () {
+    $("#searchInput").on("keyup", function() {
         const query = $(this).val().toLowerCase();
-        const filteredPartners = supplierList.filter(partner =>
-            partner.name.toLowerCase().includes(query)
+        const filteredPartners = supplierList.filter(supplier =>
+            supplier.name.toLowerCase().includes(query)
         );
         displayPartners(filteredPartners);
     });
 
     // 협력업체 선택
-    $(document).on("click", ".supplier-row", function () {
+    $(document).on("click", ".supplier-row", function() {
         const id = $(this).data("id");
-        const code = $(this).data("code");
         const name = $(this).data("name");
         $("#order_sup_id").val(id);
         $("#order_sup_name").val(name);
-        $("#searchModal").hide(); // 모달 닫기
+        closeModal("#searchModal"); // 모달 닫기
     });
 
 });
 
 // 테이블 업데이트 함수
-function updateTable(items){
-    const tableBody = $('#planModalTableBody'); // 모달 안의 테이블 본체 선택
+function updateTable(items) {
+    const tableBody = $('#planModalTableBody');
     tableBody.empty(); // 테이블 내용 초기화
 
     items.forEach(item => {
-        const res = `<tr>
+        const res = createTableRow(item);
+        tableBody.append(res); // 테이블에 행 추가
+    });
+}
+
+// 테이블 행 생성 함수
+function createTableRow(item) {
+    return `
+        <tr>
             <td>${item.plan_id}</td>
             <td>${item.item_name}</td>
             <td>${item.qty}</td>
             <td>${item.date}</td>
             <td>${item.leadtime}</td>
             <td>${item.status}</td>
-        </tr>`;
-        tableBody.append(res); // 테이블에 행 추가
-    });
+        </tr>
+    `;
 }

@@ -21,7 +21,7 @@ public class PurchaseBuilder {
             VALUES("sup_id", "#{sup_id}");
             VALUES("plan_id", "#{plan_id}");
             VALUES("order_code", "#{order_code}");
-            VALUES("date", "#{date}");
+            VALUES("date", "NOW()");
             VALUES("status", "#{status}");
             VALUES("value", "#{value}");
         }}.toString();
