@@ -14,16 +14,14 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = "com.erp.mes")
 @MapperScan("com.erp.mes.mapper")
-public class MybatisConfig {
+public class MyBatisConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/mes");
         dataSource.setUsername("root");
-//        dataSource.setPassword("0000");
-        dataSource.setPassword("1234");
-
+        dataSource.setPassword("0000");
         return dataSource;
     }
     @Bean
