@@ -19,7 +19,6 @@ public class InputBuilder {
             JOIN("plan on plan.plan_id = transaction.plan_id");
             JOIN("item on item.item_id = plan.item_id");
             JOIN("inventory on inventory.inven_id = supplier.inven_id");
-            WHERE("input.type = 0");
         }}.toString();
     }
     public String buildUpdateInput(InputDTO inputDTO) {
@@ -150,12 +149,36 @@ public class InputBuilder {
             JOIN("inventory on inventory.inven_id = supplier.inven_id");
             ORDER_BY("input_id desc");
             LIMIT("#{start} , #{limit}");
+            WHERE("input.type = false");
         }}.toString();
     }
     public String buildPageCount() {
         return new SQL(){{
             SELECT("count(input_id)");
             FROM("`input`");
+            WHERE("input.type=false");
         }}.toString();
     }
+    public String buildPagingTrue(Map<String,Object> map) {
+        return new SQL(){{
+            SELECT("input_id as inputId,input.type,rec_date as recDate,supplier.name as supName,inventory.name as invenName,item.name as itemName,plan.qty ");
+            FROM("`input`");
+            JOIN("transaction on transaction.tran_id = `input`.tran_id");
+            JOIN("supplier on supplier.sup_code = transaction.sup_code");
+            JOIN("plan on plan.plan_id = transaction.plan_id");
+            JOIN("item on item.item_id = plan.item_id");
+            JOIN("inventory on inventory.inven_id = supplier.inven_id");
+            ORDER_BY("input_id desc");
+            LIMIT("#{start} , #{limit}");
+            WHERE("input.type = true");
+        }}.toString();
+    }
+    public String buildPageCountTrue() {
+        return new SQL(){{
+            SELECT("count(*)");
+            FROM("`input`");
+            WHERE("input.type = true");
+        }}.toString();
+    }
+
 }
