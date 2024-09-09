@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
@@ -21,5 +22,15 @@ public class OrderDTO {
     private String orderCode; // 발주코드
     private String supId; // 회사 외래키
     private String planId; // 발주계획 외래키
+
+    // 조달계획
+    private int qty;
+    private LocalDate leadtime;
+
+    // 거래처
+    private String supName;
+
+    // 물품
+    private String itemName;
 
 }

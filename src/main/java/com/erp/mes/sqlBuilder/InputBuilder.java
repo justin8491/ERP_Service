@@ -180,5 +180,14 @@ public class InputBuilder {
             WHERE("input.type = true");
         }}.toString();
     }
-
+    public String buildSelectOrders(Map<String, Object> params) {
+        return new SQL() {{
+            SELECT("order.order_code as orderCode, item.name as itemName, plan.qty, plan.leadtime, plan.status,supplier.name AS supName, order.value");
+            FROM("`order`");
+            JOIN("supplier ON supplier.sup_id = order.sup_id");
+            JOIN("plan ON plan.plan_id = order.plan_id");
+            JOIN("item ON item.item_id = plan.item_id");
+            WHERE("plan.status = '완료'");
+        }}.toString();
+    }
 }

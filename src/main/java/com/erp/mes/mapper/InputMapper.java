@@ -56,4 +56,6 @@ public interface InputMapper {
 
     @SelectProvider(type = InputBuilder.class, method = "buildPageCount")
     int boardCount();
+    @SelectProvider(type = InputBuilder.class, method = "buildSelectOrders")
+    List<OrderDTO> selectOrders();
 }

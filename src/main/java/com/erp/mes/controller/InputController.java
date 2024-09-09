@@ -83,4 +83,11 @@ public class InputController {
         model.addAttribute("paging", pageDTO);
         return "input/insep";
     }
+    @GetMapping("/bom")
+    public String bom(Model model) {
+        List<OrderDTO> orders = service.selectOrders();
+        log.info("orders={}",orders);
+        model.addAttribute("orders",orders);
+        return "input/bom";
+    }
 }

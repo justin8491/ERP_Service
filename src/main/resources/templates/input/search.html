@@ -45,7 +45,7 @@
             </tr>
             </thead>
             <tbody class="table-group-divider table-divider-color">
-            <tr th:each="list : ${list}" th:id="${list.inputId}" th:if="${list.type == false}">
+            <tr th:each="list : ${list}" th:id="${list.inputId}">
                 <th scope="col" colspan="1" th:text="${list.inputId}">번호</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.recDate}">받은날짜</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.supName}">협력회사</th>
