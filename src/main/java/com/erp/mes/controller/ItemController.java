@@ -2,6 +2,7 @@ package com.erp.mes.controller;
 
 import com.erp.mes.dto.ItemDTO;
 import com.erp.mes.service.ItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,87 +10,66 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/item")
 public class ItemController {
 
     private final ItemService itemService;
 
-    // 생성자 주입
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
+    // 품목 목록 조회
+    @GetMapping("/list")
+    public String selectItemList(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        List<ItemDTO> itemList = itemService.selectItemList(keyword);
+        model.addAttribute("itemList", itemList);
+        return "item/itemList";  // itemList.html로 반환
     }
 
-    @GetMapping("/detail/{id}")
-    public String getItemById(@PathVariable("id") int id, Model model) {
-        ItemDTO item = itemService.getItemById(id); // 품목 상세 조회
-        model.addAttribute("item", item);
-        return "item/itemDetail"; // 상세 페이지 반환
+    // 품목 등록 폼
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("itemDTO", new ItemDTO());
+        return "item/itemForm";
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteItem(@PathVariable("id") int id, Model model) {
-        int result = itemService.deleteItem(id); // 삭제 처리
-        if (result > 0) {
-            return "redirect:/item/itemList"; // 성공 시 목록 리다이렉트
-        } else {
-            model.addAttribute("errorMessage", "삭제에 실패했습니다.");
-            return "item/itemDetail"; // 실패 시 상세 페이지로 돌아감
+    // 품목 등록
+    @PostMapping("/add")
+    public String insertItem(@ModelAttribute ItemDTO itemDTO, Model model) {
+        try {
+            int result = itemService.insertItem(itemDTO);
+            return "redirect:/item/list";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "item/itemForm";
         }
     }
 
-    @GetMapping("/insert")
-    public String showInsertForm(Model model) {
-        model.addAttribute("item", new ItemDTO());
-        return "item/itemInsert"; // 추가 폼 이동
+    // 품목 수정 폼
+    @GetMapping("/edit/{itemId}")
+    public String showEditForm(@PathVariable("itemId") int itemId, Model model) {
+        ItemDTO itemDTO = itemService.selectItemById(itemId);
+        model.addAttribute("itemDTO", itemDTO);
+        return "item/itemForm";
     }
 
-    @PostMapping("/save")
-    public String saveItem(@ModelAttribute ItemDTO item, Model model) {
-        int result = itemService.saveItem(item); // 업데이트 또는 삽입 처리
-        if (result > 0) {
-            return "redirect:/item/itemList"; // 성공 시 목록 리다이렉트
-        } else {
-            model.addAttribute("errorMessage", "저장에 실패했습니다.");
-            return "item/itemInsert"; // 실패 시 추가 폼으로 돌아감
-        }
+    // 품목 수정
+    @PostMapping("/edit")
+    public String updateItem(@ModelAttribute ItemDTO itemDTO) {
+        itemService.updateItem(itemDTO);
+        return "redirect:/item/list";
     }
 
-    @GetMapping("/itemList")
-    public String itemList(Model model) {
-        List<ItemDTO> items = itemService.getAllItems(); // 목록 조회
-        model.addAttribute("items", items);
-        return "item/itemList";
+    // 품목 삭제
+    @GetMapping("/delete/{itemId}")
+    public String deleteItem(@PathVariable("itemId") int itemId) {
+        itemService.deleteItem(itemId);
+        return "redirect:/item/list";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateItem(@PathVariable("id") int id, @ModelAttribute ItemDTO item, Model model) {
-        item.setItem_id(id);
-        int result = itemService.updateItem(item);
-        if (result > 0) {
-            return "redirect:/item/itemList"; // 성공 시 목록 리다이렉트
-        } else {
-            model.addAttribute("errorMessage", "수정에 실패했습니다.");
-            return "item/itemEdit"; // 실패 시 수정 폼으로 돌아감
-        }
-    }
-
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") int id, Model model) {
-        ItemDTO item = itemService.getItemById(id);
-        model.addAttribute("item", item);
-        return "item/itemEdit";
-    }
-
-    @GetMapping("/search")
-    public String searchItems(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "minPrice", required = false) Double minPrice,
-            @RequestParam(value = "maxPrice", required = false) Double maxPrice,
-            Model model) {
-
-        List<ItemDTO> items = itemService.searchItems(name, type, minPrice, maxPrice);
-        model.addAttribute("items", items);
-        return "item/itemList";  // 검색 결과를 표시할 페이지
+    // 품목 상세 조회
+    @GetMapping("/view/{itemId}")
+    public String viewItemDetails(@PathVariable("itemId") int itemId, Model model) {
+        ItemDTO itemDTO = itemService.selectItemById(itemId);
+        model.addAttribute("itemDTO", itemDTO);
+        return "item/itemView"; // itemView.html로 반환
     }
 }

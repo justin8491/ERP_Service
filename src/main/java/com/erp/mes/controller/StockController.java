@@ -2,80 +2,77 @@ package com.erp.mes.controller;
 
 import com.erp.mes.dto.StockDTO;
 import com.erp.mes.service.StockService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/stock")
 public class StockController {
-
     private final StockService stockService;
 
-    public StockController(StockService stockService) {
-        this.stockService = stockService;
-    }
-
-    @GetMapping("/detail/{stk_id}")
-    public String getStockById(@PathVariable("stk_id") int stk_id, Model model) {
-        StockDTO stock = stockService.getStockById(stk_id);
-        model.addAttribute("stock", stock);
-        return "stock/stockDetail"; // 상세 페이지 반환
-    }
-
-    @PostMapping("/delete/{stk_id}")
-    public String deleteStock(@PathVariable("stk_id") int stk_id, Model model) {
-        int result = stockService.deleteStock(stk_id);
+    // 입고 완료된 자재를 재고로 반영
+    @PostMapping("/insert")
+    public String insertStockFromCompletedInput(Model model) {
+        int result = stockService.insertStockFromCompletedInput();
         if (result > 0) {
-            return "redirect:/stock/stockList"; // 성공 시 목록 리다이렉트
+            return "redirect:/stock/list";
         } else {
-            model.addAttribute("errorMessage", "삭제에 실패했습니다.");
-            return "stock/stockDetail"; // 실패 시 상세 페이지로 돌아감
+            model.addAttribute("error", "입고 완료된 자재를 재고로 반영하는 데 실패했습니다.");
+            return "errorPage";
         }
     }
 
-    @GetMapping("/insert")
-    public String showInsertForm(Model model) {
-        model.addAttribute("stock", new StockDTO());
-        return "stock/stockInsert"; // 추가 폼 이동
+    // 재고 목록 조회 (필터링 가능)
+    @GetMapping("/list")
+    public String listStock(@RequestParam Map<String, Object> params, Model model) {
+        List<StockDTO> stockList = stockService.getStockList(params);
+        model.addAttribute("stockList", stockList);
+        return "stock/list";
     }
 
-    @PostMapping("/save")
-    public String saveStock(@ModelAttribute StockDTO stock, Model model) {
-        int result = stockService.saveStock(stock);
+    // 출고 후 재고 수량 업데이트
+    @PostMapping("/update-after-shipment")
+    public String updateStockAfterShipment(@RequestParam int stkId, @RequestParam int qty, Model model) {
+        int result = stockService.updateStockAfterShipment(stkId, qty);
         if (result > 0) {
-            return "redirect:/stock/stockList"; // 성공 시 목록 리다이렉트
+            return "redirect:/stock/list";
         } else {
-            model.addAttribute("errorMessage", "저장에 실패했습니다.");
-            return "stock/stockInsert"; // 실패 시 추가 폼으로 돌아감
+            model.addAttribute("error", "재고 수량 업데이트에 실패했습니다.");
+            return "errorPage";
         }
     }
 
-    @GetMapping("/stockList")
-    public String stockList(Model model) {
-        List<StockDTO> stocks = stockService.getAllStocks();
-        model.addAttribute("stocks", stocks);
-        return "stock/stockList";
-    }
-
-    @PostMapping("/update/{stk_id}")
-    public String updateStock(@PathVariable("stk_id") int stk_id, @ModelAttribute StockDTO stock, Model model) {
-        stock.setStk_id(stk_id);
-        int result = stockService.saveStock(stock);
+    // 재고 상태 업데이트
+    @PostMapping("/update-status")
+    public String updateStockStatus(@RequestParam int stkId, @RequestParam String status, Model model) {
+        int result = stockService.updateStockStatus(stkId, status);
         if (result > 0) {
-            return "redirect:/stock/stockList"; // 성공 시 목록 리다이렉트
+            return "redirect:/stock/list";
         } else {
-            model.addAttribute("errorMessage", "수정에 실패했습니다.");
-            return "stock/stockEdit"; // 실패 시 수정 폼으로 돌아감
+            model.addAttribute("error", "재고 상태 업데이트에 실패했습니다.");
+            return "errorPage";
         }
     }
 
-    @GetMapping("/edit/{stk_id}")
-    public String showEditForm(@PathVariable("stk_id") int stk_id, Model model) {
-        StockDTO stock = stockService.getStockById(stk_id);
-        model.addAttribute("stock", stock);
-        return "stock/stockEdit";
+    // 재고 금액 산출
+    @GetMapping("/calculate-value")
+    public String calculateStockValue(Model model) {
+        double totalStockValue = stockService.calculateStockValue();
+        model.addAttribute("totalStockValue", totalStockValue);
+        return "stock/value";
+    }
+
+    // 공급가 확인
+    @GetMapping("/supply-price/{itemId}")
+    @ResponseBody
+    public Map<String, Object> getSupplyPrice(@PathVariable int itemId) {
+        return stockService.getSupplyPrice(itemId);
     }
 }

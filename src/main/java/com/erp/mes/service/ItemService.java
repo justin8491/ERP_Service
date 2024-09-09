@@ -1,44 +1,46 @@
 package com.erp.mes.service;
 
-import com.erp.mes.dao.ItemMapper;
+
 import com.erp.mes.dto.ItemDTO;
+import com.erp.mes.mapper.ItemMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class ItemService {
 
     private final ItemMapper itemMapper;
 
-    // 생성자 주입
-    public ItemService(ItemMapper itemMapper) {
-        this.itemMapper = itemMapper;
+    // 품목 목록 조회
+    public List<ItemDTO> selectItemList(String keyword) {
+        return itemMapper.selectItemList(keyword);
     }
 
-    public List<ItemDTO> getAllItems() {
-        return itemMapper.getAllItems();
+    // 품목 삽입
+    public int insertItem(ItemDTO itemDTO) {
+        // 유효성 검사
+        if (itemMapper.validateItemData(itemDTO.getName(), itemDTO.getSpec()) > 0) {
+            throw new IllegalArgumentException("이미 존재하는 품목입니다.");
+        }
+        return itemMapper.insertItem(itemDTO);
     }
 
-    public ItemDTO getItemById(int id) {
-        return itemMapper.getItemById(id);
+    // 품목 수정
+    public int updateItem(ItemDTO itemDTO) {
+        return itemMapper.updateItem(itemDTO);
     }
 
-    public int saveItem(ItemDTO item) {
-        return itemMapper.insert(item);
+    // 품목 삭제
+    public int deleteItem(int itemId) {
+        return itemMapper.deleteItem(itemId);
     }
 
-    public int deleteItem(int id) {
-        return itemMapper.deleteItem(id);
-    }
-
-    public int updateItem(ItemDTO item) {
-        return itemMapper.update(item);
-    }
-
-    public List<ItemDTO> searchItems(String name, String type, Double minPrice, Double maxPrice) {
-        return itemMapper.searchItems(name, type, minPrice, maxPrice);
+    // 품목 상세 조회
+    public ItemDTO selectItemById(int itemId) {
+        return itemMapper.selectItemById(itemId);
     }
 }
