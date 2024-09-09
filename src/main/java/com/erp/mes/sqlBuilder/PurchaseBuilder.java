@@ -15,7 +15,7 @@ public class PurchaseBuilder {
     }
 
     // 발주서 발행
-    public String insertOrder(Map<String, Object> map) {
+    public String orderCreate(Map<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("`order`");
             VALUES("sup_id", "#{sup_id}");
@@ -40,7 +40,6 @@ public class PurchaseBuilder {
                 if (params.get("supplier_name") != null) {
                     WHERE("s.name = #{supplier_name}");
                 }
-
                 // 날짜 범위 필터링
                 if (params.get("startDate") != null) {
                     WHERE("p.leadtime >= #{startDate}");
@@ -88,6 +87,14 @@ public class PurchaseBuilder {
             UPDATE("inspection");
             SET("status = #{status}");
             SET("notice = #{notice}");
+        }}.toString();
+    }
+
+    // 협력업체 리스트
+    public String getSupplier(Map<String, Object> map){
+        return new SQL() {{
+            SELECT("*");
+            FROM("supplier");
         }}.toString();
     }
 }

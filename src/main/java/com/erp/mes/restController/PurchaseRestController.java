@@ -1,6 +1,9 @@
 package com.erp.mes.restController;
 
+import com.erp.mes.dto.EmailDTO;
 import com.erp.mes.dto.PlanDTO;
+import com.erp.mes.dto.SupplierDTO;
+import com.erp.mes.service.MailService;
 import com.erp.mes.service.PurchaseService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,14 +17,17 @@ public class PurchaseRestController {
 
     private final PurchaseService purchaseService;
 
-    public PurchaseRestController(PurchaseService purchaseService) {
+    private final MailService mailService;
+
+    public PurchaseRestController(PurchaseService purchaseService, MailService mailService) {
         this.purchaseService = purchaseService;
+        this.mailService = mailService;
     }
 
-//    @GetMapping(value = "purchase/plan")
-//    public String getPlan(){
-//        return "purchase/plan";
-//    }
+    //    @GetMapping(value = "purchase/plan")
+    //    public String getPlan(){
+    //        return "purchase/plan";
+    //    }
 
     /**
      * 조달계획 리스트 조회
@@ -38,9 +44,18 @@ public class PurchaseRestController {
         return map;
     }
 
+
+    // 발주서 발행
     @PostMapping("purchase/orderCreate")
     public Map<String, Object> orderCreate(@RequestBody Map<String, Object> map) {
         int result = purchaseService.orderCreate(map);
+//        EmailDTO emailDTO = new EmailDTO();
+//        emailDTO.setTargetMail(((String)map.get("targetMail")));
+//        if(mailService.sendMail(emailDTO)){
+//            map.put("msg","메일 발송 성공");
+//        } else {
+//            map.put("msg","메일 발송 실패");
+//        }
         return map;
     }
 
@@ -108,5 +123,11 @@ public class PurchaseRestController {
         return map;
     }
 
+    @PostMapping(value = "getSupplier")
+    public Map<String,Object> getSupplier(Map<String, Object> map){
+        List<SupplierDTO> supplierDTO = purchaseService.getSupplier();
+
+        return map;
+    }
 
 }

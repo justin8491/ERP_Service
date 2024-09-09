@@ -3,6 +3,7 @@ package com.erp.mes.service;
 import com.erp.mes.dto.InspectionDTO;
 import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PlanDTO;
+import com.erp.mes.dto.SupplierDTO;
 import com.erp.mes.mapper.PurchaseMapper;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +55,7 @@ public class PurchaseService {
     }
 
 
+    public List<SupplierDTO> getSupplier() {
+        return purchaseMapper.getSupplier();
+    }
 }

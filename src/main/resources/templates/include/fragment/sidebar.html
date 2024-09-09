@@ -41,7 +41,7 @@
          th:classappend="${servletPath != null && servletPath.startsWith('/purchase')} ? 'show' : ''">
       <div class="collapse-inner">
         <a class="collapse-item" th:href="@{/purchase/plan}" th:classappend="${servletPath != null && servletPath == '/purchase/plan'} ? 'active' : ''">
-          <span>조달계획 조회</span>
+          <span>발주서 발행</span>
         </a>
         <a class="collapse-item" th:href="@{/purchase/order}" th:classappend="${servletPath != null && servletPath == '/purchase/order'} ? 'active' : ''">
           <span>발주서 조회</span>
