@@ -3,7 +3,6 @@ package com.erp.mes.sqlBuilder;
 import com.erp.mes.dto.InputDTO;
 import com.erp.mes.dto.TransactionDTO;
 import org.apache.ibatis.jdbc.SQL;
-import org.springframework.ws.soap.SoapElement;
 
 import java.util.Map;
 

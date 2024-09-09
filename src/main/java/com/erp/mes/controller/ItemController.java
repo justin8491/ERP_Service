@@ -18,8 +18,15 @@ public class ItemController {
 
     // 품목 목록 조회
     @GetMapping("/list")
-    public String selectItemList(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
-        List<ItemDTO> itemList = itemService.selectItemList(keyword);
+    public String selectItemList(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "supplier_name", required = false) String supplierName,
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
+            Model model) {
+
+        // 서비스 호출 및 필터링 결과 전달
+        List<ItemDTO> itemList = itemService.selectItemList(keyword, supplierName, startDate, endDate);
         model.addAttribute("itemList", itemList);
         return "item/itemList";  // itemList.html로 반환
     }
