@@ -112,19 +112,6 @@ $(document).ready(function() {
 
      });
 
-
-    // 협력업체 데이터 (예시)
-//    const partners = [
-//        { code: "001", name: "회사 A" },
-//        { code: "002", name: "회사 B" },
-//        { code: "003", name: "회사 C" },
-//    ];
-
-
-
-
-
-
     // 협력업체 리스트 표시
     function displayPartners(supList) {
         const tbody = $("#supplierList tbody");
@@ -161,10 +148,6 @@ $(document).ready(function() {
         $('.modal-backdrop').remove();
         $("#searchModal").hide(); // 모달 닫기
     });
-
-    // 협력업체 모달 닫기 시
-
-
 
 });
 

@@ -112,6 +112,10 @@ $(document).ready(function() {
 
      });
 
+    const partners = [
+    { code: "001", name: "회사 A"},
+    ];
+
     // 협력업체 리스트 표시
     function displayPartners(supList) {
         const tbody = $("#supplierList tbody");
