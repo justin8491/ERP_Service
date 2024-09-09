@@ -1,7 +1,9 @@
 package com.erp.mes.controller;
 
 import com.erp.mes.dto.InputDTO;
+import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PageDTO;
+import com.erp.mes.dto.TransactionDTO;
 import com.erp.mes.service.InputService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +22,7 @@ import java.util.Map;
 public class InputController {
     private final InputService service;
 
-    //    @GetMapping("/inputList")
+//    @GetMapping("/inputList")
 //    public String input(Model model) {
 //        List<InputDTO> list = service.inputList();
 ////        log.info("list={}",list);
@@ -47,7 +50,7 @@ public class InputController {
         map.put("selectValue",inspectionStatus);
         map.put("inputId",numValue);
         service.updateInputStatus(map);
-        return "redirect:/input/inputList";
+        return "redirect:/input/paging";
     }
     @PostMapping("/search")
     public String search(InputDTO inputDTO,Model model) {
@@ -58,13 +61,26 @@ public class InputController {
 
     @GetMapping("/paging")
     public String paging(Model model,
-                         @RequestParam(value = "page", required = false,defaultValue = "1") int page) {
+                        @RequestParam(value = "page", required = false,defaultValue = "1") int page) {
         List<InputDTO> pagingList = service.pagingList(page);
         log.info("page={}",page);
         log.info("={}",pagingList);
         PageDTO pageDTO = service.pagingParam(page);
         model.addAttribute("boardList",pagingList);
         model.addAttribute("paging",pageDTO);
-        return "inputList";
+        return "input/list";
+    }
+    @GetMapping("/insep")
+    public String insep(Model model,
+                        @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+        List<InputDTO> pagingList = service.pagingListTrue(page);
+
+        log.info("={}",pagingList);
+        log.info("page={}", page);
+
+        PageDTO pageDTO = service.pagingParamTrue(page);
+        model.addAttribute("insep",pagingList);
+        model.addAttribute("paging", pageDTO);
+        return "input/insep";
     }
 }

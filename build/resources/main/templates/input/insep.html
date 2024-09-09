@@ -40,60 +40,24 @@
             </tr>
             </thead>
             <tbody class="table-group-divider table-divider-color">
-            <tr th:each="list : ${boardList}" th:id="${list.inputId}">
+            <tr th:each="list : ${insep}" th:id="${list.inputId}">
                 <th scope="col" colspan="1" th:text="${list.inputId}">번호</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.recDate}">받은날짜</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.supName}">협력회사</th>
                 <th scope="col" colspan="2" style="text-align: center;" th:text="${list.invenName}">창고</th>
                 <th scope="col" colspan="4" style="text-align: center;" th:text="${list.itemName}">품목</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.qty}">수량</th>
-                <th scope="col" colspan="1" style="text-align: center;">
-                    <button type="button" class="modal-btn btn btn-primary a" data-bs-toggle="modal" data-bs-target="#exampleModal" th:data-id="${list.inputId}">진행중</button>
-                </th>
+                <th scope="col" colspan="1" style="text-align: center;">완료</th>
             </tr>
             </tbody>
         </table>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item"  th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}" >
-                    <a class="page-link" th:href="@{/input/paging(page=${i})}" th:text="${i}">1</a>
+                <li class="page-item" th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}">
+                    <a class="page-link" th:href="@{/input/insep(page=${i})}" th:text="${i}">1</a>
                 </li>
             </ul>
         </nav>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">검수창</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" action="/input/inseception">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col" colspan="1">번호</th>
-                                <th scope="col" colspan="1" style="text-align: center;">받은날짜</th>
-                                <th scope="col" colspan="1" style="text-align: center;">협력회사</th>
-                                <th scope="col" colspan="2" style="text-align: center;">창고</th>
-                                <th scope="col" colspan="4" style="text-align: center;">품목</th>
-                                <th scope="col" colspan="1" style="text-align: center;">수량</th>
-                                <th scope="col" colspan="2" style="text-align: center;">검수처리</th>
-                            </tr>
-                            </thead>
-                            <tbody class="table-group-divider table-divider-color modal-table">
-
-                            </tbody>
-                        </table>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                            <button type="submit" class="save-btn btn btn-primary">저장</button>
-                        </div>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </th:block>
 </body>

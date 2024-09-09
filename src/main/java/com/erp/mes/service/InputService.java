@@ -54,6 +54,14 @@ public class InputService {
         List<InputDTO> pagingList = mapper.pagingList(pagingParams);
         return pagingList;
     }
+    public List<InputDTO> pagingListTrue(int page) {
+        int pagingStart = (page - 1 ) * pageLimit;
+        Map<String,Object> pagingParams = new HashMap<>();
+        pagingParams.put("start", pagingStart);
+        pagingParams.put("limit",pageLimit);
+        List<InputDTO> pagingList = mapper.pagingListTrue(pagingParams);
+        return pagingList;
+    }
 
     public PageDTO pagingParam(int page) {
         // 전체 글 갯수 조회
@@ -63,6 +71,22 @@ public class InputService {
         // 시작 페이지 값 계산(1, 4, 7, 10, ~~~~)
         int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         // 끝 페이지 값 계산(3, 6, 9, 12, ~~~~)
+        int endPage = startPage + blockLimit - 1;
+        if (endPage > maxPage) {
+            endPage = maxPage;
+        }
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setPage(page);
+        pageDTO.setMaxPage(maxPage);
+        pageDTO.setStartPage(startPage);
+        pageDTO.setEndPage(endPage);
+        return pageDTO;
+    }
+    public PageDTO pagingParamTrue(int page) {
+        int filteredBoardCount = mapper.boardCountTrue(); // 필터링된 데이터 개수 조회
+        // 전체 페이지 개수 계산
+        int maxPage = (int) (Math.ceil((double) filteredBoardCount / pageLimit));
+        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         int endPage = startPage + blockLimit - 1;
         if (endPage > maxPage) {
             endPage = maxPage;
