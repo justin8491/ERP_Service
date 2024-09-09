@@ -40,7 +40,6 @@ public class PurchaseBuilder {
                 if (params.get("supplier_name") != null) {
                     WHERE("s.name = #{supplier_name}");
                 }
-
                 // 날짜 범위 필터링
                 if (params.get("startDate") != null) {
                     WHERE("p.leadtime >= #{startDate}");
