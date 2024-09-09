@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
+
+<th:block layout:fragment="Content">
+    <header>
+        <h1>구매 발주서 발행</h1>
+    </header>
+
+    <div>
+        <!-- Modal -->
+        <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orderModalLabel">발주서 입력</h5>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">계획 ID</th>
+                                <th scope="col">품목 이름</th>
+                                <th scope="col">수량</th>
+                                <th scope="col">발주 일자</th>
+                                <th scope="col">납기 일자</th>
+                                <th scope="col">상태</th>
+                            </tr>
+                            </thead>
+                            <tbody id="planModalTableBody"></tbody>
+                        </table>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">협력업체</th>
+                                <th scope="col">품목</th>
+                                <th scope="col">수량</th>
+                                <th scope="col">금액</th>
+                                <th scope="col">납기 일자</th>
+                            </tr>
+                            </thead>
+                            <tbody id="orderModalTableBody">
+                                <td><input id="order_sup_name" type="text"></td>
+                                <td><input id="order_item_name" type="text"></td>
+                                <td><input id="order_qty" type="text"></td>
+                                <td><input id="order_date" type="text"></td>
+                                <td><input id="order_leadtime" type="text"></td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">발주서 발행</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id="orderCreate" type="button" value="발주서 발행" class="btn btn-primary">
+        <!-- Modal End -->
+        <header>
+            <h2>조달 계획 리스트</h2>
+        </header>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th scope="col">계획 ID</th>
+                <th scope="col">품목 이름</th>
+                <th scope="col">수량</th>
+                <th scope="col">발주 일자</th>
+                <th scope="col">납기 일자</th>
+                <th scope="col">상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="plan : ${planList}" th:id="${'list-item-' + plan.plan_id}">
+                <td><input type="checkbox" class="check-item" data-name="${plan.plan_id}"></td>
+                <td id="plan_id" th:text="${plan.plan_id}" data-plan_id="${plan.plan_id}"></td>
+                <td th:text="${plan.item_name}" data-item_name="${plan.item_name}"></td>
+                <td th:text="${plan.qty}" data-qty="${plan.qty}"></td>
+                <td th:text="${plan.date}" data-date="${plan.date}"></td>
+                <td th:text="${plan.leadtime}" data-leadtime="${plan.leadtime}"></td>
+                <td th:text="${plan.status}" data-status="${plan.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script th:src="@{/js/plan.js}"></script>
+
+</th:block>
+</html>
