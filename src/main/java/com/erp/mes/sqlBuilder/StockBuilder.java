@@ -1,7 +1,6 @@
 package com.erp.mes.sqlBuilder;
 
 import org.apache.ibatis.jdbc.SQL;
-
 import java.util.Map;
 
 public class StockBuilder {

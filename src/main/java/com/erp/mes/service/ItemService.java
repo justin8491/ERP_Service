@@ -1,13 +1,12 @@
 package com.erp.mes.service;
 
-
 import com.erp.mes.dto.ItemDTO;
 import com.erp.mes.mapper.ItemMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -15,9 +14,16 @@ public class ItemService {
 
     private final ItemMapper itemMapper;
 
+
     // 품목 목록 조회
-    public List<ItemDTO> selectItemList(String keyword) {
-        return itemMapper.selectItemList(keyword);
+    public List<ItemDTO> selectItemList(String keyword, String supplierName, String startDate, String endDate) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("keyword", keyword);
+        params.put("supplier_name", supplierName);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+
+        return itemMapper.selectItemList(params);
     }
 
     // 품목 삽입
