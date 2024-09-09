@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     @GetMapping(value = "/home")
-    public String home(){
+    public String home() {
 
+        return "home";
+    }
 
     /**
      * 로그인 창 이동
