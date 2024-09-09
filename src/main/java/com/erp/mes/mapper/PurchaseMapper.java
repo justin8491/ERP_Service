@@ -16,7 +16,7 @@ public interface PurchaseMapper {
     @SelectProvider(type = PurchaseBuilder.class, method = "selectPlans")
     List<PlanDTO> plan(); // 조달 계획 리스트
 
-    @InsertProvider(type = PurchaseBuilder.class,method = "insertOrder")
+    @InsertProvider(type = PurchaseBuilder.class,method = "orderCreate")
     int orderCreate(Map<String, Object> map); // 구매 발주서 발행
 
     @SelectProvider(type = PurchaseBuilder.class,method = "selectOrders")

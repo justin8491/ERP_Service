@@ -47,22 +47,23 @@
                             </tr>
                             </thead>
                             <tbody id="orderModalTableBody">
-                            <tr>
-                                <td>
-                                    <div class="input-group">
-                                        <input id="order_sup_name" type="text" class="form-control" readonly>
-                                        <div class="input-group-append">
-                                        <span id="myBtn_in" class="input-group-text" data-toggle="modal" data-target="#searchModal">
-                                            <i class="fas fa-search"></i>
-                                        </span>
+                                <tr>
+                                    <td>
+                                        <input id="order_sup_id" type="text" hidden="hidden">
+                                        <div class="input-group">
+                                            <input id="order_sup_name" type="text" class="form-control" readonly>
+                                            <div class="input-group-append">
+                                            <span id="myBtn_in" class="input-group-text" data-toggle="modal" data-target="#searchModal">
+                                                <i class="fas fa-search"></i>
+                                            </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td><input id="order_item_name" type="text"></td>
-                                <td><input id="order_qty" type="text"></td>
-                                <td><input id="order_date" type="text"></td>
-                                <td><input id="order_leadtime" type="text"></td>
-                            </tr>
+                                    </td>
+                                    <td><input id="order_item_name" type="text"></td>
+                                    <td><input id="order_qty" type="text"></td>
+                                    <td><input id="order_date" type="text"></td>
+                                    <td><input id="order_leadtime" type="text"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -94,6 +95,7 @@
                         <table id="supplierList" class="table mt-3">
                             <thead>
                             <tr>
+                                <th>회사 ID</th>
                                 <th>회사 코드</th>
                                 <th>회사 명</th>
                             </tr>

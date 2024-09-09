@@ -15,7 +15,7 @@ public class PurchaseBuilder {
     }
 
     // 발주서 발행
-    public String insertOrder(Map<String, Object> map) {
+    public String orderCreate(Map<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("`order`");
             VALUES("sup_id", "#{sup_id}");
