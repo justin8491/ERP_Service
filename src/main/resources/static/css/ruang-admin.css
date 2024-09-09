@@ -2026,6 +2026,10 @@ body.sidebar-toggled footer.sticky-footer {
   border: 1px solid #e9e9e9;
 }
 
+.tableBtn{
+  text-align: right;
+}
+
 .boardArea{
   display: flex;
   flex-direction: column;
@@ -2109,4 +2113,40 @@ body.sidebar-toggled footer.sticky-footer {
 }
 .saerchForm form > button{
   margin-right: .75rem;
+}
+
+/* 모달 */
+.newModal .modal-dialog{
+  max-width: none;
+}
+.newModal .modal-dialog-centered{
+  justify-content: center;
+}
+.newModal .modal-content{
+  width: auto;
+}
+.newModal .newModalTit{
+  text-align: center;
+}
+.newModal table{
+  width: 100%;
+}
+.newModal table th{
+  text-align: center;
+}
+.newModal table th, .newModal table td{
+  padding: .75rem;
+  border: 1px solid #e3e6f0;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .newModal .modal-body, .newModal .modal-body * {
+    visibility: visible;
+  }
+  .newModal .modal-dialog-centered{
+    align-items: normal;
+  }
 }
