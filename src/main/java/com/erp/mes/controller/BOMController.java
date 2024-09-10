@@ -2,6 +2,7 @@ package com.erp.mes.controller;
 
 import com.erp.mes.dto.BOMDTO;
 import com.erp.mes.service.BOMService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,11 @@ import java.util.List;
 public class BOMController {
 
     private final BOMService bomService;
+
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
 
     // BOM 목록 조회
     @GetMapping("/list")

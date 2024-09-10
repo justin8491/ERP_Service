@@ -2,6 +2,7 @@ package com.erp.mes.controller;
 
 import com.erp.mes.dto.StockDTO;
 import com.erp.mes.service.StockService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,12 @@ import java.util.Map;
 @RequestMapping("/stock")
 public class StockController {
     private final StockService stockService;
+
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
+
 
     // 입고 완료된 자재를 재고로 반영
     @PostMapping("/insert")

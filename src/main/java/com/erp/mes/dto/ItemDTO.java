@@ -12,8 +12,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
+@ToString
 public class ItemDTO {
     private int itemId;        // 품목번호, 기본 키
+
+    private String item_code; // 품목 코드
     private String type;       // 품목 유형
     private String name;       // 품목명
     private String spec;       // 규격
