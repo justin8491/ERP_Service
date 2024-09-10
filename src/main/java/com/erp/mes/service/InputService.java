@@ -44,8 +44,32 @@ public class InputService {
 
     public List<InputDTO> serachList(InputDTO inputDTO){return mapper.serachList(inputDTO);};
 
-    int pageLimit = 10; // 한페이지당 보여줄 글 갯수
-    int blockLimit = 10; // 하단에 보여줄 페이지 번호 수
+    public List<OrderDTO> selectOrders(){
+        return mapper.selectOrders();
+    }
+
+    public List<OrderDTO> selectTran() {return mapper.selectTrans();}
+    public List<OrderDTO> selectTranList() {return mapper.selectTransList();}
+    public int updateTrans(List<String> orderCodes) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderCodes", orderCodes);
+
+        return mapper.updateTrans(params);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    private static int pageLimit = 10; // 한페이지당 보여줄 글 갯수
+    private static int blockLimit = 10; // 하단에 보여줄 페이지 번호 수
     public List<InputDTO> pagingList(int page) {
         int pagingStart = (page - 1 ) * pageLimit;
         Map<String,Object> pagingParams = new HashMap<>();

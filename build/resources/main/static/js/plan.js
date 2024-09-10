@@ -11,9 +11,9 @@ $(document).ready(function() {
     // 모달 열기 함수
     function openModal(modalId) {
         if (!isModalOpen) {
-            $(modalId).modal({
-                backdrop: false // 백드롭 비활성화
-            });
+            // $(modalId).modal({
+            //     backdrop: false // 백드롭 비활성화
+            // });
             $(modalId).modal('show');
             isModalOpen = true; // 모달 열림 상태로 변경
         }
@@ -169,6 +169,9 @@ $(document).ready(function() {
             error: function(xhr, status, error) {
                 console.error('Error:', error);
             }
+        });
+        $('#searchModal').modal({
+            backdrop: false // 백드롭 비활성화
         });
     });
 

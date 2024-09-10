@@ -56,4 +56,13 @@ public interface InputMapper {
 
     @SelectProvider(type = InputBuilder.class, method = "buildPageCount")
     int boardCount();
+
+    @SelectProvider(type = InputBuilder.class, method = "buildSelectOrders")
+    List<OrderDTO> selectOrders();
+    @SelectProvider(type = InputBuilder.class , method = "buildSelectTrans")
+    List<OrderDTO> selectTrans();
+    @SelectProvider(type = InputBuilder.class , method = "buildSelectTransList")
+    List<OrderDTO> selectTransList();
+    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateTrans")
+    int updateTrans(Map<String,Object> param);
 }
