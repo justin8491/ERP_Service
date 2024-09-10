@@ -2143,6 +2143,9 @@ body.sidebar-toggled footer.sticky-footer {
   padding: .75rem;
   border: 1px solid #e3e6f0;
 }
+.newModal form .modal-footer{
+  margin: 0 -1rem -1rem;
+}
 
 @media print {
   body * {
