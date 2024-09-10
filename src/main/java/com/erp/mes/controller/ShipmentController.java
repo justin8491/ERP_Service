@@ -2,6 +2,7 @@ package com.erp.mes.controller;
 
 import com.erp.mes.dto.ShipmentDTO;
 import com.erp.mes.service.ShipmentService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,11 @@ import java.util.Map;
 @RequestMapping("/shipment")
 public class ShipmentController {
     private final ShipmentService shipmentService;
+
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
 
     // 출고 요청 생성
     @PostMapping("/create")

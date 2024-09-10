@@ -2,13 +2,11 @@ package com.erp.mes.controller;
 
 import com.erp.mes.dto.StockReportDTO;
 import com.erp.mes.service.StockReportService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +16,11 @@ import java.util.Map;
 @RequestMapping("/stockreport")
 public class StockReportController {
     private final StockReportService stockReportService;
+
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
 
     // 전체 재고 상태 보고서
     @GetMapping("/list")

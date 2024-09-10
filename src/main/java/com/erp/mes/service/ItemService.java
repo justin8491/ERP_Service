@@ -16,23 +16,13 @@ public class ItemService {
 
 
     // 품목 목록 조회
-    public List<ItemDTO> selectItemList(String keyword, String supplierName, String startDate, String endDate) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("keyword", keyword);
-        params.put("supplier_name", supplierName);
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-
-        return itemMapper.selectItemList(params);
+    public List<ItemDTO> selectItemList(Map<String,Object> map) {
+        return itemMapper.selectItemList(map);
     }
 
     // 품목 삽입
-    public int insertItem(ItemDTO itemDTO) {
-        // 유효성 검사
-        if (itemMapper.validateItemData(itemDTO.getName(), itemDTO.getSpec()) > 0) {
-            throw new IllegalArgumentException("이미 존재하는 품목입니다.");
-        }
-        return itemMapper.insertItem(itemDTO);
+    public int addItem(Map<String, Object> map) {
+        return itemMapper.addItem(map);
     }
 
     // 품목 수정
@@ -53,4 +43,6 @@ public class ItemService {
     public ItemDTO selectItemByIdOrName(Map<String, Object> map) {
         return itemMapper.selectItemByIdOrName(map);
     }
+
+
 }

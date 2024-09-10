@@ -13,13 +13,13 @@ public class ItemBuilder {
 
         return new SQL() {{
             // SELECT 절
-            SELECT("i.item_id, i.name, i.spec, i.unit, i.price, i.create_date, s.name AS supplierName, p.leadtime");
+            SELECT("i.item_id as itemId, i.item_code, i.name, i.spec, i.unit, i.price, i.create_date as createDate, p.leadtime");
             // FROM 절
             FROM("item i");
             // plan 테이블과 조인
             JOIN("plan p ON p.item_id = i.item_id");
             // supplier 테이블과 조인 (수정된 부분: supplier는 plan 테이블과 직접 연결되지 않으므로 적절히 수정)
-            JOIN("supplier s ON s.sup_id = p.sup_id");
+//            JOIN("supplier s ON s.sup_id = p.sup_id");
             // 필터: 품목 아이디
             Integer itemId = (Integer) params.get("itemId");
             if (itemId != null) {
@@ -31,10 +31,10 @@ public class ItemBuilder {
                 WHERE("i.name LIKE CONCAT('%', #{keyword}, '%')");
             }
             // 필터: 공급업체 이름
-            String supplierName = (String) params.get("supplier_name");
-            if (supplierName != null && !supplierName.isEmpty()) {
-                WHERE("s.name = #{supplier_name}");
-            }
+//            String supplierName = (String) params.get("supplier_name");
+//            if (supplierName != null && !supplierName.isEmpty()) {
+//                WHERE("s.name = #{supplier_name}");
+//            }
             // 필터: 날짜 범위 (plan의 leadtime 기준)
             String startDate = (String) params.get("startDate");
             String endDate = (String) params.get("endDate");
@@ -50,7 +50,7 @@ public class ItemBuilder {
     }
 
     // 품목 삽입
-    public String insertItem() {
+    public String addItem() {
         return new SQL() {{
             INSERT_INTO("item");
             VALUES("name", "#{name}");
