@@ -1,10 +1,11 @@
 package com.erp.mes.restController;
 
-import com.erp.mes.dto.OrderDTO;
+//import com.erp.mes.dto.EmailDTO;
 import com.erp.mes.dto.PlanDTO;
+//import com.erp.mes.dto.SupplierDTO;
+//import com.erp.mes.service.MailService;
 import com.erp.mes.service.PurchaseService;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.http.MediaType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,14 +14,22 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/purchase/*")
+@RequiredArgsConstructor
 public class PurchaseRestController {
 
     private final PurchaseService purchaseService;
 
-    public PurchaseRestController(PurchaseService purchaseService) {
-        this.purchaseService = purchaseService;
-    }
+//    private final MailService mailService;
+
+//    public PurchaseRestController(PurchaseService purchaseService, MailService mailService) {
+//        this.purchaseService = purchaseService;
+//        this.mailService = mailService;
+//    }
+
+    //    @GetMapping(value = "purchase/plan")
+    //    public String getPlan(){
+    //        return "purchase/plan";
+    //    }
 
     /**
      * 조달계획 리스트 조회
@@ -29,7 +38,7 @@ public class PurchaseRestController {
      * @param
      * @return
      */
-    @GetMapping(value = "plan")
+    @PostMapping(value = "purchase/plan")
     public Map<String, Object> plan() {
         Map<String, Object> map = new HashMap<>();
         List<PlanDTO> planList = purchaseService.plan();
@@ -37,9 +46,18 @@ public class PurchaseRestController {
         return map;
     }
 
-    @PostMapping("orderCreate")
+
+    // 발주서 발행
+    @PostMapping("purchase/orderCreate")
     public Map<String, Object> orderCreate(@RequestBody Map<String, Object> map) {
         int result = purchaseService.orderCreate(map);
+//        EmailDTO emailDTO = new EmailDTO();
+//        emailDTO.setTargetMail(((String)map.get("targetMail")));
+//        if(mailService.sendMail(emailDTO)){
+//            map.put("msg","메일 발송 성공");
+//        } else {
+//            map.put("msg","메일 발송 실패");
+//        }
         return map;
     }
 
@@ -49,13 +67,13 @@ public class PurchaseRestController {
      * @param
      * @return
      */
-    @GetMapping(value = "order")
-    public Map<String, Object> order() {
-        Map<String, Object> map = new HashMap<>();
-        List<OrderDTO> orderList = purchaseService.order();
-        map.put("orderList", orderList);
-        return map;
-    }
+//    @GetMapping(value = "purchase/order")
+//    public Map<String, Object> order() {
+//        Map<String, Object> map = new HashMap<>();
+//        List<OrderDTO> orderList = purchaseService.order();
+//        map.put("orderList", orderList);
+//        return map;
+//    }
 
     /**
      * 구매발주서 수정
@@ -63,7 +81,7 @@ public class PurchaseRestController {
      * @param map
      * @return
      */
-    @PostMapping(value = "orderForm")
+    @PostMapping(value = "purchase/orderForm")
     public Map<String, Object> orderForm(@RequestBody Map<String, Object> map) {
         int result = purchaseService.orderForm(map);
         map.put("result", result);
@@ -76,7 +94,7 @@ public class PurchaseRestController {
      * @param
      * @return
      */
-    @GetMapping(value = "inspection")
+    @GetMapping(value = "purchase/inspection")
     public Map<String, Object> inspection() {
         Map<String, Object> map = new HashMap<>();
         int result = purchaseService.inspection();
@@ -89,7 +107,7 @@ public class PurchaseRestController {
      * @param map
      * @return
      */
-    @PostMapping(value = "inspection")
+    @PostMapping(value = "purchase/inspection")
     public Map<String, Object> inspectionForm(Map<String, Object> map) {
         int result = purchaseService.inspectionForm(map);
         return map;
@@ -101,11 +119,17 @@ public class PurchaseRestController {
      * @param map
      * @return
      */
-    @PatchMapping(value = "inspection")
+    @PatchMapping(value = "purchase/inspection")
     public Map<String, Object> inspectionUpdate(Map<String, Object> map) {
         int result = purchaseService.inspectionUpdate(map);
         return map;
     }
 
+//    @PostMapping(value = "getSupplier")
+//    public Map<String,Object> getSupplier(Map<String, Object> map){
+//        List<SupplierDTO> supplierDTO = purchaseService.getSupplier();
+//
+//        return map;
+//    }
 
 }

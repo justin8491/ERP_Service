@@ -6,8 +6,9 @@ import java.util.Map;
 public class PurchaseBuilder {
     public String selectPlans() {
         return new SQL() {{
-            SELECT("*");
-            FROM("plan");
+            SELECT("p.plan_id, i.name as item_name, p.qty, p.date, p.leadtime, p.status");
+            FROM("plan p");
+            JOIN("item i on i.item_id = p.item_id");
         }}.toString();
     }
 
