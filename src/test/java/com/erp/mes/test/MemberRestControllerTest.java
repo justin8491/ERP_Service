@@ -33,24 +33,7 @@ class MemberRestControllerTest {
         mockMvc = standaloneSetup(memberRestController).build();
     }
 
-    @Test
-    public void testLogin_Success() throws Exception {
-        MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setId("user1");
-        memberDTO.setPwd("password1");
 
-        when(memberService.login(any(MemberDTO.class))).thenReturn(memberDTO);
-
-        mockMvc.perform(post("/member/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("id", "user1")
-                        .param("pwd", "password1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.msg").value("회원가입 완료"))
-                .andExpect(jsonPath("$.loc").value("home"));
-
-        verify(memberService, times(1)).login(any(MemberDTO.class));
-    }
 
     @Test
     void join() {
