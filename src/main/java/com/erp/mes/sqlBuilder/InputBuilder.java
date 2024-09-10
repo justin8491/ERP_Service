@@ -1,10 +1,12 @@
 package com.erp.mes.sqlBuilder;
 
 import com.erp.mes.dto.InputDTO;
+import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.TransactionDTO;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.ws.soap.SoapElement;
 
+import java.util.List;
 import java.util.Map;
 
 public class InputBuilder {
@@ -190,4 +192,57 @@ public class InputBuilder {
             WHERE("plan.status = '완료'");
         }}.toString();
     }
+    public String buildSelectTrans(Map<String, Object> params) {
+        return new SQL() {{
+            SELECT("order.order_code as orderCode, item.name as itemName, plan.qty, plan.leadtime, order.status,supplier.name AS supName, order.value");
+            FROM("`order`");
+            JOIN("supplier ON supplier.sup_id = order.sup_id");
+            JOIN("plan ON plan.plan_id = order.plan_id");
+            JOIN("item ON item.item_id = plan.item_id");
+            WHERE("order.status = '발주진행중'");
+        }}.toString();
+    }
+    public String buildSelectTransList(Map<String, Object> params) {
+        return new SQL() {{
+            SELECT("order.order_code as orderCode, item.name as itemName, plan.qty, plan.leadtime, order.status,supplier.name AS supName, order.value");
+            FROM("`order`");
+            JOIN("supplier ON supplier.sup_id = order.sup_id");
+            JOIN("plan ON plan.plan_id = order.plan_id");
+            JOIN("item ON item.item_id = plan.item_id");
+            WHERE("order.status = '발주마감'");
+        }}.toString();
+    }
+    public String buildUpdateTrans(Map<String, Object> params) {
+        List<String> orderCodes = (List<String>) params.get("orderCodes");
+        StringBuilder inClause = new StringBuilder();
+        for (int i = 0; i < orderCodes.size(); i++) {
+            inClause.append("#{orderCodes[").append(i).append("]}");
+            if (i < orderCodes.size() - 1) {
+                inClause.append(", ");
+            }
+        }
+
+        return new SQL() {{
+            UPDATE("`order`");
+            SET("status = '발주마감'");
+            WHERE("order_code IN (" + inClause.toString() + ")");
+        }}.toString();
+    }
+    public String buildSearchTrans(OrderDTO orderDTO) {
+        return new SQL(){{
+            SELECT("order.order_code as orderCode, item.name as itemName, plan.qty, plan.leadtime, order.status,supplier.name AS supName, order.value");
+            FROM("`order`");
+            JOIN("supplier ON supplier.sup_id = order.sup_id");
+            JOIN("plan ON plan.plan_id = order.plan_id");
+            JOIN("item ON item.item_id = plan.item_id");
+            if(orderDTO.getKeyword() != null) {
+                WHERE("order.order_code like concat('%', #{keyword}, '%')");
+                OR();
+                WHERE("item.name like concat('%', #{keyword}, '%')");
+                OR();
+                WHERE("supplier.name like concat('%', #{keyword}, '%')");
+            }
+        }}.toString();
+    }
+
 }

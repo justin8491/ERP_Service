@@ -104,4 +104,32 @@ public class ItemBuilder {
             WHERE("item_id = #{itemId}");
         }}.toString();
     }
+
+    public String selectItemByIdOrName(Map<String, Object> map) {
+        if (map == null) {
+            throw new IllegalArgumentException("Params map cannot be null");
+        }
+        return new SQL() {{
+            // item_id와 item_name을 가져옴
+            String item_id = (String) map.get("item_id");
+            String item_name = (String) map.get("item_name");
+
+            // 선택할 컬럼을 지정
+            SELECT("item_id, name, spec, unit, price, create_date");
+            FROM("item");
+
+            // item_id가 존재하면 WHERE 조건 추가
+            if (item_id != null && !item_id.isEmpty()) {
+                WHERE("item_id = #{itemId}");
+            }
+
+            if(item_id == null){
+                // item_name이 존재하면 WHERE 조건 추가
+                if (item_name != null && !item_name.isEmpty()) {
+                    WHERE("name = #{item_name}");
+                }
+            }
+
+        }}.toString();
+    }
 }

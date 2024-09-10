@@ -32,7 +32,7 @@ public class PurchaseController {
     public String plan(Map<String, Object> map) {
         List<PlanDTO> planList = purchaseService.plan();
         map.put("planList", planList);
-//        logger.info(planList + "");
+        logger.info(planList + "");
         return "/purchase/plan";
     }
 
@@ -40,7 +40,7 @@ public class PurchaseController {
     public String order(Map<String,Object> map){
         List<OrderDTO> orderList = purchaseService.order();
         map.put("orderList",orderList);
-//        logger.info(orderList + "");
+        logger.info(orderList + "");
         return "/purchase/order";
     }
 

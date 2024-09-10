@@ -33,4 +33,7 @@ public interface ItemMapper {
     // 품목 상세 조회
     @SelectProvider(type = ItemBuilder.class, method = "selectItemById")
     ItemDTO selectItemById(@Param("itemId") int itemId);
+
+    @SelectProvider(type = ItemBuilder.class, method = "selectItemByIdOrName")
+    ItemDTO selectItemByIdOrName(Map<String, Object> map);
 }

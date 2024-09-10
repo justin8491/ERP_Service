@@ -49,4 +49,8 @@ public class ItemService {
     public ItemDTO selectItemById(int itemId) {
         return itemMapper.selectItemById(itemId);
     }
+
+    public ItemDTO selectItemByIdOrName(Map<String, Object> map) {
+        return itemMapper.selectItemByIdOrName(map);
+    }
 }

@@ -41,7 +41,7 @@
          th:classappend="${servletPath != null && servletPath.startsWith('/purchase')} ? 'show' : ''">
       <div class="collapse-inner">
         <a class="collapse-item" th:href="@{/purchase/plan}" th:classappend="${servletPath != null && servletPath == '/purchase/plan'} ? 'active' : ''">
-          <span>조달계획 조회</span>
+          <span>발주서 발행</span>
         </a>
         <a class="collapse-item" th:href="@{/purchase/order}" th:classappend="${servletPath != null && servletPath == '/purchase/order'} ? 'active' : ''">
           <span>발주서 조회</span>
@@ -66,7 +66,7 @@
         <a class="collapse-item" th:href="@{/input/transaction}" th:classappend="${servletPath != null && servletPath == '/input/transaction'} ? 'active' : ''">
             <span>거래명세서 조회</span>
         </a>
-        <a class="collapse-item" th:href="@{/input/order}" th:classappend="${servletPath != null && servletPath == '/input/order'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/input/bom}" th:classappend="${servletPath != null && servletPath == '/input/order'} ? 'active' : ''">
             <span>구매발주서 조회</span>
         </a>
         <a class="collapse-item" th:href="@{/input/insep}" th:classappend="${servletPath != null && servletPath == '/input/#'} ? 'active' : ''">

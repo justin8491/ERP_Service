@@ -1,11 +1,10 @@
 package com.erp.mes.restController;
 
-//import com.erp.mes.dto.EmailDTO;
+import com.erp.mes.dto.EmailDTO;
 import com.erp.mes.dto.PlanDTO;
-//import com.erp.mes.dto.SupplierDTO;
-//import com.erp.mes.service.MailService;
+import com.erp.mes.dto.SupplierDTO;
+import com.erp.mes.service.MailService;
 import com.erp.mes.service.PurchaseService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,17 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequiredArgsConstructor
 public class PurchaseRestController {
 
     private final PurchaseService purchaseService;
 
-//    private final MailService mailService;
+    private final MailService mailService;
 
-//    public PurchaseRestController(PurchaseService purchaseService, MailService mailService) {
-//        this.purchaseService = purchaseService;
-//        this.mailService = mailService;
-//    }
+    public PurchaseRestController(PurchaseService purchaseService, MailService mailService) {
+        this.purchaseService = purchaseService;
+        this.mailService = mailService;
+    }
 
     //    @GetMapping(value = "purchase/plan")
     //    public String getPlan(){
@@ -125,11 +123,11 @@ public class PurchaseRestController {
         return map;
     }
 
-//    @PostMapping(value = "getSupplier")
-//    public Map<String,Object> getSupplier(Map<String, Object> map){
-//        List<SupplierDTO> supplierDTO = purchaseService.getSupplier();
-//
-//        return map;
-//    }
+    @PostMapping(value = "getSupplier")
+    public Map<String,Object> getSupplier(Map<String, Object> map){
+        List<SupplierDTO> supplierDTO = purchaseService.getSupplier();
+
+        return map;
+    }
 
 }

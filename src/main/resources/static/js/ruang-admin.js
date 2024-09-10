@@ -49,7 +49,6 @@
 })(jQuery); // End of use strict
 
 // Modal Javascript
-
 $(document).ready(function () {
   $("#myBtn").click(function () {
     $('.modal').modal('show');
@@ -69,7 +68,6 @@ $(document).ready(function () {
 });
 
 // Popover Javascript
-
 $(function () {
   $('[data-toggle="popover"]').popover()
 });
@@ -77,6 +75,7 @@ $('.popover-dismiss').popover({
   trigger: 'focus'
 });
 
+// 반응형 X
 var body = document.getElementsByTagName("body")[0];
 window.onresize = function(event){
   var innerWidth = window.innerWidth;
@@ -87,4 +86,5 @@ window.onresize = function(event){
     body.style.display = "block";
   }
 }
+
 

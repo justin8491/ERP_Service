@@ -7,13 +7,12 @@ import com.erp.mes.dto.TransactionDTO;
 import com.erp.mes.service.InputService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -58,6 +57,12 @@ public class InputController {
         model.addAttribute("list",list);
         return "input/search";
     }
+    @PostMapping("/searchTrans")
+    public String searchTrans(OrderDTO orderDTO,Model model) {
+        List<OrderDTO> list = service.serachListTrans(orderDTO);
+        model.addAttribute("list",list);
+        return "input/searchTrans";
+    }
 
     @GetMapping("/paging")
     public String paging(Model model,
@@ -90,4 +95,46 @@ public class InputController {
         model.addAttribute("orders",orders);
         return "input/bom";
     }
+    @GetMapping("/transaction")
+    public String transaction(Model model) {
+        List<OrderDTO> trans = service.selectTran();
+        List<OrderDTO> transList = service.selectTranList();
+        model.addAttribute("trans",trans);
+        model.addAttribute("list",transList);
+        return "input/transaction";
+    }
+    @PostMapping("/transaction")
+    public String transactionForm(
+            @RequestParam("orderCode") String[] orderCode,
+            @RequestParam("transSelect") String[] transSelect,
+            Map<String, Object> map) {
+
+        if (orderCode == null || orderCode.length == 0 || transSelect == null || transSelect.length == 0 || orderCode.length != transSelect.length) {
+            map.put("error", "잘못된 요청입니다.");
+            return "error";
+        }
+
+        // 상태와 발주코드를 그룹화
+        Map<String, List<String>> groupedByStatus = new HashMap<>();
+        for (int i = 0; i < orderCode.length; i++) {
+            String code = orderCode[i];
+            String status = transSelect[i];
+
+            if (code != null && status != null) {
+                groupedByStatus
+                        .computeIfAbsent(status, k -> new ArrayList<>())
+                        .add(code);
+            }
+        }
+
+        // 발주마감 상태로 일괄 업데이트 처리
+        if (groupedByStatus.containsKey("발주마감")) {
+            List<String> codesToUpdate = groupedByStatus.get("발주마감");
+            int n = service.updateTrans(codesToUpdate);
+            log.info("업데이트된 건수: {}", n);
+        }
+
+        return "redirect:/input/transaction";
+    }
+
 }

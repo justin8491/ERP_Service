@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @ToString
 @Slf4j
 public class OrderDTO {
+    private String keyword;
     // 발주서
     private LocalDate date; // 발주일자
     private String status; // 발주상태
@@ -23,14 +24,16 @@ public class OrderDTO {
     private String supId; // 회사 외래키
     private String planId; // 발주계획 외래키
 
-    // 조달계획
-    private int qty;
-    private LocalDate leadtime;
+    // 물픔
+    private String itemName; // 물품이름
+    private int price; // 가격
+    private String unit; // 단위
 
-    // 거래처
+    // 조달 계획
+    private int qty; // 수량
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate leadtime;// 발주납기일
+
+    // 협력 회사
     private String supName;
-
-    // 물품
-    private String itemName;
-
 }
