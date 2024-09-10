@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
+      layout:decorate="~{include/layout/defaultLayout}">
+
+<head>
+    <!-- jQuery와 Bootstrap JS 파일을 여기에 포함해야 합니다. -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+<th:block layout:fragment="Content">
+    <div style="width : 80%; margin: 0 auto">
+        <div style="display:flex; justify-content:space-between;">
+            <select style="width:120px;" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option selected>10</option>
+                <option value="1">20</option>
+                <option value="2">50</option>
+                <option value="3">100</option>
+            </select>
+            <div class="input-group rounded" style="width:350px;">
+                <div style="display:flex;">
+                    <form action="/input/inputList" style="padding:5px;">
+                        <input type="submit" value="전체보기" class="input-group-text border-0">
+                    </form>
+                    <form method="post" action="/input/search" style="display:flex;">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                               aria-describedby="search-addon" name="keyword"/>
+                        <button class="input-group-text border-0" id="search-addon" style="height:42px;"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" colspan="1">번호</th>
+                <th scope="col" colspan="1" style="text-align: center;">받은날짜</th>
+                <th scope="col" colspan="1" style="text-align: center;">협력회사</th>
+                <th scope="col" colspan="2" style="text-align: center;">창고</th>
+                <th scope="col" colspan="4" style="text-align: center;">품목</th>
+                <th scope="col" colspan="1" style="text-align: center;">수량</th>
+                <th scope="col" colspan="1" style="text-align: center;">검수 상태</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider table-divider-color">
+            <tr th:each="list : ${list}" th:id="${list.inputId}" th:if="${list.type == false}">
+                <th scope="col" colspan="1" th:text="${list.inputId}">번호</th>
+                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.recDate}">받은날짜</th>
+                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.supName}">협력회사</th>
+                <th scope="col" colspan="2" style="text-align: center;" th:text="${list.invenName}">창고</th>
+                <th scope="col" colspan="4" style="text-align: center;" th:text="${list.itemName}">품목</th>
+                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.qty}">수량</th>
+                <th scope="col" colspan="1" style="text-align: center;">
+                    <button type="button" class="modal-btn btn btn-primary a" data-bs-toggle="modal" data-bs-target="#exampleModal" th:data-id="${list.inputId}">진행중</button>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">검수창</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="/input/inseception">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col" colspan="1">번호</th>
+                                <th scope="col" colspan="1" style="text-align: center;">받은날짜</th>
+                                <th scope="col" colspan="1" style="text-align: center;">협력회사</th>
+                                <th scope="col" colspan="2" style="text-align: center;">창고</th>
+                                <th scope="col" colspan="4" style="text-align: center;">품목</th>
+                                <th scope="col" colspan="1" style="text-align: center;">수량</th>
+                                <th scope="col" colspan="2" style="text-align: center;">검수처리</th>
+                            </tr>
+                            </thead>
+                            <tbody class="table-group-divider table-divider-color modal-table">
+
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <button type="submit" class="save-btn btn btn-primary">저장</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
+
+<script>
+     $(document).ready(function() {
+    $('.modal-btn').click(function() {
+        // 클릭된 버튼의 부모 행을 찾음
+        var row = $(this).closest('tr');
+
+        // 행의 각 데이터 값을 추출
+        var id = row.find('th[scope="col"]:nth-child(1)').text();
+        var recDate = row.find('th[scope="col"]:nth-child(2)').text();
+        var supName = row.find('th[scope="col"]:nth-child(3)').text();
+        var invenName = row.find('th[scope="col"]:nth-child(4)').text();
+        var itemName = row.find('th[scope="col"]:nth-child(5)').text();
+        var qty = row.find('th[scope="col"]:nth-child(6)').text();
+
+        // 모달 테이블에 데이터를 삽입
+        var tableRow = `
+            <tr>
+                <th id="numVal" scope="col" colspan="1">${id}</th>
+                <th scope="col" colspan="1" style="text-align: center;">${recDate}</th>
+                <th scope="col" colspan="1" style="text-align: center;">${supName}</th>
+                <th scope="col" colspan="2" style="text-align: center;">${invenName}</th>
+                <th scope="col" colspan="4" style="text-align: center;">${itemName}</th>
+                <th scope="col" colspan="1" style="text-align: center;">${qty}</th>
+                <th scope="col" colspan="2" style="text-align: center;">
+                    <select id="selectVal" name="inspectionStatus">
+                        <option value="진행중">진행중</option>
+                        <option value="완료">완료</option>
+                     </select>
+                </th>
+                <input type="hidden" name="numVal" value="${id}">
+            </tr>`;
+        // 모달의 테이블에 데이터 추가
+        $('.modal-table').html(tableRow);
+    });
+});
+</script>

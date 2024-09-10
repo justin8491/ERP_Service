@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
+
+<th:block layout:fragment="Content">
+    <header>
+        <h1>구매 발주서 발행</h1>
+    </header>
+
+    <div>
+        <!-- Modal 1 -->
+        <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orderModalLabel">발주서 입력</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">계획 ID</th>
+                                <th scope="col">품목 이름</th>
+                                <th scope="col">수량</th>
+                                <th scope="col">발주 일자</th>
+                                <th scope="col">납기 일자</th>
+                                <th scope="col">상태</th>
+                            </tr>
+                            </thead>
+                            <tbody id="planModalTableBody">
+                            <!-- 조달계획 데이터 -->
+                            </tbody>
+                        </table>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">협력업체</th>
+                                    <th scope="col">품목</th>
+                                    <th scope="col">수량</th>
+                                    <th scope="col">금액</th>
+                                    <th scope="col">납기 일자</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderModalTableBody">
+                                <tr>
+                                    <td>
+                                        <input id="order_sup_id" type="text" hidden>
+                                        <input id="order_plan_id" type="text" hidden>
+                                        <input id="order_item_id" type="text" hidden>
+
+                                        <div class="input-group">
+                                            <input id="order_sup_name" type="text" class="form-control" readonly>
+                                            <div class="input-group-append">
+                                            <span id="myBtn_in" class="input-group-text" data-toggle="modal" data-target="#searchModal">
+                                                <i class="fas fa-search"></i>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input id="order_item_name" type="text" readonly class="form-control"></td>
+                                    <td><input id="order_qty" type="text"></td>
+                                    <td><input id="order_value" type="text"></td>
+                                    <td><input id="order_leadtime" type="date" readonly class="form-control"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="createOrder" type="button" class="btn btn-primary">발주서 발행</button>
+                        <button id="closeBtn" type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 발주서 발행 버튼 -->
+        <button id="orderCreate" type="button" class="btn btn-primary">발주서 발행</button>
+
+        <!-- 모달 sup -->
+        <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="supplierModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="supplierModalLabel">협력업체 검색</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="searchInput" class="form-control" placeholder="검색...">
+                        <table id="supplierList" class="table mt-3">
+                            <thead>
+                            <tr>
+                                <th>회사 ID</th>
+                                <th>회사 코드</th>
+                                <th>회사 명</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- 협력업체 데이터 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="supSelect" type="button" class="btn btn-primary">협력업체 선택</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal End -->
+        <header>
+            <h2>조달 계획 리스트</h2>
+        </header>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th scope="col">계획 ID</th>
+                <th scope="col">품목 이름</th>
+                <th scope="col">수량</th>
+                <th scope="col">발주 일자</th>
+                <th scope="col">납기 일자</th>
+                <th scope="col">상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="plan : ${planList}" th:id="${'list-item-' + plan.plan_id}">
+                <td><input type="checkbox" class="check-item" data-name="${plan.plan_id}"></td>
+                <td id="plan_id" th:text="${plan.plan_id}" data-plan_id="${plan.plan_id}"></td>
+                <td th:text="${plan.item_name}" data-item_name="${plan.item_name}"></td>
+                <td th:text="${plan.qty}" data-qty="${plan.qty}"></td>
+                <td th:text="${plan.date}" data-date="${plan.date}"></td>
+                <td th:text="${plan.leadtime}" data-leadtime="${plan.leadtime}"></td>
+                <td th:text="${plan.status}" data-status="${plan.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script th:src="@{/js/plan.js}"></script>
+
+</th:block>
+</html>
