@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -26,12 +27,12 @@ public class StockDTO {
     private double value;      // 재고금액
     private String status;     // 재고상태
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date in_date;      // 입고일자
+    private LocalDate in_date;      // 입고일자
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date exp_date;     // 유효기간
+    private LocalDate exp_date;     // 유효기간
     private int cons_qty;      // 소모수량
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date cons_date;    // 소모일자
+    private LocalDate cons_date;    // 소모일자
     private String cons_loc;   // 소모위치
 
 }
