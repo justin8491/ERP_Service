@@ -40,8 +40,8 @@
             </tr>
             </thead>
             <tbody class="table-group-divider table-divider-color">
-            <tr th:each="list : ${boardList}" th:id="${list.inputId}">
-                <th scope="col" colspan="1" th:text="${list.inputId}">번호</th>
+            <tr th:each="list,iter : ${boardList}" th:id="${list.inputId}">
+                <th scope="col" colspan="1" th:text="${iter.index + 1}">번호</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.recDate}">받은날짜</th>
                 <th scope="col" colspan="1" style="text-align: center;" th:text="${list.supName}">협력회사</th>
                 <th scope="col" colspan="2" style="text-align: center;" th:text="${list.invenName}">창고</th>
@@ -100,7 +100,7 @@
 </html>
 
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
     $('.modal-btn').click(function() {
         // 클릭된 버튼의 부모 행을 찾음
         var row = $(this).closest('tr');
