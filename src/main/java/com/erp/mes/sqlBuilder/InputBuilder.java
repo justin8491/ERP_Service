@@ -21,6 +21,7 @@ public class InputBuilder {
             JOIN("plan on plan.plan_id = transaction.plan_id");
             JOIN("item on item.item_id = plan.item_id");
             JOIN("inventory on inventory.inven_id = supplier.inven_id");
+            WHERE("input.type = 0");
         }}.toString();
     }
     public String buildUpdateInput(InputDTO inputDTO) {
@@ -133,10 +134,16 @@ public class InputBuilder {
             JOIN("inventory on inventory.inven_id = supplier.inven_id");
             if(inputDTO.getKeyword() != null) {
                 WHERE("supplier.name like concat('%', #{keyword}, '%')");
+                AND();
+                WHERE("input.type = false");
                 OR();
                 WHERE("inventory.name like concat('%', #{keyword}, '%')");
+                AND();
+                WHERE("input.type = false");
                 OR();
                 WHERE("item.name like concat('%', #{keyword}, '%')");
+                AND();
+                WHERE("input.type = false");
             }
         }}.toString();
     }

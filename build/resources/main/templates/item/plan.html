@@ -41,7 +41,7 @@
             <table class="table table-bordered table-striped">
                 <thead class="thead-light">
                 <tr>
-                    <th><input type="checkbox"></th>
+                    <th>번호</th>
                     <th>계획일자</th>
                     <th>물품이름</th>
                     <th>수량</th>
@@ -52,64 +52,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="list : ${list}">
-                    <td><input type="checkbox"></td>
+                <tr th:each="list,iter : ${list}">
+                    <td th:text="${iter.index + 1}"></td>
                     <td th:text="${list.date}">계획일자</td>
                     <td th:text="${list.item_name}">물품이름</td>
                     <td th:text="${list.qty}">수량</td>
-                    <td th:text="${list.price}">단가</td>
-                    <td th:text="${list.price * list.qty}">총가격</td>
+                    <td th:text="${#numbers.formatInteger(list.price,3,'COMMA')}+'원'">단가</td>
+                    <td th:text="${#numbers.formatInteger(list.price * list.qty,3,'COMMA')}+'원'">총가격</td>
                     <td th:text="${list.leadtime}">납기일자</td>
                     <td th:text="${list.status}">계획 현황</td>
                 </tr>
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
-                <button id="quotationBtn" type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#newItemModal">견적보기</button>
+<!--                <button id="quotationBtn" type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#newItemModal">견적보기</button>-->
                 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#chitModal">추가하기</button>
             </div>
         </div>
     </div>
-
-    <!-- 견적서 등록 Modal -->
-    <div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="newItemModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title">견적서 보기</h6>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="thead-light">
-                            <tr>
-                                <th>계획일자</th>
-                                <th>물품이름</th>
-                                <th>수량</th>
-                                <th>단가</th>
-                                <th>총가격</th>
-                                <th>납기일자</th>
-                                <th>계획 현황</th>
-                            </tr>
-                            </thead>
-                            <tbody id="quotationTableBody">
-                            <!-- 선택된 데이터가 이곳에 추가됩니다 -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                    <button id="quoCreate" type="button" class="btn btn-primary">견적서 등록</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 거래명세서 Modal -->
     <div class="modal fade" id="chitModal" tabindex="-1" role="dialog" aria-labelledby="chitModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

@@ -54,6 +54,7 @@ public class InputController {
     @PostMapping("/search")
     public String search(InputDTO inputDTO,Model model) {
         List<InputDTO> list = service.serachList(inputDTO);
+        log.info("list={}",list);
         model.addAttribute("list",list);
         return "input/search";
     }

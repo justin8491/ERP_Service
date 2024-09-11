@@ -42,8 +42,8 @@ public class InputService {
         return mapper.updateInputStatus(map);
     }
 
-    public List<InputDTO> serachList(InputDTO inputDTO){return mapper.serachList(inputDTO);};
-    public List<OrderDTO> serachListTrans(OrderDTO orderDTO){return mapper.serachListTrans(orderDTO);};
+    public List<InputDTO> serachList(InputDTO inputDTO){return mapper.serachList(inputDTO);}
+    public List<OrderDTO> serachListTrans(OrderDTO orderDTO){return mapper.serachListTrans(orderDTO);}
 
     public List<OrderDTO> selectOrders(){
         return mapper.selectOrders();

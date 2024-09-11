@@ -39,8 +39,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="list : ${insep}" th:id="${list.inputId}">
-                    <td th:text="${list.inputId}">번호</td>
+                <tr th:each="list,iter : ${insep}" th:id="${list.inputId}">
+                    <td th:text="${iter.index + 1}">번호</td>
                     <td th:text="${list.recDate}">받은날짜</td>
                     <td th:text="${list.supName}">협력회사</td>
                     <td th:text="${list.invenName}">창고</td>

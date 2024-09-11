@@ -38,8 +38,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="list : ${boardList}" th:id="${list.inputId}">
-                    <td th:text="${list.inputId}">번호</td>
+                <tr th:each="list,iter : ${boardList}" th:id="${list.inputId}">
+                    <td th:text="${iter.index + 1}">번호</td>
                     <td th:text="${list.recDate}">받은날짜</td>
                     <td th:text="${list.supName}">협력회사</td>
                     <td th:text="${list.invenName}">창고</td>
@@ -102,4 +102,4 @@
     </div>
 </th:block>
 </html>
-<script th:src="@{/js/list.js}"></script>
+<script th:src="@{/js/itemList.js}"></script>

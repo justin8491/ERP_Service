@@ -43,71 +43,58 @@
                 <thead class="thead-light">
                 <tr>
                     <th><input type="checkbox"></th>
-                    <th>품목 ID</th>
                     <th>품목코드</th>
                     <th>품목명</th>
-                    <th>소요수량</th>
-                    <th>소요위치</th>
-                    <th>소요기간</th>
+                    <th>그룹명</th>
                     <th>규격명</th>
-                    <th>단가</th>
+                    <th>바코드</th>
+                    <th>입고단가</th>
+                    <th>출고단가</th>
                     <th>품목구분</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="stock : ${stockList}" th:id="${'list-item-' + stock.item_id}">
-                        <td><input type="checkbox" class="check-item" data-name="${stock.item_id}"></td>
-                        <td th:text="${stock.item_id}" data-item_id="${stock.item_id}"></td>
-                        <td th:text="${stock.item_code}" data-item_code="${stock.item_code}"></td>
-                        <td th:text="${stock.name}" data-item_name="${stock.name}"></td>
-                        <td style="color: red" th:text="${stock.cons_qty}" data-qty="${stock.cons_qty}"></td>
-                        <td th:text="${stock.cons_loc}" data-cons_loc="${stock.cons_loc}"></td>
-                        <td th:text="${stock.cons_date}" data-date="${stock.cons_date}"></td>
-                        <td th:text="${stock.spec}" data-spec="${stock.spec}"></td>
-                        <td th:text="${stock.price}" data-price="${stock.price}"></td>
-                        <td th:text="${stock.type}" data-type="${stock.type}"></td>
-                    </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td>테스트</td>
+                    <td>테스트</td>
+                    <td>1cm</td>
+                    <td>123456789</td>
+                    <td>10,000</td>
+                    <td>50,000</td>
+                    <td>테스트</td>
+                </tr>
                 </tbody>
             </table>
             <div class="tableBtn">
-                <button id="quotationBtn" type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#newItemModal">견적보기</button>
-<!--                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#chitModal">명세서</button>-->
+                <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#newItemModal">신규등록</button>
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#chitModal">명세서</button>
             </div>
         </div>
     </div>
 
-    <!-- 견적서 등록 Modal -->
+    <!-- 신규등록 Modal -->
     <div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="newItemModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h6 class="modal-title">견적서 보기</h6>
+                    <h6 class="modal-title">품목등록</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="table-responsive p-3 bxShadow">
-                        <table class="table">
-                            <thead class="thead-light">
-                            <tr>품목명</tr>
-                            <tr>소요수량</tr>
-                            <tr>단가</tr>
-                            <tr>총금액</tr>
-                            <tr>납기일자</tr>
-                            </thead>
-                            <tbody id="quotationTableBody"></tbody>
-                        </table>
-                    </div>
+                    ...
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                    <button id="quoCreate" type="button" class="btn btn-primary">견적서 등록</button>
+                    <button type="button" class="btn btn-primary">등록</button>
                 </div>
             </div>
         </div>
     </div>
-    <script th:src="@{/js/itemList.js}"></script>
+
     <!-- 명세서 Modal -->
     <div class="modal newModal fade" id="chitModal" tabindex="-1" role="dialog" aria-labelledby="chitModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -192,7 +179,6 @@
         </div>
     </div>
 </th:block>
-
 </html>
 
 <script>
@@ -222,5 +208,4 @@
         todayHighlight: true,
         autoclose: true,
     });
-
 </script>
