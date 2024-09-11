@@ -18,6 +18,7 @@
               <th>견적단가</th>
               <th>총금액</th>
               <th>거래상태</th>
+              <th>거래상세</th>
           </tr>
       </thead>
       <tbody>
@@ -29,6 +30,10 @@
               <td th:text="${quo.price}" data-price="${quo.price}"></td>
               <td th:text="${quo.total_amount}" data-total_amount="${quo.total_amount}"></td>
               <td th:text="${quo.status}" data-status="${quo.status}"></td>
+              <div th:if="${quo.status eq '거래진행중'}">
+                  <td><button id="stock_rowBtn" class="btn btn-primary">계약 협상</button></td>
+              </div>
+
           </tr>
       </tbody>
     </table>
