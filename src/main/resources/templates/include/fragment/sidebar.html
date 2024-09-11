@@ -18,13 +18,13 @@
          th:classappend="${servletPath != null && servletPath.startsWith('/item')} ? 'show' : ''">
       <div class="collapse-inner">
         <a class="collapse-item" th:href="@{/item/itemList}" th:classappend="${servletPath != null && servletPath == '/item/itemList'} ? 'active' : ''">
-          <span>품목등록</span>
+          <span>조달계획 조회</span>
         </a>
-        <a class="collapse-item" th:href="@{/item/itemPlan}" th:classappend="${servletPath != null && servletPath == '/item/itemPlan'} ? 'active' : ''">
-          <span>조달계획 등록</span>
+        <a class="collapse-item" th:href="@{/quotation/quoList}" th:classappend="${servletPath != null && servletPath == '/item/itemPlan'} ? 'active' : ''">
+          <span>견적서 조회</span>
         </a>
         <a class="collapse-item" th:href="@{/item/contract}" th:classappend="${servletPath != null && servletPath == '/item/contract'} ? 'active' : ''">
-          <span>계약서 조회</span>
+          <span>조달계획 등록</span>
         </a>
         <a class="collapse-item" th:href="@{/item/transaction}" th:classappend="${servletPath != null && servletPath == '/item/transaction'} ? 'active' : ''">
           <span>거래조회</span>

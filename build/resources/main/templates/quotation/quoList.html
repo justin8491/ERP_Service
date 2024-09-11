@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
+
+<th:block layout:fragment="Content">
+  <header>
+    <h1>견적서 리스트</h1>
+  </header>
+  <div class="table-responsive p-3 bxShadow">
+    <table class="table">
+      <thead class="thead-light">
+          <tr>
+              <th><input type="checkbox"></th>
+              <th>견적서번호</th>
+              <th>품목번호</th>
+              <th>등록일자</th>
+              <th>견적단가</th>
+              <th>총금액</th>
+              <th>거래상태</th>
+              <th>거래상세</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr th:each="quo : ${quoList}" th:id="${'list-item-' + quo.quo_id}">
+              <td><input type="checkbox" class="check-item" data-name="${quo.quo_id}"></td>
+              <td th:text="${quo.quo_id}" data-quo_id="${quo.quo_id}"></td>
+              <td th:text="${quo.item_id}" data-item_id="${quo.item_id}"></td>
+              <td th:text="${quo.date}" data-date="${quo.date}"></td>
+              <td th:text="${quo.price}" data-price="${quo.price}"></td>
+              <td th:text="${quo.total_amount}" data-total_amount="${quo.total_amount}"></td>
+              <td th:text="${quo.status}" data-status="${quo.status}"></td>
+              <div th:if="${quo.status eq '거래진행중'}">
+                  <td><button id="stock_rowBtn" class="btn btn-primary">계약 협상</button></td>
+              </div>
+
+          </tr>
+      </tbody>
+    </table>
+    <div class="tableBtn">
+<!--      <button id="quotationBtn" type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#newItemModal">견적보기</button>-->
+      <!-- <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#chitModal">명세서</button>-->
+    </div>
+  </div>
+
+</th:block>
+</html>
