@@ -1,6 +1,7 @@
 package com.erp.mes.service;
 
 
+import com.erp.mes.dto.ItemDTO;
 import com.erp.mes.dto.StockDTO;
 import com.erp.mes.mapper.StockMapper;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,9 @@ public class StockService {
     // 공급가 확인
     public Map<String, Object> getSupplyPrice(int itemId) {
         return stockMapper.getSupplyPrice(itemId);
+    }
+
+    public List<StockDTO> getStockItemList() {
+        return stockMapper.selectStockItemList();
     }
 }

@@ -17,6 +17,15 @@ public class ItemRestController {
         this.itemService = itemService;
     }
 
+    // 품목 등록
+    @PostMapping("addItem")
+    public Map<String, Object> addItem(Map<String, Object> map) {
+        int result = itemService.addItem(map);
+
+        return map;
+    }
+
+    // 품목 1개 데이터 가져오기
     @PostMapping("/purchase/getItem")
     public Map<String,Object> getItem(@RequestBody Map<String, Object> map) {
         ItemDTO itemDTO = itemService.selectItemByIdOrName(map);
