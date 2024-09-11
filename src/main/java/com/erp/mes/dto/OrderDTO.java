@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @ToString
 @Slf4j
 public class OrderDTO {
+    private String keyword;
     // 발주서
     private LocalDate date; // 발주일자
     private String status; // 발주상태
@@ -24,7 +25,7 @@ public class OrderDTO {
     private String planId; // 발주계획 외래키
 
     // 물픔
-    private String name; // 물품이름
+    private String itemName; // 물품이름
     private int price; // 가격
     private String unit; // 단위
 

@@ -5,7 +5,6 @@
 
 <th:block layout:fragment="Content">
     <div>
-        <!-- table -->
         <div class="table-responsive p-3 bxShadow">
             <div class="mb-3" style="display:flex; justify-content:space-between;">
                 <select style="width:120px;" class="form-select form-select-lg" aria-label=".form-select-lg example">
@@ -29,6 +28,7 @@
                     </form>
                 </div>
             </div>
+
             <table class="table">
                 <thead class="thead-light">
                 <tr>
@@ -57,7 +57,6 @@
             </table>
         </div>
 
-        <!-- 검수창 모달 -->
         <div class="modal newModal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -72,13 +71,13 @@
                             <table class="mb-3">
                                 <thead>
                                 <tr>
-                                    <th scope="col">번호</th>
-                                    <th scope="col">받은날짜</th>
-                                    <th scope="col">협력회사</th>
-                                    <th scope="col">창고</th>
-                                    <th scope="col">품목</th>
-                                    <th scope="col">수량</th>
-                                    <th scope="col">검수처리</th>
+                                    <th>번호</th>
+                                    <th>받은날짜</th>
+                                    <th>협력회사</th>
+                                    <th>창고</th>
+                                    <th>품목</th>
+                                    <th>수량</th>
+                                    <th style="text-align: center;">검수처리</th>
                                 </tr>
                                 </thead>
                                 <tbody class="modal-table">
