@@ -9,13 +9,15 @@
         <div class="table-responsive p-3 bxShadow">
             <div class="mb-3" style="display:flex; justify-content:end;">
                 <!-- 검색 폼 -->
-                <div class="input-group rounded" style="width:210px;">
-                    <form method="post" action="/input/search" style="display:flex;">
-                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                <form method="post" action="/input/search" style="display:flex;">
+                    <div class="input-group" style="width:210px;">
+                        <input type="search" class="form-control" placeholder="Search" aria-label="Search"
                                aria-describedby="search-addon" name="keyword"/>
-                        <button class="input-group-text border-0" id="search-addon" style="height:42px;"><i class="fas fa-search"></i></button>
-                    </form>
-                </div>
+                        <div class="input-group-append">
+                            <button class="input-group-text" id="search-addon" style="height: 43px;"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <table class="table">
                 <thead class="thead-light">
@@ -50,34 +52,36 @@
         </div>
 
         <!-- 거래명세서 모달 -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+        <div class="modal newModal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">거래명세서</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h6 class="modal-title">거래명세서</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <!-- 모달 내부 폼 -->
                         <form method="post" action="/input/transaction">
-                            <table class="table">
+                            <table class="mb-3">
                                 <thead>
                                 <tr>
-                                    <th scope="col" style="text-align: center;">발주코드</th>
-                                    <th scope="col" style="text-align: center;">상품명</th>
-                                    <th scope="col" style="text-align: center;">수량</th>
-                                    <th scope="col" style="text-align: center;">납기일자</th>
-                                    <th scope="col" style="text-align: center;">협력업체</th>
-                                    <th scope="col" style="text-align: center;">발주상태</th>
+                                    <th>발주코드</th>
+                                    <th>상품명</th>
+                                    <th>수량</th>
+                                    <th>납기일자</th>
+                                    <th>협력업체</th>
+                                    <th style="text-align: center;">발주상태</th>
                                 </tr>
                                 </thead>
-                                <tbody class="table-group-divider modal-table" th:each="trans, iterStat : ${trans}">
+                                <tbody th:each="trans, iterStat : ${trans}">
                                 <tr>
-                                    <td style="text-align: center;" th:text="${trans.orderCode}">발주코드</td>
-                                    <td style="text-align: center;" th:text="${trans.itemName}">상품명</td>
-                                    <td style="text-align: center;" th:text="${trans.qty}">수량</td>
-                                    <td style="text-align: center;" th:text="${trans.leadtime}">납기일자</td>
-                                    <td style="text-align: center;" th:text="${trans.supName}">협력업체</td>
+                                    <td th:text="${trans.orderCode}">발주코드</td>
+                                    <td th:text="${trans.itemName}">상품명</td>
+                                    <td th:text="${trans.qty}">수량</td>
+                                    <td th:text="${trans.leadtime}">납기일자</td>
+                                    <td th:text="${trans.supName}">협력업체</td>
                                     <td style="text-align: center;">
                                         <select name="transSelect" class="form-select">
                                             <option value="발주진행중" th:selected="${trans.status == '발주진행중'}">발주진행중</option>
@@ -89,7 +93,7 @@
                                 </tbody>
                             </table>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                                 <button type="submit" class="btn btn-primary">저장</button>
                             </div>
                         </form>

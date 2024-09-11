@@ -1917,7 +1917,7 @@ body.sidebar-toggled footer.sticky-footer {
   border: 1px solid #6777ef
 }
 
-.input-group-append span {
+.input-group-append span, .input-group-append button {
   -webkit-box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
   box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
   color: #fff;
@@ -1925,7 +1925,7 @@ body.sidebar-toggled footer.sticky-footer {
   border-color: #3f51b5
 }
 
-.input-group-prepend span {
+.input-group-prepend span, .input-group-prepend button {
   -webkit-box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
   box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2) !important;
   color: #fff;
