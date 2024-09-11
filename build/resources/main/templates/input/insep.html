@@ -5,7 +5,6 @@
 
 <th:block layout:fragment="Content">
     <div>
-        <!-- table -->
         <div class="table-responsive p-3 bxShadow">
             <div class="mb-3" style="display:flex; justify-content:space-between;">
                 <select style="width:120px;" class="form-select form-select-lg" aria-label=".form-select-lg example">
@@ -14,16 +13,6 @@
                     <option value="2">50</option>
                     <option value="3">100</option>
                 </select>
-
-                <form method="post" action="/input/search" style="display:flex;">
-                    <div class="input-group" style="width:210px;">
-                        <input type="search" class="form-control" placeholder="Search" aria-label="Search"
-                               aria-describedby="search-addon" name="keyword"/>
-                        <div class="input-group-append">
-                            <button class="input-group-text" id="search-addon" style="height: 43px;"><i class="fas fa-search"></i></button>
-                        </div>
-                    </div>
-                </form>
             </div>
 
             <table class="table">
@@ -35,7 +24,7 @@
                     <th>창고</th>
                     <th>품목</th>
                     <th>수량</th>
-                    <th>검수 상태</th>
+                    <th style="text-align: center;">검수 상태</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,7 +35,7 @@
                     <td th:text="${list.invenName}">창고</td>
                     <td th:text="${list.itemName}">품목</td>
                     <td th:text="${list.qty}">수량</td>
-                    <td>완료</td>
+                    <td style="text-align: center;">완료</td>
                 </tr>
                 </tbody>
             </table>

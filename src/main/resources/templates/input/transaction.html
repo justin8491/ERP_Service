@@ -5,11 +5,10 @@
 
 <th:block layout:fragment="Content">
     <div>
-        <!-- table -->
         <div class="table-responsive p-3 bxShadow">
             <div class="mb-3" style="display:flex; justify-content:end;">
                 <!-- 검색 폼 -->
-                <form method="post" action="/input/search" style="display:flex;">
+                <form method="post" action="/input/searchTrans"  style="display:flex;">
                     <div class="input-group" style="width:210px;">
                         <input type="search" class="form-control" placeholder="Search" aria-label="Search"
                                aria-describedby="search-addon" name="keyword"/>
@@ -19,6 +18,8 @@
                     </div>
                 </form>
             </div>
+
+            <!-- 메인 테이블 -->
             <table class="table">
                 <thead class="thead-light">
                 <tr>
@@ -45,13 +46,13 @@
                 </tr>
                 </tbody>
             </table>
-            <!-- 모달 열기 버튼 -->
             <div class="tableBtn">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">추가</button>
+                <!-- 모달 열기 버튼 -->
+                <button type="button" class="modal-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal">추가</button>
             </div>
         </div>
 
-        <!-- 거래명세서 모달 -->
+        <!-- 모달 -->
         <div class="modal newModal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -64,7 +65,7 @@
                     <div class="modal-body">
                         <!-- 모달 내부 폼 -->
                         <form method="post" action="/input/transaction">
-                            <table class="mb-3">
+                            <table class="table mb-3">
                                 <thead>
                                 <tr>
                                     <th>발주코드</th>
@@ -75,7 +76,7 @@
                                     <th style="text-align: center;">발주상태</th>
                                 </tr>
                                 </thead>
-                                <tbody th:each="trans, iterStat : ${trans}">
+                                <tbody class="table-group-divider modal-table" th:each="trans, iterStat : ${trans}">
                                 <tr>
                                     <td th:text="${trans.orderCode}">발주코드</td>
                                     <td th:text="${trans.itemName}">상품명</td>
@@ -101,6 +102,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </th:block>
 </html>

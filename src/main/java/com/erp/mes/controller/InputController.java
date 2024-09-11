@@ -5,6 +5,7 @@ import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PageDTO;
 import com.erp.mes.dto.TransactionDTO;
 import com.erp.mes.service.InputService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -21,7 +22,12 @@ import java.util.*;
 public class InputController {
     private final InputService service;
 
-//    @GetMapping("/inputList")
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
+
+    //    @GetMapping("/inputList")
 //    public String input(Model model) {
 //        List<InputDTO> list = service.inputList();
 ////        log.info("list={}",list);
@@ -67,7 +73,7 @@ public class InputController {
 
     @GetMapping("/paging")
     public String paging(Model model,
-                        @RequestParam(value = "page", required = false,defaultValue = "1") int page) {
+                         @RequestParam(value = "page", required = false,defaultValue = "1") int page) {
         List<InputDTO> pagingList = service.pagingList(page);
         log.info("page={}",page);
         log.info("={}",pagingList);

@@ -25,8 +25,8 @@ public class MemberService {
         return memberMapper.find(memberDTO);
     }
 
-    public MemberDTO login(MemberDTO memberDTO){
-        return memberMapper.login(memberDTO);
+    public MemberDTO login(String id){
+        return memberMapper.login(id);
     }
 
     public int join(MemberDTO memberDTO){
@@ -39,5 +39,9 @@ public class MemberService {
 
     public int delete(MemberDTO memberDTO) {
         return memberMapper.delete(memberDTO);
+    }
+
+    public int checkEmail(String email) {
+        return memberMapper.checkEmail(email);
     }
 }
