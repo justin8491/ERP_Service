@@ -132,4 +132,16 @@ public class ItemBuilder {
 
         }}.toString();
     }
+
+    // 계약서 등록
+    public String addContract() {
+        return new SQL() {{
+            INSERT_INTO("contract");
+            VALUES("sup_id", "#{sup_id}");
+            VALUES("date", "NOW()");
+            VALUES("d_day", "#{d_day}");
+            VALUES("val", "#{total_amount}");
+            VALUES("status", "'계약완료'"); // NOW() syntax is database-specific, adjust as per DB
+        }}.toString();
+    }
 }

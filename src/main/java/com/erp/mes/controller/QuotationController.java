@@ -19,13 +19,14 @@ public class QuotationController {
     public QuotationController(QuotationService quotationService) {
         this.quotationService = quotationService;
     }
-
+    // 견적서 리스트
     @GetMapping(value = "/quoList")
     public String quoList(Map<String, Object> map){
         List<QuotationDTO> quoList = quotationService.quoList();
         map.put("quoList",quoList);
         return "quotation/quoList";
     }
+
 
 
 }

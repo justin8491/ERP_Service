@@ -1,11 +1,11 @@
 $(document).ready(function() {
     // 변수 초기화
     let supplierList = []; // 협력 회사 리스트
-    let supplierEmail = ''; // 선택 협력회사 이메일
-    let selectItem = []; // 선택 체크 아이템
-    let checkData = false; // 리스트 클릭 true/false 값
-    let isModalOpen = false; // 모달 open true/false 값
-    let itemInfo = []; // 아이템 정보 변수
+    let supplierEmail = '';
+    let selectItem = [];
+    let checkData = false;
+    let isModalOpen = false;
+    let itemInfo = [];
 
 
     // 모달 열기 함수
@@ -51,34 +51,23 @@ $(document).ready(function() {
         if (this.checked) {
             selectItem = []; // 값 초기화
             $('.check-item').not(this).prop('checked', false); // 다른 체크박스는 체크 해제
+            $('tr[id^="list-item-"]').each(function() {
+                var $row = $(this);
+                var $checkbox = $row.find('.check-item');
 
-            const row = $(this).closest('tr');
-            const plan_id = row.find('[data-plan_id]').text();
-            const item_name = row.find('[data-item_name]').text();
-            const qty = row.find('[data-qty]').text();
-            const date = row.find('[data-date]').text();
-            const leadtime = row.find('[data-leadtime]').text();
-            const status = row.find('[data-status]').text();
-            selectItem.push({ plan_id, item_name, qty, date, leadtime, status });
-            console.log(selectItem);
-
-
-            // 선택한 품목 찾기
-            $.ajax({
-                url: '/purchase/getItem',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ item_name: item_name }),
-                dataType: 'json',
-                success: function(response) {
-                    // 아이템 itemInfo에 담기
-                    console.log(response);
-                    itemInfo = response.itemDTO;
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
+                // 체크박스가 체크된 경우에만 데이터 추출
+                if ($checkbox.is(':checked')) {
+                    var quo_id = $row.find('td').eq(1).text().trim();
+                    var item_id = $row.find('td').eq(2).text().trim();
+                    var date = $row.find('td').eq(3).text().trim();
+                    var price = $row.find('td').eq(4).text().trim();
+                    var total_amount = $row.find('td').eq(5).text().trim();
+                    var status = $row.find('td').eq(6).text().trim();
+                    selectItem.push({ quo_id, item_id, date, price, total_amount, status });
                 }
             });
+
+            console.log(selectItem);
 
             checkData = true;
         } else {
@@ -86,13 +75,16 @@ $(document).ready(function() {
         }
     });
 
-    $('#orderCreate').on('click', function() {
+    $('#contractBtn').on('click', function() {
         if (checkData) {
-            openModal('#orderModal'); // 모달 열기
-            updateTable(selectItem);
-            // selectItem 배열에서 데이터 대입
-            $('#order_item_name').val(selectItem[0].item_name); // order_item_name에 데이터 대입
-            $('#order_leadtime').val(selectItem[0].leadtime); // order_leadtime에 데이터 대입
+            // 모든 행을 선택합니다.
+            openModal('#contractModal'); // 모달 열기
+            $('#modal-quo_id').text(selectItem[0].quo_id);
+            $('#modal-item_id').text(selectItem[0].item_id);
+            $('#modal-date').text(selectItem[0].date);
+            $('#modal-price').text(selectItem[0].price);
+            $('#modal-total_amount').text(selectItem[0].total_amount);
+            $('#modal-status').text(selectItem[0].status);
         } else {
             alert("리스트를 선택해주세요.");
         }
@@ -103,48 +95,46 @@ $(document).ready(function() {
         closeModal("#searchModal");
     });
 
-    // 발주서 발행
-    $('#createOrder').on('click', function() {
+    // 계약서 등록
+    $('#quoCreate').on('click', function() {
         // 날짜 계산
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
-        const day = String(now.getDate()).padStart(2, '0');
+        const today = new Date();
 
-        const formattedDate = `${year}${month}${day}`; // 현재 시스템 날짜
+        // 2일에서 6일 사이의 랜덤 숫자를 생성
+        const randomDays = Math.floor(Math.random() * (6 - 2 + 1)) + 2;
 
+        // 랜덤 날짜를 계산
+        const randomDate = new Date(today);
+        randomDate.setDate(today.getDate() + randomDays);
 
-
-        const order_code = "J"+formattedDate+$("#order_sup_id").val()+selectItem[0].plan_id;
-        console.log("함보자"+order_code);
-        const orderData = {
-            sup_id: $("#order_sup_id").val(),
-            plan_id: selectItem[0].plan_id,
-            sup_id: $("#order_sup_id").val(),
-            order_code: order_code,
-            item_name: selectItem[0].item_name,
-            quantity: $("#order_qty").val(),
-            value: $("#order_value").val(),
-            status: "발주완료",
-            lead_time: selectItem[0].leadtime,
+        // 날짜를 "yy-MM-dd" 형식으로 포맷팅하는 함수
+        function formatDate(date) {
+            const year = String(date.getFullYear()).slice(-2); // 마지막 두 자리 연도
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 (01~12)
+            const day = String(date.getDate()).padStart(2, '0'); // 일 (01~31)
+            return `${year}-${month}-${day}`;
+        }
+        const d_day = formatDate(randomDate);
+        selectItem.push({ d_day });
+        console.log(selectItem);
+        const contractData = {
+            total_amount: selectItem[0].total_amount,
+            sup_id: selectItem[1].sup_id,
+            d_day: selectItem[2].d_day,
         };
-
-        console.log(orderData);
-
+        console.log(contractData);
         // AJAX 요청 (주석 해제 후 사용)
         $.ajax({
-            url: '/purchase/orderCreate',
+            url: '/item/addContract',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(orderData),
+            data: JSON.stringify(contractData),
             success: function(response) {
-                alert("주문이 성공적으로 추가되었습니다.");
-                $("#orderModalTableBody").find("input").val(''); // 입력 필드 초기화
-                closeModal("#orderModal");
-                sendEmail();
+                alert("계약이 성공적으로 추가되었습니다.");
+                closeModal("#contractModal");
             },
             error: function(xhr, status, error) {
-                alert("주문 추가에 실패했습니다: " + (xhr.status ? xhr.status + ': ' + xhr.statusText : error));
+                alert("계약등록이 실패했습니다: " + (xhr.status ? xhr.status + ': ' + xhr.statusText : error));
             }
         });
 
@@ -215,19 +205,21 @@ $(document).ready(function() {
 
     // 협력업체 선택
     $(document).on("click", ".supplier-row", function() {
-        const id = $(this).data("id");
-        const name = $(this).data("name");
+        const sup_id = $(this).data("id");
+        const sup_name = $(this).data("name");
         supplierEmail = $(this).data("email");
-        $("#order_sup_id").val(id);
-        $("#order_sup_name").val(name);
+        $("#order_sup_id").val(sup_id);
+        selectItem.push({ sup_id });
+        $("#order_sup_name").val(sup_name);
         closeModal("#searchModal"); // 모달 닫기
+        console.log(selectItem);
     });
 
 });
 
 // 테이블 업데이트 함수
 function updateTable(items) {
-    const tableBody = $('#planModalTableBody');
+    const tableBody = $('#contractTableBody');
     tableBody.empty(); // 테이블 내용 초기화
 
     items.forEach(item => {
@@ -240,12 +232,12 @@ function updateTable(items) {
 function createTableRow(item) {
     return `
         <tr>
-            <td>${item.plan_id}</td>
-            <td>${item.item_name}</td>
-            <td>${item.qty}</td>
+            <td>${item.quo_id}</td>
+            <td>${item.item_id}</td>
             <td>${item.date}</td>
-            <td>${item.leadtime}</td>
-            <td>${item.status}</td>
+            <td>${item.price}</td>
+            <td>${item.total_amount}</td>
+            <td hidden >${item.status}</td>
         </tr>
     `;
 }
