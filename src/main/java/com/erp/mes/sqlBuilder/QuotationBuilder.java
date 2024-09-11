@@ -17,4 +17,13 @@ public class QuotationBuilder {
         }}.toString();
     }
 
+    public String quoList(){
+        return new SQL() {{
+            SELECT("*");
+            FROM("quotation");
+//            WHERE("status = '거래진행중'");
+
+        }}.toString();
+    }
+
 }
