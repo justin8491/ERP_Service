@@ -51,6 +51,7 @@ $(document).ready(function() {
             success: function(response) {
                 alert("견적서가 등록되었습니다.");
                 $('#newItemModal').modal('hide');
+                window.location.href = '/item/itemList';
             },
             error: function(xhr, status, error) {
                 alert("견적서 등록에 실패했습니다: " + (xhr.status ? xhr.status + ': ' + xhr.statusText : error));
