@@ -1,16 +1,2 @@
-.modal {
-    pointer-events: none;
-}
 
-#orderModal {
-   pointer-events: auto;
-}
-
-#orderModalTableBody td input {
-    width: 5rem;
-}
-
-#searchModal {
-
-}
 

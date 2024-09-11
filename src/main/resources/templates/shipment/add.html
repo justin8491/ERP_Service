@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>재고 추가</title>
-</head>
-<body>
-<h1>재고 추가</h1>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
 
-<form action="/stock/add" method="post">
-  <!-- 기타 입력 필드들 -->
+<th:block layout:fragment="Content">
+  <div>
+    <!-- 상단 검색 -->
+    <div class="p-3 mb-3 bxShadow">
+      <form action="/stock/add" method="post">
+        <!-- 기타 입력 필드들 -->
 
-  <label for="inDate">입고 날짜:</label>
-  <input type="date" id="inDate" name="inDate" required pattern="\d{4}-\d{2}-\d{2}"/>
+        <label for="inDate">입고 날짜:</label>
+        <input type="date" id="inDate" name="inDate" required pattern="\d{4}-\d{2}-\d{2}"/>
 
-  <label for="expDate">유통기한:</label>
-  <input type="date" id="expDate" name="expDate" required pattern="\d{4}-\d{2}-\d{2}"/>
+        <label for="expDate">유통기한:</label>
+        <input type="date" id="expDate" name="expDate" required pattern="\d{4}-\d{2}-\d{2}"/>
 
-  <button type="submit">추가</button>
-</form>
+        <button type="submit">추가</button>
+      </form>
 
-<a href="/stock/list">재고 목록으로 돌아가기</a>
-</body>
+      <a href="/stock/list">재고 목록으로 돌아가기</a>
+    </div>
+  </div>
+</th:block>
 </html>
