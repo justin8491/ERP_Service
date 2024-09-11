@@ -18,8 +18,8 @@ public class LinkController {
         return "error/accessError";
     }
 
-    @GetMapping("/item/itemList")
-    public String itemList() {
-        return "item/itemList";
-    }
+//    @GetMapping("/item/itemList")
+//    public String itemList() {
+//        return "item/itemList";
+//    }
 }

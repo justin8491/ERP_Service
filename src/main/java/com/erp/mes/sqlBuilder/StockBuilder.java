@@ -15,6 +15,17 @@ public class StockBuilder {
         }}.toString();
     }
 
+    // 재고 목록 조회 (발주 품목 등록)
+    public String stockList() {
+        return new SQL() {{
+            SELECT("i.item_id, i.name, i.item_code, s.cons_qty, s.cons_date," +
+                    " s.cons_loc, i.spec, i.price, i.type");
+            FROM("stock s");
+            JOIN("item i on s.item_id = i.item_id");
+            WHERE("s.cons_qty >= 1"); // cons_qty가 1 이상인 조건 추가
+        }}.toString();
+    }
+
     // 재고 목록 조회 (필터링 처리, 실물 재고와 가용 재고 구분)
     public String selectStockList(Map<String, Object> params) {
         return new SQL() {{

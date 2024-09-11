@@ -15,8 +15,8 @@ public interface ItemMapper {
     List<ItemDTO> selectItemList(Map<String, Object> params);
 
     // 품목 삽입
-    @InsertProvider(type = ItemBuilder.class, method = "insertItem")
-    int insertItem(ItemDTO itemDTO);
+    @InsertProvider(type = ItemBuilder.class, method = "addItem")
+    int addItem(Map<String, Object> map);
 
     // 품목 수정
     @UpdateProvider(type = ItemBuilder.class, method = "updateItem")
@@ -36,4 +36,6 @@ public interface ItemMapper {
 
     @SelectProvider(type = ItemBuilder.class, method = "selectItemByIdOrName")
     ItemDTO selectItemByIdOrName(Map<String, Object> map);
+
+
 }

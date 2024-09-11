@@ -33,4 +33,9 @@ public interface StockMapper {
     // 공급가 확인
     @SelectProvider(type = StockBuilder.class, method = "getSupplyPrice")
     Map<String, Object> getSupplyPrice(@Param("itemId") int itemId);
+
+
+    // 발주 품목 소요 자재 확인
+    @SelectProvider(type = StockBuilder.class, method = "stockList")
+    List<StockDTO> selectStockItemList();
 }

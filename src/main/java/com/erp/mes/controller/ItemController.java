@@ -1,7 +1,11 @@
 package com.erp.mes.controller;
 
 import com.erp.mes.dto.ItemDTO;
+import com.erp.mes.dto.StockDTO;
 import com.erp.mes.service.ItemService;
+import com.erp.mes.service.StockService;
+import groovy.util.logging.Slf4j;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,44 +16,37 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/item")
+@RequestMapping("/item/*")
+@Slf4j
 public class ItemController {
 
     private final ItemService itemService;
 
-    // 품목 목록 조회
-    @GetMapping("/list")
-    public String selectItemList(
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "supplier_name", required = false) String supplierName,
-            @RequestParam(value = "startDate", required = false) String startDate,
-            @RequestParam(value = "endDate", required = false) String endDate,
-            Model model) {
+    private final StockService stockService;
 
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
+
+    // 품목 목록 조회
+    @GetMapping("itemList")
+    public String itemList(Map<String, Object> map) {
         // 서비스 호출 및 필터링 결과 전달
-        List<ItemDTO> itemList = itemService.selectItemList(keyword, supplierName, startDate, endDate);
-        model.addAttribute("itemList", itemList);
-        return "item/itemList";  // itemList.html로 반환
+        List<StockDTO> stockList = stockService.getStockItemList();
+        System.out.println(stockList);
+        map.put("stockList", stockList);
+        return "item/itemList";
     }
 
     // 품목 등록 폼
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        model.addAttribute("itemDTO", new ItemDTO());
-        return "item/itemForm";
-    }
+//    @GetMapping("add")
+//    public String showAddForm(Model model) {
+//        model.addAttribute("itemDTO", new ItemDTO());
+//        return "item/itemForm";
+//    }
 
-    // 품목 등록
-    @PostMapping("/add")
-    public String insertItem(@ModelAttribute ItemDTO itemDTO, Model model) {
-        try {
-            int result = itemService.insertItem(itemDTO);
-            return "redirect:/item/list";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "item/itemForm";
-        }
-    }
+
 
     // 품목 수정 폼
     @GetMapping("/edit/{itemId}")
