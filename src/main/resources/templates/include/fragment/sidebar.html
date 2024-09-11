@@ -86,7 +86,7 @@
     <div id="collapseShipment" class="collapse" aria-labelledby="headingShipment" data-parent="#accordionSidebar"
          th:classappend="${servletPath != null && servletPath.startsWith('/shipment')} ? 'show' : ''">
       <div class="collapse-inner">
-        <a class="collapse-item" th:href="@{/shipment/shipmentList}" th:classappend="${servletPath != null && servletPath == '/shipment/shipmentList'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/shipment/list}" th:classappend="${servletPath != null && servletPath == '/shipment/list'} ? 'active' : ''">
           <span>출고등록</span>
         </a>
         <a class="collapse-item" th:href="@{/shipment/#}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
