@@ -130,9 +130,9 @@ public class InputBuilder {
     // 입고조회 페이징
     public String buildPageCount() {
         return new SQL(){{
-            SELECT("count(input_id)");
-            FROM("`input`");
-            WHERE("input.type=false");
+            SELECT("count(*)");
+            FROM("`order`");
+            WHERE("order.insep_status=false");
         }}.toString();
     }
     // 검수조회 페이지
@@ -175,8 +175,8 @@ public class InputBuilder {
     public String buildPageCountTrue() {
         return new SQL(){{
             SELECT("count(*)");
-            FROM("`input`");
-            WHERE("input.type = true");
+            FROM("`order`");
+            WHERE("order.insep_status = true");
         }}.toString();
     }
     // 구매발주서 조회

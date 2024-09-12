@@ -24,6 +24,7 @@ public class PurchaseBuilder {
             VALUES("date", "NOW()");
             VALUES("status", "#{status}");
             VALUES("value", "#{value}");
+            VALUES("insep_status","0");
         }}.toString();
     }
 
