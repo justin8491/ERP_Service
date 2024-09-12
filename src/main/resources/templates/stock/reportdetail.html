@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>재고 상세 정보</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="mb-4">재고 상세 정보</h1>
+
+  <div th:if="${stock}">
+    <table class="table table-bordered">
+      <tr>
+        <th>재고 ID</th>
+        <td th:text="${stock.stk_id}"></td>
+      </tr>
+      <tr>
+        <th>품목명</th>
+        <td th:text="${stock.itemName}"></td>
+      </tr>
+      <tr>
+        <th>품목 코드</th>
+        <td th:text="${stock.itemCode}"></td>
+      </tr>
+      <tr>
+        <th>수량</th>
+        <td th:text="${stock.totalQty}"></td>
+      </tr>
+      <tr>
+        <th>위치</th>
+        <td th:text="${stock.location}"></td>
+      </tr>
+      <tr>
+        <th>단가</th>
+        <td th:text="${#numbers.formatDecimal(stock.unitPrice, 0, 'COMMA', 2, 'POINT')} + ' 원'"></td>
+      </tr>
+      <tr>
+        <th>총 가치</th>
+        <td th:text="${#numbers.formatDecimal(stock.totalValue, 0, 'COMMA', 2, 'POINT')} + ' 원'"></td>
+      </tr>
+      <tr>
+        <th>입고일</th>
+        <td th:text="${#dates.format(stock.date, 'yyyy-MM-dd')}"></td>
+      </tr>
+      <tr>
+        <th>유효기간</th>
+        <td th:text="${#dates.format(stock.expirationDate, 'yyyy-MM-dd')}"></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Excel & PDF Export Buttons -->
+  <div class="mt-4">
+    <a th:href="@{'/stock-report/export/excel/' + ${stock.stk_id}}" class="btn btn-success">Excel로 내보내기</a>
+    <a th:href="@{'/stock-report/export/pdf/' + ${stock.stk_id}}" class="btn btn-danger">PDF로 내보내기</a>
+  </div>
+
+  <a href="javascript:history.back()" class="btn btn-secondary mt-3">뒤로 가기</a>
+</div>
+</body>
+</html>

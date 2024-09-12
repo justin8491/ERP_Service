@@ -88,10 +88,13 @@
         <a class="collapse-item" th:href="@{/shipment/list}" th:classappend="${servletPath != null && servletPath == '/shipment/list'} ? 'active' : ''">
           <span>출고등록</span>
         </a>
-        <a class="collapse-item" th:href="@{/shipment/#}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/stock/list}" th:classappend="${servletPath != null && servletPath == '/shipment/list'} ? 'active' : ''">
+          <span>재고조회</span>
+        </a>
+        <a class="collapse-item" th:href="@{/stock/calculate-value}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
           <span> 재고 산출</span>
         </a>
-        <a class="collapse-item" th:href="@{/shipment/#}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/stock-report/generate}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
           <span>현황조회</span>
         </a>
       </div>
