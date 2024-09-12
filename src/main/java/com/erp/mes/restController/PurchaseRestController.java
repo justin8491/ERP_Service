@@ -49,13 +49,14 @@ public class PurchaseRestController {
     @PostMapping("purchase/orderCreate")
     public Map<String, Object> orderCreate(@RequestBody Map<String, Object> map) {
         int result = purchaseService.orderCreate(map);
-//        EmailDTO emailDTO = new EmailDTO();
-//        emailDTO.setTargetMail(((String)map.get("targetMail")));
-//        if(mailService.sendMail(emailDTO)){
-//            map.put("msg","메일 발송 성공");
-//        } else {
-//            map.put("msg","메일 발송 실패");
-//        }
+//        if(res)
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setTargetMail(((String)map.get("targetMail")));
+        if(mailService.sendMail(emailDTO)){
+            map.put("msg","메일 발송 성공");
+        } else {
+            map.put("msg","메일 발송 실패");
+        }
         return map;
     }
 

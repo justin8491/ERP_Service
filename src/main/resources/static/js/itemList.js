@@ -49,11 +49,11 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify(quoData),
             success: function(response) {
-                alert("견적서가 등록되었습니다.");
+                alert("견적서가 추가되었습니다.");
                 $('#newItemModal').modal('hide');
             },
             error: function(xhr, status, error) {
-                alert("견적서 등록에 실패했습니다: " + (xhr.status ? xhr.status + ': ' + xhr.statusText : error));
+                alert("견적서 추가에 실패했습니다: " + (xhr.status ? xhr.status + ': ' + xhr.statusText : error));
             }
         });
     });
@@ -83,7 +83,7 @@ function createTableRow(item) {
         <tr>
             <td id="item_id" hidden>${item.item_id}</td>
             <td>${item.name}</td>
-            <td style="color: red">${item.cons_qty}</td>
+            <td style="color: red;">${item.cons_qty}</td>
             <td id="price">${item.price}</td>
             <td id="total_amount">${total_amount}</td>
             <td>${leadtime}</td>
@@ -95,9 +95,8 @@ function createTableRow(item) {
 function addTotalRow() {
     return `
         <tr>
-            <td colspan="4">총합 가격</td>
-            <td style="color: red">${totalSum}</td>
-            <td></td>
+            <td colspan="4" style="text-align: center;">총 합계</td>
+            <td style="color: red;">${totalSum}</td>
         </tr>
     `;
 }

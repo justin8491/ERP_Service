@@ -42,7 +42,7 @@
             <table class="table">
                 <thead class="thead-light">
                 <tr>
-                    <th><input type="checkbox"></th>
+                    <th>#</th>
                     <th>품목 ID</th>
                     <th>품목코드</th>
                     <th>품목명</th>
@@ -70,35 +70,37 @@
                 </tbody>
             </table>
             <div class="tableBtn">
-                <button id="quotationBtn" type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#newItemModal">견적보기</button>
-                <!--                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#chitModal">명세서</button>-->
+                <!-- <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal" data-target="#chitModal">명세서</button> -->
+                <button id="quotationBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#newItemModal">견적서 조회</button>
             </div>
         </div>
     </div>
 
     <!-- 견적서 등록 Modal -->
-    <div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="newItemModalTitle" aria-hidden="true">
+    <div class="modal newModal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="newItemModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title">견적서 보기</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="table-responsive p-3 bxShadow">
-                        <table class="table">
-                            <thead class="thead-light">
-                            <tr>품목명</tr>
-                            <tr>소요수량</tr>
-                            <tr>단가</tr>
-                            <tr>총금액</tr>
-                            <tr>납기일자</tr>
-                            </thead>
-                            <tbody id="quotationTableBody"></tbody>
-                        </table>
-                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>품목명</th>
+                            <th>소요수량</th>
+                            <th>단가</th>
+                            <th>총금액</th>
+                            <th>납기일자</th>
+                        </tr>
+                        </thead>
+                        <tbody id="quotationTableBody">
+
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -107,7 +109,7 @@
             </div>
         </div>
     </div>
-    <script th:src="@{/js/itemList.js}"></script>
+
     <!-- 명세서 Modal -->
     <div class="modal newModal fade" id="chitModal" tabindex="-1" role="dialog" aria-labelledby="chitModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -192,35 +194,6 @@
         </div>
     </div>
 </th:block>
-
 </html>
-
-<script>
-    // 검색 date
-    function getTodayDate() {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
-
-    $('#DataInput').val(getTodayDate());
-    $('#DeliveryDataInput').val(getTodayDate());
-
-    $('.dateInput .date').datepicker({
-        format: "yyyy-mm-dd",
-        language: "ko",
-        todayBtn: 'linked',
-        todayHighlight: true,
-        autoclose: true,
-    });
-    $('.deliveryDateInput .date').datepicker({
-        format: "yyyy-mm-dd",
-        language: "ko",
-        todayBtn: 'linked',
-        todayHighlight: true,
-        autoclose: true,
-    });
-
-</script>
+<script th:src="@{/js/itemList.js}"></script>
+<script th:src="@{/js/date.js}"></script>

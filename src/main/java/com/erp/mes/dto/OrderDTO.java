@@ -36,4 +36,5 @@ public class OrderDTO {
 
     // 협력 회사
     private String supName;
+    private int sup_id;
 }

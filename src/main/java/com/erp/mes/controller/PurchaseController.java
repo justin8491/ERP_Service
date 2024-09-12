@@ -21,6 +21,10 @@ import static java.awt.SystemColor.info;
 @Slf4j
 @Controller
 public class PurchaseController {
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(PurchaseController.class);
 
@@ -28,11 +32,6 @@ public class PurchaseController {
 
     public PurchaseController(PurchaseService purchaseService) {
         this.purchaseService = purchaseService;
-    }
-
-    @ModelAttribute("servletPath")
-    String getRequestServletPath(HttpServletRequest request) {
-        return request.getServletPath();
     }
 
     @GetMapping(value = "purchase/plan")
