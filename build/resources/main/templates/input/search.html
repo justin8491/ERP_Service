@@ -28,35 +28,37 @@
                     </form>
                 </div>
             </div>
+
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th>번호</th>
+                    <th>받은날짜</th>
+                    <th>협력회사</th>
+                    <th>창고</th>
+                    <th>품목</th>
+                    <th>수량</th>
+                    <th style="text-align: center;">검수 상태</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="list : ${list}" th:id="${list.inputId}">
+                    <td th:text="${list.inputId}">번호</td>
+                    <td th:text="${list.recDate}">받은날짜</td>
+                    <td th:text="${list.supName}">협력회사</td>
+                    <td th:text="${list.invenName}">창고</td>
+                    <td th:text="${list.itemName}">품목</td>
+                    <td th:text="${list.qty}">수량</td>
+                    <td style="text-align: center;">
+                        <button type="button" class="modal-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:data-id="${list.inputId}">진행중</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col" colspan="1">번호</th>
-                <th scope="col" colspan="1" style="text-align: center;">받은날짜</th>
-                <th scope="col" colspan="1" style="text-align: center;">협력회사</th>
-                <th scope="col" colspan="2" style="text-align: center;">창고</th>
-                <th scope="col" colspan="4" style="text-align: center;">품목</th>
-                <th scope="col" colspan="1" style="text-align: center;">수량</th>
-                <th scope="col" colspan="1" style="text-align: center;">검수 상태</th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider table-divider-color">
-            <tr th:each="list : ${list}" th:id="${list.inputId}" th:if="${list.type == false}">
-                <th scope="col" colspan="1" th:text="${list.inputId}">번호</th>
-                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.recDate}">받은날짜</th>
-                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.supName}">협력회사</th>
-                <th scope="col" colspan="2" style="text-align: center;" th:text="${list.invenName}">창고</th>
-                <th scope="col" colspan="4" style="text-align: center;" th:text="${list.itemName}">품목</th>
-                <th scope="col" colspan="1" style="text-align: center;" th:text="${list.qty}">수량</th>
-                <th scope="col" colspan="1" style="text-align: center;">
-                    <button type="button" class="modal-btn btn btn-primary a" data-bs-toggle="modal" data-bs-target="#exampleModal" th:data-id="${list.inputId}">진행중</button>
-                </th>
-            </tr>
-            </tbody>
-        </table>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+
+        <div class="modal newModal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h6 class="modal-title">검수창</h6>
@@ -66,19 +68,19 @@
                     </div>
                     <div class="modal-body">
                         <form method="post" action="/input/inseception">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col" colspan="1">번호</th>
-                                <th scope="col" colspan="1" style="text-align: center;">받은날짜</th>
-                                <th scope="col" colspan="1" style="text-align: center;">협력회사</th>
-                                <th scope="col" colspan="2" style="text-align: center;">창고</th>
-                                <th scope="col" colspan="4" style="text-align: center;">품목</th>
-                                <th scope="col" colspan="1" style="text-align: center;">수량</th>
-                                <th scope="col" colspan="2" style="text-align: center;">검수처리</th>
-                            </tr>
-                            </thead>
-                            <tbody class="table-group-divider table-divider-color modal-table">
+                            <table class="mb-3">
+                                <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>받은날짜</th>
+                                    <th>협력회사</th>
+                                    <th>창고</th>
+                                    <th>품목</th>
+                                    <th>수량</th>
+                                    <th style="text-align: center;">검수처리</th>
+                                </tr>
+                                </thead>
+                                <tbody class="modal-table">
 
                                 </tbody>
                             </table>

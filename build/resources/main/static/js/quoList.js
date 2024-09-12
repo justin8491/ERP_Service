@@ -11,9 +11,6 @@ $(document).ready(function() {
     // 모달 열기 함수
     function openModal(modalId) {
         if (!isModalOpen) {
-            $(modalId).modal({
-                backdrop: false // 백드롭 비활성화
-            });
             $(modalId).modal('show');
             isModalOpen = true; // 모달 열림 상태로 변경
         }
@@ -105,7 +102,7 @@ $(document).ready(function() {
 
         // 랜덤 날짜를 계산
         const randomDate = new Date(today);
-        randomDate.setDate(today.getDate() + randomDays);
+        randomDate.setDate(randomDate.getDate() + randomDays);
 
         // 날짜를 "yy-MM-dd" 형식으로 포맷팅하는 함수
         function formatDate(date) {
@@ -160,6 +157,9 @@ $(document).ready(function() {
                 console.error('Error:', error);
             }
         });
+//        $(modalId).modal({
+//            backdrop: false // 백드롭 비활성화
+//        });
     });
 
     // 협력업체 행 생성 함수

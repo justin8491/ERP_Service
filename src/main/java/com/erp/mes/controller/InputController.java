@@ -28,10 +28,6 @@ public class InputController {
 
     private final InputService service;
 
-    @ModelAttribute("servletPath")
-    String getRequestServletPath(HttpServletRequest request) {
-        return request.getServletPath();
-    }
 
     //    @GetMapping("/inputList")
 //    public String input(Model model) {

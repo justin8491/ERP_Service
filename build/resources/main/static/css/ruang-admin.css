@@ -2158,3 +2158,13 @@ body.sidebar-toggled footer.sticky-footer {
     align-items: normal;
   }
 }
+
+.loginContent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.loginContent .loginContentIn{
+  width: 660px;
+}
