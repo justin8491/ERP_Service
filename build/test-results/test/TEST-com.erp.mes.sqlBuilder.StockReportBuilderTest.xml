@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.erp.mes.sqlBuilder.StockReportBuilderTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-09-11T04:15:59" hostname="JIHYE" time="0.006">
+  <properties/>
+  <testcase name="testSelectStockReportWithoutParams()" classname="com.erp.mes.sqlBuilder.StockReportBuilderTest" time="0.001"/>
+  <testcase name="testSelectItemSpecificReport()" classname="com.erp.mes.sqlBuilder.StockReportBuilderTest" time="0.001"/>
+  <testcase name="testSelectStockChangeReport()" classname="com.erp.mes.sqlBuilder.StockReportBuilderTest" time="0.001"/>
+  <testcase name="testSelectStockReportWithItemName()" classname="com.erp.mes.sqlBuilder.StockReportBuilderTest" time="0.001"/>
+  <testcase name="testCalculateStockValueReport()" classname="com.erp.mes.sqlBuilder.StockReportBuilderTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

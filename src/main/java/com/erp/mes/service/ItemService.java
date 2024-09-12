@@ -4,7 +4,7 @@ import com.erp.mes.dto.ItemDTO;
 import com.erp.mes.mapper.ItemMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +16,7 @@ public class ItemService {
 
 
     // 품목 목록 조회
+<<<<<<< Updated upstream
     public List<ItemDTO> selectItemList(String keyword, String supplierName, String startDate, String endDate) {
         Map<String, Object> params = new HashMap<>();
         params.put("keyword", keyword);
@@ -24,8 +25,11 @@ public class ItemService {
         params.put("endDate", endDate);
 
         return itemMapper.selectItemList(params);
+=======
+    public List<ItemDTO> selectItemList(Map<String, Object> map) {
+        return itemMapper.selectItemList(map);
+>>>>>>> Stashed changes
     }
-
     // 품목 삽입
     public int insertItem(ItemDTO itemDTO) {
         // 유효성 검사

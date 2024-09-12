@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
+
+<th:block layout:fragment="Content">
+  <div>
+    <!-- 상단 검색 -->
+    <div class="p-3 mb-3 bxShadow">
+
+      <table class="table">
+        <tbody>
+        <tr>
+          <th>출고 번호:</th>
+          <td th:text="${shipment.shipId}"></td>
+        </tr>
+        <tr>
+          <th>품목명:</th>
+          <td th:text="${shipment.itemName}"></td>
+        </tr>
+        <tr>
+          <th>출고 수량:</th>
+          <td th:text="${shipment.qty}"></td>
+        </tr>
+        <tr>
+          <th>출고 위치:</th>
+          <td th:text="${shipment.loc}"></td>
+        </tr>
+        <tr>
+          <th>상태:</th>
+          <td th:text="${shipment.status}"></td>
+        </tr>
+        <tr>
+          <th>출고 날짜:</th>
+          <td th:text="${shipment.reqDate}"></td>
+        </tr>
+        </tbody>
+      </table>
+      <a th:href="@{/shipment/cancel(shipId=${shipment.shipId})}" class="btn btn-danger">출고 취소</a>
+
+
+    </div>
+  </div>
+</th:block>
+</html>

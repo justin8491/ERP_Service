@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.erp.mes.sqlBuilder.ShipmentBuilderTest" tests="7" skipped="0" failures="2" errors="0" timestamp="2024-09-11T04:15:56" hostname="JIHYE" time="0.01">
+  <properties/>
+  <testcase name="testSelectShipmentListWithoutParams()" classname="com.erp.mes.sqlBuilder.ShipmentBuilderTest" time="0.001">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;SELECT sh.ship_id, sh.req_date, sh.req_qty, s.item_id, i.name AS item_name, s.qty AS available_qty, s.loc, sh.status&#10;FROM shipment sh&#10;JOIN stock s ON sh.stk_id = s.stk_id&#10;JOIN item i ON s.item_id = i.item_id&#10;ORDER BY sh.req_date DESC&gt; but was: &lt;SELECT sh.ship_id, sh.req_date, sh.req_qty, sh.qty, sh.status, sh.loc, i.name AS item_name, s.qty AS available_qty&#10;FROM shipment sh&#10;JOIN stock s ON sh.stk_id = s.stk_id&#10;JOIN item i ON s.item_id = i.item_id&#10;ORDER BY sh.req_date DESC&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;SELECT sh.ship_id, sh.req_date, sh.req_qty, s.item_id, i.name AS item_name, s.qty AS available_qty, s.loc, sh.status
+FROM shipment sh
+JOIN stock s ON sh.stk_id = s.stk_id
+JOIN item i ON s.item_id = i.item_id
+ORDER BY sh.req_date DESC&gt; but was: &lt;SELECT sh.ship_id, sh.req_date, sh.req_qty, sh.qty, sh.status, sh.loc, i.name AS item_name, s.qty AS available_qty
+FROM shipment sh
+JOIN stock s ON sh.stk_id = s.stk_id
+JOIN item i ON s.item_id = i.item_id
+ORDER BY sh.req_date DESC&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at app//com.erp.mes.sqlBuilder.ShipmentBuilderTest.testSelectShipmentListWithoutParams(ShipmentBuilderTest.java:39)
+	at java.base@17.0.12/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <testcase name="testUpdateShipmentStatus()" classname="com.erp.mes.sqlBuilder.ShipmentBuilderTest" time="0.001"/>
+  <testcase name="testUpdateStockAfterShipment()" classname="com.erp.mes.sqlBuilder.ShipmentBuilderTest" time="0.002"/>
+  <testcase name="testInsertShipment()" classname="com.erp.mes.sqlBuilder.ShipmentBuilderTest" time="0.001"/>
+  <testcase name="testUpdateShipmentStatusToCompleted()" classname="com.erp.mes.sqlBuilder.ShipmentBuilderTest" time="0.0"/>
+  <testcase name="testCancelShipment()" classname="com.erp.mes.sqlBuilder.ShipmentBuilderTest" time="0.001"/>
+  <testcase name="testSelectShipmentListWithParams()" classname="com.erp.mes.sqlBuilder.ShipmentBuilderTest" time="0.001">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;SELECT sh.ship_id, sh.req_date, sh.req_qty, s.item_id, i.name AS item_name, s.qty AS available_qty, s.loc, sh.status&#10;FROM shipment sh&#10;JOIN stock s ON sh.stk_id = s.stk_id&#10;JOIN item i ON s.item_id = i.item_id&#10;WHERE (i.name LIKE CONCAT('%', #{itemName}, '%') AND sh.status = #{status})&#10;ORDER BY sh.req_date DESC&gt; but was: &lt;SELECT sh.ship_id, sh.req_date, sh.req_qty, sh.qty, sh.status, sh.loc, i.name AS item_name, s.qty AS available_qty&#10;FROM shipment sh&#10;JOIN stock s ON sh.stk_id = s.stk_id&#10;JOIN item i ON s.item_id = i.item_id&#10;WHERE (i.name LIKE CONCAT('%', #{itemName}, '%') AND sh.status = #{status})&#10;ORDER BY sh.req_date DESC&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;SELECT sh.ship_id, sh.req_date, sh.req_qty, s.item_id, i.name AS item_name, s.qty AS available_qty, s.loc, sh.status
+FROM shipment sh
+JOIN stock s ON sh.stk_id = s.stk_id
+JOIN item i ON s.item_id = i.item_id
+WHERE (i.name LIKE CONCAT('%', #{itemName}, '%') AND sh.status = #{status})
+ORDER BY sh.req_date DESC&gt; but was: &lt;SELECT sh.ship_id, sh.req_date, sh.req_qty, sh.qty, sh.status, sh.loc, i.name AS item_name, s.qty AS available_qty
+FROM shipment sh
+JOIN stock s ON sh.stk_id = s.stk_id
+JOIN item i ON s.item_id = i.item_id
+WHERE (i.name LIKE CONCAT('%', #{itemName}, '%') AND sh.status = #{status})
+ORDER BY sh.req_date DESC&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at app//com.erp.mes.sqlBuilder.ShipmentBuilderTest.testSelectShipmentListWithParams(ShipmentBuilderTest.java:59)
+	at java.base@17.0.12/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

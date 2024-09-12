@@ -2,6 +2,10 @@ package com.erp.mes.controller;
 
 import com.erp.mes.dto.ShipmentDTO;
 import com.erp.mes.service.ShipmentService;
+<<<<<<< Updated upstream
+=======
+import com.erp.mes.service.StockService;
+>>>>>>> Stashed changes
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,21 +18,37 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/shipment")
 public class ShipmentController {
-    private final ShipmentService shipmentService;
 
+<<<<<<< Updated upstream
     // 출고 요청 생성
-    @PostMapping("/create")
-    public String createShipment(ShipmentDTO shipmentDTO, Model model) {
-        int result = shipmentService.createShipment(shipmentDTO);
-        if (result > 0) {
-            return "redirect:/shipment/list";
-        } else {
-            model.addAttribute("error", "출고 요청 생성에 실패했습니다.");
-            return "errorPage";
-        }
+=======
+    private final ShipmentService shipmentService;
+    private final StockService stockService;
+
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("shipmentDTO", new ShipmentDTO());
+        model.addAttribute("stockList", stockService.getStockItemList());
+        return "shipment/add";
     }
 
-    // 출고 목록 조회 (필터링 처리)
+>>>>>>> Stashed changes
+    @PostMapping("/create")
+    public String createShipment(@ModelAttribute ShipmentDTO shipmentDTO, Model model) {
+        try {
+            int result = shipmentService.createShipment(shipmentDTO);
+            if (result > 0) {
+                return "redirect:/shipment/list";
+            } else {
+                model.addAttribute("error", "출고 요청 생성에 실패했습니다.");
+                return "errorPage";
+            }
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("stockList", stockService.getStockItemList());
+            return "shipment/add";
+        }
+    }
     @GetMapping("/list")
     public String listShipments(@RequestParam Map<String, Object> params, Model model) {
         List<ShipmentDTO> shipmentList = shipmentService.getShipmentList(params);
@@ -36,19 +56,17 @@ public class ShipmentController {
         return "shipment/list";
     }
 
-    // 출고 완료 처리
     @PostMapping("/complete/{shipId}")
-    public String completeShipment(@PathVariable int shipId, Model model) {
-        int result = shipmentService.completeShipment(shipId);
-        if (result > 0) {
+    public String completeShipment(@PathVariable int shipId, @RequestParam int qty, Model model) {
+        try {
+            shipmentService.completeShipment(shipId, qty);
             return "redirect:/shipment/list";
-        } else {
-            model.addAttribute("error", "출고 완료 처리에 실패했습니다.");
+        } catch (RuntimeException e) {
+            model.addAttribute("error", "출고 완료 처리 중 오류가 발생했습니다: " + e.getMessage());
             return "errorPage";
         }
     }
 
-    // 출고 요청 취소
     @PostMapping("/cancel/{shipId}")
     public String cancelShipment(@PathVariable int shipId, Model model) {
         int result = shipmentService.cancelShipment(shipId);
@@ -60,8 +78,7 @@ public class ShipmentController {
         }
     }
 
-    // 출고 상태 업데이트
-    @PostMapping("/updatestatus")
+    @PostMapping("/update-status")
     public String updateShipmentStatus(@RequestParam int shipId, @RequestParam String status, Model model) {
         int result = shipmentService.updateShipmentStatus(shipId, status);
         if (result > 0) {
@@ -72,14 +89,49 @@ public class ShipmentController {
         }
     }
 
-    // 출고 시 재고 차감
-    @PostMapping("/updatestock")
-    public String updateStockAfterShipment(@RequestParam int stkId, @RequestParam int reqQty, Model model) {
-        int result = shipmentService.updateStockAfterShipment(stkId, reqQty);
-        if (result > 0) {
+    @GetMapping("/detail/{shipId}")
+    public String viewShipmentDetails(@PathVariable("shipId") int shipId, Model model) {
+        ShipmentDTO shipment = shipmentService.selectShipmentById(shipId);
+        if (shipment == null) {
+            model.addAttribute("error", "해당 출고 정보를 찾을 수 없습니다.");
+            return "errorPage";
+        }
+        model.addAttribute("shipment", shipment);
+        return "shipment/detail";
+    }
+
+    @GetMapping("/search")
+    public String searchShipments(@RequestParam Map<String, Object> params, Model model) {
+        List<ShipmentDTO> shipmentList = shipmentService.searchShipments(params);
+        model.addAttribute("shipmentList", shipmentList);
+        return "shipment/list";
+    }
+
+    @GetMapping("/check-stock/{shipId}")
+    public String checkStock(@PathVariable("shipId") int shipId, Model model) {
+        ShipmentDTO shipment = shipmentService.checkStockForShipment(shipId);
+        model.addAttribute("shipment", shipment);
+        return "shipment/stock-check";
+    }
+
+    @PostMapping("/partial-complete/{shipId}")
+    public String partialCompleteShipment(@PathVariable int shipId, @RequestParam int qty, Model model) {
+        try {
+            shipmentService.partialCompleteShipment(shipId, qty);
             return "redirect:/shipment/list";
-        } else {
-            model.addAttribute("error", "재고 차감에 실패했습니다.");
+        } catch (RuntimeException e) {
+            model.addAttribute("error", "부분 출고 처리 중 오류가 발생했습니다: " + e.getMessage());
+            return "errorPage";
+        }
+    }
+
+    @PostMapping("/update-quantity/{shipId}")
+    public String updateShipmentQuantity(@PathVariable int shipId, @RequestParam int newQty, Model model) {
+        try {
+            shipmentService.updateShipmentQuantity(shipId, newQty);
+            return "redirect:/shipment/detail/" + shipId;
+        } catch (RuntimeException e) {
+            model.addAttribute("error", "출고 수량 변경 중 오류가 발생했습니다: " + e.getMessage());
             return "errorPage";
         }
     }

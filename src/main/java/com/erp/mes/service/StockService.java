@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-
 @Service
+
 @RequiredArgsConstructor
 public class StockService {
     private final StockMapper stockMapper;
@@ -36,12 +36,25 @@ public class StockService {
     }
 
     // 재고 금액 산출
-    public double calculateStockValue() {
-        return stockMapper.calculateStockValue();
+    public double calculateStockValue(String startDate, String endDate) {
+        Double result = stockMapper.calculateStockValue(startDate, endDate);
+        return result != null ? result : 0.0;
     }
 
-    // 공급가 확인
-    public Map<String, Object> getSupplyPrice(int itemId) {
-        return stockMapper.getSupplyPrice(itemId);
+    public StockDTO getStockDetails(int stkId) {
+        return stockMapper.selectStockDetails(stkId);
     }
+<<<<<<< Updated upstream
+=======
+
+    // 공급가 정보 가져오기
+    public List<Map<String, Object>> getPrice(int stkId) {
+        return stockMapper.getPrice(stkId);
+    }
+
+
+    public List<StockDTO> getStockItemList() {
+        return stockMapper.selectStockItemList();
+    }
+>>>>>>> Stashed changes
 }

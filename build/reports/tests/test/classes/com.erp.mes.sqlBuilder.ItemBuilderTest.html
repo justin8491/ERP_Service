@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - ItemBuilderTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>ItemBuilderTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.erp.mes.sqlBuilder.html">com.erp.mes.sqlBuilder</a> &gt; ItemBuilderTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">4</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">3</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.024s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">25%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Failed tests</a>
+</li>
+<li>
+<a href="#tab1">Tests</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="shouldLimitToItemId()"></a>
+<h3 class="failures">shouldLimitToItemId()</h3>
+<span class="code">
+<pre>org.opentest4j.AssertionFailedError: expected: &lt;SELECT i.item_id, i.name, i.spec, i.unit, i.price, i.create_date, s.name AS supplierName, p.leadtime
+FROM item i
+JOIN plan p ON p.item_id = i.item_id
+JOIN supplier s ON s.sup_id = p.sup_id
+WHERE (i.item_id = #{itemId})
+ORDER BY i.name ASC&gt; but was: &lt;SELECT i.item_id as itemId, i.item_code, i.name, i.spec, i.unit, i.price, i.create_date as createDate, p.leadtime
+FROM item i
+JOIN plan p ON p.item_id = i.item_id
+WHERE (i.item_id = #{itemId})
+ORDER BY i.name ASC&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at app//com.erp.mes.sqlBuilder.ItemBuilderTest.shouldLimitToItemId(ItemBuilderTest.java:48)
+	at java.base@17.0.12/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="shouldLimitToKeyword()"></a>
+<h3 class="failures">shouldLimitToKeyword()</h3>
+<span class="code">
+<pre>org.opentest4j.AssertionFailedError: expected: &lt;SELECT i.item_id, i.name, i.spec, i.unit, i.price, i.create_date, s.name AS supplierName, p.leadtime
+FROM item i
+JOIN plan p ON p.item_id = i.item_id
+JOIN supplier s ON s.sup_id = p.sup_id
+WHERE (i.name LIKE CONCAT('%', #{keyword}, '%'))
+ORDER BY i.name ASC&gt; but was: &lt;SELECT i.item_id as itemId, i.item_code, i.name, i.spec, i.unit, i.price, i.create_date as createDate, p.leadtime
+FROM item i
+JOIN plan p ON p.item_id = i.item_id
+WHERE (i.name LIKE CONCAT('%', #{keyword}, '%'))
+ORDER BY i.name ASC&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at app//com.erp.mes.sqlBuilder.ItemBuilderTest.shouldLimitToKeyword(ItemBuilderTest.java:64)
+	at java.base@17.0.12/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="shouldSelectAllWithoutParams()"></a>
+<h3 class="failures">shouldSelectAllWithoutParams()</h3>
+<span class="code">
+<pre>org.opentest4j.AssertionFailedError: expected: &lt;SELECT i.item_id, i.name, i.spec, i.unit, i.price, i.create_date, s.name AS supplierName, p.leadtime
+FROM item i
+JOIN plan p ON p.item_id = i.item_id
+JOIN supplier s ON s.sup_id = p.sup_id
+ORDER BY i.name ASC&gt; but was: &lt;SELECT i.item_id as itemId, i.item_code, i.name, i.spec, i.unit, i.price, i.create_date as createDate, p.leadtime
+FROM item i
+JOIN plan p ON p.item_id = i.item_id
+ORDER BY i.name ASC&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at app//com.erp.mes.sqlBuilder.ItemBuilderTest.shouldSelectAllWithoutParams(ItemBuilderTest.java:32)
+	at java.base@17.0.12/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.12/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">shouldLimitToItemId()</td>
+<td class="failures">0.002s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="failures">shouldLimitToKeyword()</td>
+<td class="failures">0.002s</td>
+<td class="failures">failed</td>
+</tr>
+<tr>
+<td class="success">shouldRejectNullParams()</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="failures">shouldSelectAllWithoutParams()</td>
+<td class="failures">0.019s</td>
+<td class="failures">failed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.8</a> at 2024. 9. 11. 오후 1:15:59</p>
+</div>
+</div>
+</body>
+</html>

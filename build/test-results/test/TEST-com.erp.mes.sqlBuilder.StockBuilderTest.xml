@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.erp.mes.sqlBuilder.StockBuilderTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-09-11T04:15:59" hostname="JIHYE" time="0.01">
+  <properties/>
+  <testcase name="testGetSupplyPrice()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.002"/>
+  <testcase name="testUpdateStockAfterShipment()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.001"/>
+  <testcase name="testSelectStockListWithItemName()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.001"/>
+  <testcase name="testUpdateStockStatus()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.001"/>
+  <testcase name="testSelectStockListWithStatus()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.0"/>
+  <testcase name="testInsertStockFromCompletedInput()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.001"/>
+  <testcase name="testCalculateStockValue()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.001"/>
+  <testcase name="testSelectStockListWithItemNameAndStatus()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.0"/>
+  <testcase name="testSelectStockListNoParams()" classname="com.erp.mes.sqlBuilder.StockBuilderTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

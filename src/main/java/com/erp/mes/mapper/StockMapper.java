@@ -28,9 +28,20 @@ public interface StockMapper {
 
     // 재고 금액 산출
     @SelectProvider(type = StockBuilder.class, method = "calculateStockValue")
-    double calculateStockValue();
+    Double calculateStockValue(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
     // 공급가 확인
     @SelectProvider(type = StockBuilder.class, method = "getSupplyPrice")
+<<<<<<< Updated upstream
     Map<String, Object> getSupplyPrice(@Param("itemId") int itemId);
+=======
+    List<Map<String, Object>> getPrice(@Param("stkId") int stkId);
+
+    @SelectProvider(type = StockBuilder.class, method = "selectStockDetails")
+    StockDTO selectStockDetails(@Param("stkId") int stkId);
+
+    // 발주 품목 소요 자재 확인
+    @SelectProvider(type = StockBuilder.class, method = "selectStockItemList")
+    List<StockDTO> selectStockItemList();
+>>>>>>> Stashed changes
 }

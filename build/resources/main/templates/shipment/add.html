@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>재고 추가</title>
+</head>
+<body>
+<h1>재고 추가</h1>
+
+<form th:action="@{/shipment/create}" method="post">
+  <div class="mb-3">
+    <label for="itemName" class="form-label">품목명</label>
+    <input type="text" class="form-control" id="itemName" name="itemName" required>
+  </div>
+  <div class="mb-3">
+    <label for="reqQty" class="form-label">요청 수량</label>
+    <input type="number" class="form-control" id="reqQty" name="reqQty" required>
+  </div>
+  <div class="mb-3">
+    <label for="reqDate" class="form-label">출고 일자</label>
+    <input type="text" class="form-control datepicker" id="reqDate" name="reqDate" required>
+  </div>
+  <button type="submit" class="btn btn-primary">출고 요청 생성</button>
+</form>
+
+<a href="/stock/list">재고 목록으로 돌아가기</a>
+</body>
+</html>

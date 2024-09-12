@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>재고 상세 정보</title>
+</head>
+<body>
+<h2>재고 상세 정보</h2>
+<div>
+    <p>재고 ID: <span th:text="${stock.stk_id}"></span></p>
+    <p>품목명: <span th:text="${stock.item_name}"></span></p>
+    <p>품목 코드: <span th:text="${stock.item_code}"></span></p>
+    <p>수량: <span th:text="${stock.qty}"></span></p>
+    <p>위치: <span th:text="${stock.loc}"></span></p>
+    <p>재고 금액: <span th:text="${stock.value}"></span></p>
+    <p>입고 일자: <span th:text="${#dates.format(stock.in_date, 'yyyy-MM-dd')}"></span></p>
+    <p>유효 기간: <span th:text="${#dates.format(stock.exp_date, 'yyyy-MM-dd')}"></span></p>
+    <p>잔여 수량: <span th:text="${stock.qty}"></span></p>
+
+</div>
+</body>
+</html>

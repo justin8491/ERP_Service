@@ -26,6 +26,20 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
+	// Excel 파일 생성을 위한 Apache POI
+	implementation 'org.apache.poi:poi:5.2.3'
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+	// PDF 파일 생성을 위한 iText (또는 다른 PDF 라이브러리)
+	implementation 'com.itextpdf:itextpdf:5.5.13.3'
+
+	// CSV 파일 생성을 위한 OpenCSV (선택적)
+	implementation 'com.opencsv:opencsv:5.7.1'
+
+	// 웹 애플리케이션 개발을 위한 Spring Boot Starter Web (이미 포함되어 있을 수 있음)
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -36,8 +50,13 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
 	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'
+
+
 }
 
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs << '-parameters'
+}
 
 tasks.named('test') {
 	useJUnitPlatform()

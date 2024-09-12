@@ -12,6 +12,17 @@ import java.util.Date;
 @Setter
 @Data
 public class StockDTO {
+<<<<<<< Updated upstream
+=======
+
+    private int item_id; // 품목 ID
+    private String item_code; // 품목 코드
+    private String item_name;
+    private String spec; // 목 규격
+    private int price; // 품목 가격
+    private String type; // 품목 유형
+    // 자재
+>>>>>>> Stashed changes
     private int stk_id;        // 재고번호
     private int qty;           // 재고수량
     private String loc;        // 재고위치
