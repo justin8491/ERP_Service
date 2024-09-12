@@ -12,9 +12,7 @@ import java.util.Map;
 @Mapper
 public interface InputMapper {
 
-    // 입고리스트
-    @SelectProvider(type = InputBuilder.class, method = "buildSelectInput")
-    List<InputDTO> inputList();
+
 
     // 입고수정
     @UpdateProvider(type = InputBuilder.class, method = "buildUpdateInput")
@@ -28,15 +26,15 @@ public interface InputMapper {
     @UpdateProvider(type = InputBuilder.class, method = "buildUpdateTransaction")
     int transactionForm(TransactionDTO transactionDTO);
     // 발주서 넣기
-    @InsertProvider(type = InputBuilder.class,method = "buildInsertOrder")
-    int insertOrder(OrderDTO orderDTO);
+//    @InsertProvider(type = InputBuilder.class,method = "buildInsertOrder")
+//    int insertOrder(OrderDTO orderDTO);
     // 구매발주서 리스트
     @SelectProvider(type = InputBuilder.class, method = "buildSelectOrder")
     List<OrderDTO> orderList();
 
-    // 구매발주서 확인
-    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateOrder")
-    int orderForm(Map<String,Object> map);
+//    // 구매발주서 확인
+//    @UpdateProvider(type = InputBuilder.class, method = "buildUpdateOrder")
+//    int orderForm(Map<String,Object> map);
 
     // 검수
     //    update문 where status = 100형식으로 다가가야할듯
@@ -45,14 +43,14 @@ public interface InputMapper {
 
     // 검색
     @SelectProvider(type = InputBuilder.class, method = "buildSearch")
-    List<InputDTO> serachList(InputDTO inputDTO);
+    List<OrderDTO> serachList(OrderDTO orderDTO);
     @SelectProvider(type = InputBuilder.class, method = "buildSearchTrans")
     List<OrderDTO> serachListTrans(OrderDTO orderDTO);
 
     @SelectProvider(type = InputBuilder.class, method = "buildPaging")
-    List<InputDTO> pagingList(Map<String, Object> map );
+    List<OrderDTO> pagingList(Map<String, Object> map );
     @SelectProvider(type = InputBuilder.class, method = "buildPagingTrue")
-    List<InputDTO> pagingListTrue(Map<String, Object> map );
+    List<OrderDTO> pagingListTrue(Map<String, Object> map );
     @SelectProvider(type = InputBuilder.class, method = "buildPageCountTrue")
     int boardCountTrue();
 

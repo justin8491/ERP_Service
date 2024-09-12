@@ -27,24 +27,24 @@
                 <thead class="thead-light">
                 <tr>
                     <th>번호</th>
-                    <th>받은날짜</th>
-                    <th>협력회사</th>
-                    <th>창고</th>
-                    <th>품목</th>
+                    <th>발주코드</th>
+                    <th>상품명</th>
                     <th>수량</th>
+                    <th>납기일자</th>
+                    <th>협력업체</th>
                     <th style="text-align: center;">검수 상태</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="list,iter : ${boardList}" th:id="${list.inputId}">
-                    <td th:text="${iter.index + 1}">번호</td>
-                    <td th:text="${list.recDate}">받은날짜</td>
-                    <td th:text="${list.supName}">협력회사</td>
-                    <td th:text="${list.invenName}">창고</td>
-                    <td th:text="${list.itemName}">품목</td>
-                    <td th:text="${list.qty}">수량</td>
+                <tr th:each="list,iter : ${boardList}" th:id="${list.orderCode}">
+                    <td th:text="${iter.index + 1}"></td>
+                    <th th:text="${list.orderCode}">발주코드</th>
+                    <th th:text="${list.itemName}">상품명</th>
+                    <th th:text="${list.qty}">수량</th>
+                    <th th:text="${list.leadtime}">납기일자</th>
+                    <th th:text="${list.supName}">협력업체</th>
                     <td style="text-align: center;">
-                        <button type="button" class="modal-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:data-id="${list.inputId}">진행중</button>
+                        <button type="button" class="modal-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:data-id="${list.orderCode}">진행중</button>
                     </td>
                 </tr>
                 </tbody>
@@ -72,15 +72,14 @@
                     <div class="modal-body">
                         <form method="post" action="/input/inseception">
                             <table class="mb-3">
-                                <thead>
+                                <thead class="thead-light">
                                 <tr>
-                                    <th>번호</th>
-                                    <th>받은날짜</th>
-                                    <th>협력회사</th>
-                                    <th>창고</th>
-                                    <th>품목</th>
+                                    <th>발주코드</th>
+                                    <th>상품명</th>
                                     <th>수량</th>
-                                    <th style="text-align: center;">검수처리</th>
+                                    <th>납기일자</th>
+                                    <th>협력업체</th>
+                                    <th style="text-align: center;">검수 상태</th>
                                 </tr>
                                 </thead>
                                 <tbody class="modal-table">

@@ -28,13 +28,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="list,iter : ${insep}" th:id="${list.inputId}">
-                    <td th:text="${iter.index + 1}">번호</td>
-                    <td th:text="${list.recDate}">받은날짜</td>
-                    <td th:text="${list.supName}">협력회사</td>
-                    <td th:text="${list.invenName}">창고</td>
-                    <td th:text="${list.itemName}">품목</td>
-                    <td th:text="${list.qty}">수량</td>
+                <tr th:each="list,iter : ${insep}">
+                    <td th:text="${iter.index + 1}"></td>
+                    <th th:text="${list.orderCode}">발주코드</th>
+                    <th th:text="${list.itemName}">상품명</th>
+                    <th th:text="${list.qty}">수량</th>
+                    <th th:text="${list.leadtime}">납기일자</th>
+                    <th th:text="${list.supName}">협력업체</th>
                     <td style="text-align: center;">완료</td>
                 </tr>
                 </tbody>

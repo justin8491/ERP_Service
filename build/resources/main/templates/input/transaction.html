@@ -67,30 +67,30 @@
                         <form method="post" action="/input/transaction">
                             <table class="table mb-3">
                                 <thead>
-                                <tr>
-                                    <th>발주코드</th>
-                                    <th>상품명</th>
-                                    <th>수량</th>
-                                    <th>납기일자</th>
-                                    <th>협력업체</th>
-                                    <th style="text-align: center;">발주상태</th>
-                                </tr>
+                                    <tr>
+                                        <th>발주코드</th>
+                                        <th>상품명</th>
+                                        <th>수량</th>
+                                        <th>납기일자</th>
+                                        <th>협력업체</th>
+                                        <th style="text-align: center;">발주상태</th>
+                                    </tr>
                                 </thead>
-                                <tbody class="table-group-divider modal-table" th:each="trans, iterStat : ${trans}">
-                                <tr>
-                                    <td th:text="${trans.orderCode}">발주코드</td>
-                                    <td th:text="${trans.itemName}">상품명</td>
-                                    <td th:text="${trans.qty}">수량</td>
-                                    <td th:text="${trans.leadtime}">납기일자</td>
-                                    <td th:text="${trans.supName}">협력업체</td>
-                                    <td style="text-align: center;">
-                                        <select name="transSelect" class="form-select">
-                                            <option value="발주진행중" th:selected="${trans.status == '발주진행중'}">발주진행중</option>
-                                            <option value="발주마감" th:selected="${trans.status == '발주마감'}">발주마감</option>
-                                        </select>
-                                    </td>
-                                    <input type="hidden" name="orderCode" th:value="${trans.orderCode}">
-                                </tr>
+                                <tbody class="table-group-divider modal-table" th:each="trans : ${trans}">
+                                    <tr>
+                                        <td th:text="${trans.orderCode}">발주코드</td>
+                                        <td th:text="${trans.itemName}">상품명</td>
+                                        <td th:text="${trans.qty}">수량</td>
+                                        <td th:text="${trans.leadtime}">납기일자</td>
+                                        <td th:text="${trans.supName}">협력업체</td>
+                                        <td style="text-align: center;">
+                                            <select name="transSelect" class="form-select">
+                                                <option value="발주진행중" th:selected="${trans.status == '발주완료'}">발주완료</option>
+                                                <option value="발주마감" th:selected="${trans.status == '발주마감'}">발주마감</option>
+                                            </select>
+                                        </td>
+                                        <input type="hidden" name="orderCode" th:value="${trans.orderCode}">
+                                    </tr>
                                 </tbody>
                             </table>
                             <div class="modal-footer">
