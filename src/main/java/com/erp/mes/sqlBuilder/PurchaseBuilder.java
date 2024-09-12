@@ -35,20 +35,6 @@ public class PurchaseBuilder {
             JOIN("supplier s ON s.sup_id = o.sup_id");
             JOIN("plan p ON p.plan_id = o.plan_id");
             JOIN("item i ON i.item_id = p.item_id");
-            if(params != null){
-                // 공급업체 이름 필터링
-                if (params.get("supplier_name") != null) {
-                    WHERE("s.name = #{supplier_name}");
-                }
-                // 날짜 범위 필터링
-                if (params.get("startDate") != null) {
-                    WHERE("p.leadtime >= #{startDate}");
-                }
-                if (params.get("endDate") != null) {
-                    WHERE("p.leadtime <= #{endDate}");
-                }
-            }
-
         }}.toString();
     }
 
