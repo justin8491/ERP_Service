@@ -5,6 +5,7 @@ import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PageDTO;
 import com.erp.mes.dto.TransactionDTO;
 import com.erp.mes.service.InputService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,12 @@ import java.util.Map;
 @RequestMapping("/input")
 @Slf4j
 public class InputController {
+
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
+
     private final InputService service;
 
 //    @GetMapping("/inputList")
