@@ -20,7 +20,7 @@
         <a class="collapse-item" th:href="@{/item/itemList}" th:classappend="${servletPath != null && servletPath == '/item/itemList'} ? 'active' : ''">
           <span>조달계획 조회</span>
         </a>
-        <a class="collapse-item" th:href="@{/quotation/quoList}" th:classappend="${servletPath != null && servletPath == '/item/itemPlan'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/item/quoList}" th:classappend="${servletPath != null && servletPath == '/item/quoList'} ? 'active' : ''">
           <span>견적서 조회</span>
         </a>
         <a class="collapse-item" th:href="@{/item/contract}" th:classappend="${servletPath != null && servletPath == '/item/contract'} ? 'active' : ''">
