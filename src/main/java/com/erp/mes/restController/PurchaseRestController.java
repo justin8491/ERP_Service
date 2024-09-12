@@ -49,17 +49,22 @@ public class PurchaseRestController {
     @PostMapping("purchase/orderCreate")
     public Map<String, Object> orderCreate(@RequestBody Map<String, Object> map) {
         int result = purchaseService.orderCreate(map);
-//        if(res)
-        EmailDTO emailDTO = new EmailDTO();
-        emailDTO.setTargetMail(((String)map.get("targetMail")));
-        if(mailService.sendMail(emailDTO)){
-            map.put("msg","메일 발송 성공");
-        } else {
-            map.put("msg","메일 발송 실패");
-        }
+        map.put("result", result);
         return map;
     }
 
+    // 메일 발송
+    @PostMapping(value = "purchase/sendEmail")
+    public Map<String, Object> sendEmail(@RequestBody Map<String, Object> map) {
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setTargetMail(((String) map.get("targetMail")));
+        if (mailService.sendMail(emailDTO)) {
+            map.put("msg", "메일발송 성공");
+        } else {
+            map.put("result", "메일발송 실패");
+        }
+        return map;
+    }
     /**
      * 구매발주서 리스트
      *
@@ -125,7 +130,7 @@ public class PurchaseRestController {
     }
 
     @PostMapping(value = "getSupplier")
-    public Map<String,Object> getSupplier(Map<String, Object> map){
+    public Map<String, Object> getSupplier(Map<String, Object> map) {
         List<SupplierDTO> supplierDTO = purchaseService.getSupplier();
 
         return map;
