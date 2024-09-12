@@ -1,50 +1,53 @@
 package com.erp.mes.sqlBuilder;
 
 import org.apache.ibatis.jdbc.SQL;
-
 import java.util.Map;
 
 public class ShipmentBuilder {
 
-    // 출고 요청 생성 (출고할 재고 선택 후 수량 설정)
     public String insertShipment() {
         return new SQL() {{
             INSERT_INTO("shipment");
             VALUES("stk_id", "#{stkId}");
             VALUES("req_date", "#{reqDate}");
             VALUES("req_qty", "#{reqQty}");
-            VALUES("status", "'REQUESTED'");  // 출고 요청 상태로 등록
+            VALUES("qty", "#{qty}");
+            VALUES("status", "#{status}");
+            VALUES("loc", "#{loc}");
+            // process와 schedule_date는 shipment 테이블에 없으므로 제거
         }}.toString();
     }
 
-    // 출고 목록 조회 (필터링 처리, 출고 상태에 따른 조회)
     public String selectShipmentList(Map<String, Object> params) {
         return new SQL() {{
-            SELECT("sh.ship_id, sh.req_date, sh.req_qty, s.item_id, i.name AS item_name, s.qty AS available_qty, s.loc, sh.status");
+            SELECT("sh.ship_id, sh.stk_id, sh.req_date, sh.req_qty, sh.qty, sh.status, sh.loc, i.name AS item_name, s.qty AS available_qty");
             FROM("shipment sh");
-            JOIN("stock s ON sh.stk_id = s.stk_id");
-            JOIN("item i ON s.item_id = i.item_id");
-            if (params.get("itemName") != null && !params.get("itemName").toString().isEmpty()) {
+            INNER_JOIN("stock s ON sh.stk_id = s.stk_id");
+            INNER_JOIN("item i ON s.item_id = i.item_id");
+
+            if (params.containsKey("itemName") && params.get("itemName") != null) {
                 WHERE("i.name LIKE CONCAT('%', #{itemName}, '%')");
             }
-            if (params.get("status") != null && !params.get("status").toString().isEmpty()) {
+            if (params.containsKey("status") && params.get("status") != null) {
                 WHERE("sh.status = #{status}");
             }
+            if (params.containsKey("reqDate") && params.get("reqDate") != null) {
+                WHERE("sh.req_date = #{reqDate}");
+            }
+
             ORDER_BY("sh.req_date DESC");
         }}.toString();
     }
 
-    // 출고 완료 처리 (출고 상태 변경 및 출고 수량 업데이트)
     public String updateShipmentStatusToCompleted() {
         return new SQL() {{
             UPDATE("shipment");
             SET("status = 'COMPLETED'");
-            SET("ship_date = NOW()");
+            SET("qty = #{qty}");
             WHERE("ship_id = #{shipId}");
         }}.toString();
     }
 
-    // 출고 요청 취소 (상태 변경)
     public String cancelShipment() {
         return new SQL() {{
             UPDATE("shipment");
@@ -53,7 +56,6 @@ public class ShipmentBuilder {
         }}.toString();
     }
 
-    // 출고 요청 상태 업데이트 (승인 또는 진행 중 처리)
     public String updateShipmentStatus() {
         return new SQL() {{
             UPDATE("shipment");
@@ -62,11 +64,28 @@ public class ShipmentBuilder {
         }}.toString();
     }
 
-    // 출고 요청 시 재고 차감
     public String updateStockAfterShipment() {
         return new SQL() {{
             UPDATE("stock");
-            SET("qty = qty - #{reqQty}");
+            SET("qty = qty - #{qty}");
+            WHERE("stk_id = #{stkId}");
+        }}.toString();
+    }
+
+    public String selectShipmentById() {
+        return new SQL() {{
+            SELECT("sh.ship_id, sh.stk_id, sh.req_date, sh.req_qty, sh.qty, sh.status, sh.loc, i.name AS item_name, s.qty AS available_qty");
+            FROM("shipment sh");
+            INNER_JOIN("stock s ON sh.stk_id = s.stk_id");
+            INNER_JOIN("item i ON s.item_id = i.item_id");
+            WHERE("sh.ship_id = #{shipId}");
+        }}.toString();
+    }
+
+    public String checkStockAvailability() {
+        return new SQL() {{
+            SELECT("qty AS available_qty");
+            FROM("stock");
             WHERE("stk_id = #{stkId}");
         }}.toString();
     }
