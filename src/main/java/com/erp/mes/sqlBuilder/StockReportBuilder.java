@@ -1,65 +1,55 @@
 package com.erp.mes.sqlBuilder;
 
 import org.apache.ibatis.jdbc.SQL;
-
 import java.util.Map;
 
 public class StockReportBuilder {
-
-    // 전체 재고 상태 보고서 (기본 재고 수량 및 상태 조회)
-    public String selectStockReport(Map<String, Object> params) {
+    public String generateStockReport(Map<String, Object> params) {
         return new SQL() {{
-            SELECT("s.stk_id, i.name AS item_name, s.qty, s.loc, s.value, s.in_date, s.exp_date, s.status");
+            SELECT("s.stk_id, i.item_id, i.name AS itemName, s.qty AS totalQty, " +
+                    "s.loc AS location, s.exp_date AS expirationDate, s.qty AS remainingQty, " +
+                    "q.price AS unitPrice, (s.qty * q.price) AS totalValue, s.in_date AS date");
             FROM("stock s");
-            JOIN("item i ON s.item_id = i.item_id");
-            if (params.get("itemName") != null && !params.get("itemName").toString().isEmpty()) {
-                WHERE("i.name LIKE CONCAT('%', #{itemName}, '%')");
+            INNER_JOIN("item i ON s.item_id = i.item_id");
+            LEFT_OUTER_JOIN("quotation q ON i.item_id = q.item_id");
+
+            if (params.containsKey("startDate") && params.containsKey("endDate")) {
+                WHERE("s.in_date BETWEEN #{startDate} AND #{endDate}");
             }
-            if (params.get("status") != null && !params.get("status").toString().isEmpty()) {
-                WHERE("s.status = #{status}");
+            if (params.containsKey("itemId") && params.get("itemId") != null) {
+                AND().WHERE("i.item_id = #{itemId}");
             }
-            ORDER_BY("s.stk_id DESC");
+
+            ORDER_BY("s.in_date DESC");
         }}.toString();
     }
 
-    // 특정 기간 동안의 재고 금액 산출 보고서
-    public String calculateStockValueReport(Map<String, Object> params) {
+    public String calculateTotalValue(Map<String, Object> params) {
         return new SQL() {{
-            SELECT("SUM(s.qty * i.price) AS totalStockValue");
+            SELECT("SUM(s.qty * q.price) AS totalValue");
             FROM("stock s");
-            JOIN("item i ON s.item_id = i.item_id");
-            WHERE("s.in_date >= #{startDate}");
-            WHERE("s.in_date <= #{endDate}");
+            INNER_JOIN("item i ON s.item_id = i.item_id");
+            LEFT_OUTER_JOIN("quotation q ON i.item_id = q.item_id");
+
+            if (params.containsKey("startDate") && params.containsKey("endDate")) {
+                WHERE("s.in_date BETWEEN #{startDate} AND #{endDate}");
+            }
+            if (params.containsKey("itemId") && params.get("itemId") != null) {
+                AND().WHERE("i.item_id = #{itemId}");
+            }
         }}.toString();
     }
 
-    // 재고 증감 보고서 (출고와 입고에 따른 재고 증감 내역)
-    public String selectStockChangeReport(Map<String, Object> params) {
+    public String selectStockDetails() {
         return new SQL() {{
-            SELECT("s.stk_id, i.name AS item_name, s.qty, s.in_date, s.exp_date, sh.req_qty AS shipment_qty, sh.ship_date");
+            SELECT("s.stk_id, i.item_id, i.name AS itemName, i.item_code, s.qty AS totalQty, " +
+                    "s.loc AS location, s.exp_date AS expirationDate, s.qty AS remainingQty, " +
+                    "q.price AS unitPrice, (s.qty * q.price) AS totalValue, s.in_date AS date, " +
+                    "s.status, s.value, s.cons_qty, s.cons_date, s.cons_loc");
             FROM("stock s");
-            JOIN("item i ON s.item_id = i.item_id");
-            // LEFT_JOIN 대신 LEFT OUTER JOIN 사용
-            LEFT_OUTER_JOIN("shipment sh ON s.stk_id = sh.stk_id");
-            if (params.get("itemName") != null && !params.get("itemName").toString().isEmpty()) {
-                WHERE("i.name LIKE CONCAT('%', #{itemName}, '%')");
-            }
-            if (params.get("status") != null && !params.get("status").toString().isEmpty()) {
-                WHERE("s.status = #{status}");
-            }
-            ORDER_BY("s.in_date DESC, sh.ship_date DESC");
-        }}.toString();
-    }
-
-
-    // 특정 품목의 재고 상태 보고서
-    public String selectItemSpecificReport(Map<String, Object> params) {
-        return new SQL() {{
-            SELECT("s.stk_id, i.name AS item_name, s.qty, s.loc, s.value, s.in_date, s.exp_date, s.status");
-            FROM("stock s");
-            JOIN("item i ON s.item_id = i.item_id");
-            WHERE("i.item_id = #{itemId}");
-            ORDER_BY("s.stk_id DESC");
+            INNER_JOIN("item i ON s.item_id = i.item_id");
+            LEFT_OUTER_JOIN("quotation q ON i.item_id = q.item_id");
+            WHERE("s.stk_id = #{stkId}");
         }}.toString();
     }
 }

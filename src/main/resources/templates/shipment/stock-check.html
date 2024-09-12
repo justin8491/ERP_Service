@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
+
+<th:block layout:fragment="Content">
+  <div>
+    <!-- 상단 검색 -->
+    <div class="p-3 mb-3 bxShadow">
+      <div class="row">
+        <div class="form-group w-50">
+          <label>출고 ID</label>
+          <input type="text" class="form-control" th:value="${shipment.shipId}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>품목명</label>
+          <input type="text" class="form-control" th:value="${shipment.itemName}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>요청 수량</label>
+          <input type="text" class="form-control" th:value="${shipment.reqQty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>현재 재고 수량</label>
+          <input type="text" class="form-control" th:value="${shipment.availableQty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>출고 가능 여부</label>
+          <input type="text" class="form-control" th:value="${shipment.availableQty >= shipment.reqQty ? '가능' : '불가능'}" readonly>
+        </div>
+      </div>
+
+      <div class="tableBtn">
+        <a th:href="@{/shipment/list}" class="btn btn-outline-primary mr-2">목록</a>
+        <a th:href="@{/shipment/detail/{id}(id=${shipment.shipId})}" class="btn btn-primary">상세 정보</a>
+      </div>
+
+    </div>
+  </div>
+</th:block>
+</html>

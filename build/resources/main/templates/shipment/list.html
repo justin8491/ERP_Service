@@ -11,42 +11,35 @@
       <table class="table">
         <thead class="thead-light">
         <tr>
-          <th scope="col">출고 번호</th>
-          <th scope="col">품목명</th>
-          <th scope="col">출고 수량</th>
-          <th scope="col">출고 위치</th>
-          <th scope="col">상태</th>
-          <th scope="col">출고 날짜</th>
-          <th scope="col">액션</th>
+          <th>출고 ID</th>
+          <th>품목명</th>
+          <th>요청 수량</th>
+          <th>출고 수량</th>
+          <th>상태</th>
+          <th>요청 날짜</th>
+          <th>위치</th>
+          <th style="text-align: center;">액션</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="shipment : ${shipments}">
-          <td th:text="${shipment.shipId}">출고 번호</td>
-          <td th:text="${shipment.itemName}">품목명</td>
-          <td th:text="${shipment.qty}">출고 수량</td>
-          <td th:text="${shipment.loc}">출고 위치</td>
-          <td th:text="${shipment.status}">상태</td>
-          <td th:text="${shipment.reqDate}">출고 날짜</td>
-          <td>
-            <a th:href="@{/shipment/{shipmentId}(shipmentId=${shipment.shipId})}" class="btn btn-info">상세 보기</a>
-            <a th:href="@{/shipment/cancel(shipId=${shipment.shipId})}" class="btn btn-danger">취소</a>
+        <tr th:each="shipment : ${shipmentList}">
+          <td th:text="${shipment.shipId}"></td>
+          <td th:text="${shipment.itemName}"></td>
+          <td th:text="${shipment.reqQty}"></td>
+          <td th:text="${shipment.qty}"></td>
+          <td th:text="${shipment.status}"></td>
+          <td th:text="${#temporals.format(shipment.reqDate, 'yyyy-MM-dd')}"></td>
+          <td th:text="${shipment.loc}"></td>
+          <td style="text-align: center;">
+            <a th:href="@{/shipment/detail/{id}(id=${shipment.shipId})}" class="btn btn-outline-primary mr-2">상세</a>
+            <a th:href="@{/shipment/check-stock/{id}(id=${shipment.shipId})}" class="btn btn-primary">재고 확인</a>
           </td>
         </tr>
         </tbody>
       </table>
 
-      <nav aria-label="Page navigation example" th:if="${totalPages != null}">
-        <ul class="pagination">
-          <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}">
-            <a class="page-link" th:href="@{/shipment/list(page=${i})}" th:text="${i}"></a>
-          </li>
-        </ul>
-      </nav>
-
       <div class="tableBtn">
-        <a href="/shipment/update/after-shipment" class="btn btn-primary">출고 등록</a>
-        <a href="/shipment/search" class="btn btn-secondary">출고 검색</a>
+        <a th:href="@{/shipment/create}" class="btn btn-primary">새 출고 요청</a>
       </div>
 
     </div>

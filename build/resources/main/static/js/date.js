@@ -7,9 +7,21 @@ function getTodayDate() {
     return `${year}-${month}-${day}`;
 }
 
-$('#DataInput, #DeliveryDataInput, #date, #deadline').val(getTodayDate());
+$('#DataInput, ' +
+    '#DeliveryDataInput, ' +
+    '#date, ' +
+    '#deadline, ' +
+    '#scheduleDate, ' +
+    '#modalStartDate, ' +
+    '#modalEndDate').val(getTodayDate());
 
-$('.dateInput .date, .deliveryDateInput .date, .planDateInput .date, .DVPlanDateInput .date').datepicker({
+$('.dateInput .date, ' +
+    '.deliveryDateInput .date, ' +
+    '.planDateInput .date, ' +
+    '.DVPlanDateInput .date, ' +
+    '.scheduleDate .date, ' +
+    '.modalStartDate .date,' +
+    '.modalEndDate .date').datepicker({
     format: "yyyy-mm-dd",
     language: "ko",
     todayBtn: 'linked',

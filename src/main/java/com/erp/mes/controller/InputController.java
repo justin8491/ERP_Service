@@ -27,13 +27,6 @@ public class InputController {
         return request.getServletPath();
     }
 
-//    @GetMapping("/inputList")
-//    public String input(Model model) {
-//        List<InputDTO> list = service.inputList();
-////        log.info("list={}",list);
-//        model.addAttribute("list",list);
-//        return "input/list";
-//    }
     @PostMapping("/inputList")
     public String inputForm(InputDTO inputDTO) {
         int n = service.inputForm(inputDTO);
@@ -45,21 +38,20 @@ public class InputController {
     }
     @PostMapping("/inseception")
     public String inseceptionForm(
-            @RequestParam("numVal") String numValue,
+            @RequestParam("orderCode") String orderCode,
             @RequestParam("inspectionStatus") String inspectionStatus,
             Model model,
             Map<String,Object> map
     ) {
         log.info("a={} " , inspectionStatus);
-        log.info("a={} " , numValue);
         map.put("selectValue",inspectionStatus);
-        map.put("inputId",numValue);
+        map.put("orderCode",orderCode);
         service.updateInputStatus(map);
         return "redirect:/input/paging";
     }
     @PostMapping("/search")
-    public String search(InputDTO inputDTO,Model model) {
-        List<InputDTO> list = service.serachList(inputDTO);
+    public String search(OrderDTO orderDTO,Model model) {
+        List<OrderDTO> list = service.serachList(orderDTO);
         log.info("list={}",list);
         model.addAttribute("list",list);
         return "input/search";
@@ -73,11 +65,10 @@ public class InputController {
 
     @GetMapping("/paging")
     public String paging(Model model,
-                        @RequestParam(value = "page", required = false,defaultValue = "1") int page) {
-        List<InputDTO> pagingList = service.pagingList(page);
-        log.info("page={}",page);
-        log.info("={}",pagingList);
+                         @RequestParam(value = "page", required = false,defaultValue = "1") int page) {
+        List<OrderDTO> pagingList = service.pagingList(page);
         PageDTO pageDTO = service.pagingParam(page);
+        log.info("pagin={}",pagingList);
         model.addAttribute("boardList",pagingList);
         model.addAttribute("paging",pageDTO);
         return "input/list";
@@ -85,7 +76,7 @@ public class InputController {
     @GetMapping("/insep")
     public String insep(Model model,
                         @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        List<InputDTO> pagingList = service.pagingListTrue(page);
+        List<OrderDTO> pagingList = service.pagingListTrue(page);
 
         log.info("={}",pagingList);
         log.info("page={}", page);
@@ -105,6 +96,7 @@ public class InputController {
     @GetMapping("/transaction")
     public String transaction(Model model) {
         List<OrderDTO> trans = service.selectTran();
+        log.info("trans={}",trans);
         List<OrderDTO> transList = service.selectTranList();
         model.addAttribute("trans",trans);
         model.addAttribute("list",transList);

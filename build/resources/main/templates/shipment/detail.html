@@ -7,37 +7,62 @@
   <div>
     <!-- 상단 검색 -->
     <div class="p-3 mb-3 bxShadow">
+      <div class="row">
+        <div class="form-group w-50">
+          <label>출고 ID</label>
+          <input type="text" class="form-control" th:value="${shipment.shipId}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>품목명</label>
+          <input type="text" class="form-control" th:value="${shipment.itemName}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>요청 수량</label>
+          <input type="text" class="form-control" th:value="${shipment.reqQty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>출고 수량</label>
+          <input type="text" class="form-control" th:value="${shipment.qty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>상태</label>
+          <input type="text" class="form-control" th:value="${shipment.status}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>요청 날짜</label>
+          <input type="text" class="form-control" th:value="${#temporals.format(shipment.reqDate, 'yyyy-MM-dd')}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>위치</label>
+          <input type="text" class="form-control" th:value="${shipment.loc}" readonly>
+        </div>
+      </div>
 
-      <table class="table">
-        <tbody>
-        <tr>
-          <th>출고 번호:</th>
-          <td th:text="${shipment.shipId}"></td>
-        </tr>
-        <tr>
-          <th>품목명:</th>
-          <td th:text="${shipment.itemName}"></td>
-        </tr>
-        <tr>
-          <th>출고 수량:</th>
-          <td th:text="${shipment.qty}"></td>
-        </tr>
-        <tr>
-          <th>출고 위치:</th>
-          <td th:text="${shipment.loc}"></td>
-        </tr>
-        <tr>
-          <th>상태:</th>
-          <td th:text="${shipment.status}"></td>
-        </tr>
-        <tr>
-          <th>출고 날짜:</th>
-          <td th:text="${shipment.reqDate}"></td>
-        </tr>
-        </tbody>
-      </table>
-      <a th:href="@{/shipment/cancel(shipId=${shipment.shipId})}" class="btn btn-danger">출고 취소</a>
+      <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
+            th:action="@{/shipment/partial-complete/{id}(id=${shipment.shipId})}" method="post" style="display: inline;">
+        <input type="number" name="qty" required placeholder="출고수량" class="form-control form-control-sm d-inline" style="width: 100px;">
+        <button type="submit" class="btn btn-success">부분 출고</button>
+      </form>
+      <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
+            th:action="@{/shipment/update-quantity/{id}(id=${shipment.shipId})}" method="post" style="display: inline;">
+        <input type="number" name="newQty" required placeholder="새 수량" class="form-control form-control-sm d-inline" style="width: 100px;">
+        <button type="submit" class="btn btn-primary">수량 변경</button>
+      </form>
+      <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
+            th:action="@{/shipment/update-status}" method="post" style="display: inline;">
+        <input type="hidden" name="shipId" th:value="${shipment.shipId}">
+        <select name="status" class="form-control form-control-sm d-inline" style="width: 120px;">
+          <option value="PROCESSING">처리중</option>
+          <option value="COMPLETED">완료</option>
+          <option value="CANCELLED">취소</option>
+        </select>
+        <button type="submit" class="btn btn-primary">상태 변경</button>
+      </form>
 
+      <div class="tableBtn">
+        <a th:href="@{/shipment/list}" class="btn btn-outline-primary mr-2">목록</a>
+        <a th:href="@{/shipment/check-stock/{id}(id=${shipment.shipId})}" class="btn btn-primary">재고 확인</a>
+      </div>
 
     </div>
   </div>

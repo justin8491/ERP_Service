@@ -7,20 +7,45 @@
   <div>
     <!-- 상단 검색 -->
     <div class="p-3 mb-3 bxShadow">
-      <form action="/stock/add" method="post">
-        <!-- 기타 입력 필드들 -->
+      <form th:action="@{/shipment/create}" method="post">
+        <div class="row">
+          <div class="form-group w-50">
+            <label for="stkId">재고 선택</label>
+            <select class="form-control" id="stkId" name="stkId" required>
+              <option value="">선택하세요</option>
+              <option th:each="stock : ${stockList}"
+                      th:value="${stock.stk_id}"
+                      th:text="${stock.item_name + ' - 현재 재고: ' + stock.qty + ' - 위치: ' + stock.loc}">
+              </option>
+            </select>
+          </div>
+          <div class="form-group w-50">
+            <label for="process">소요 공정</label>
+            <input type="text" class="form-control" id="process" name="process" required>
+          </div>
+          <div class="form-group w-50">
+            <label for="reqQty">요청 수량</label>
+            <input type="number" class="form-control" id="reqQty" name="reqQty" required>
+          </div>
+          <div class="form-group w-50 scheduleDate">
+            <label for="scheduleDate">일정</label>
+            <div class="input-group date">
+              <input type="text" class="form-control" id="scheduleDate" name="scheduleDate" required>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <label for="inDate">입고 날짜:</label>
-        <input type="date" id="inDate" name="inDate" required pattern="\d{4}-\d{2}-\d{2}"/>
-
-        <label for="expDate">유통기한:</label>
-        <input type="date" id="expDate" name="expDate" required pattern="\d{4}-\d{2}-\d{2}"/>
-
-        <button type="submit">추가</button>
+        <div class="tableBtn">
+          <a href="/shipment/list" class="btn btn-dark mr-2">취소</a>
+          <button type="submit" class="btn btn-primary">추가</button>
+        </div>
       </form>
 
-      <a href="/stock/list">재고 목록으로 돌아가기</a>
     </div>
   </div>
 </th:block>
 </html>
+<script th:src="@{/js/date.js}"></script>
