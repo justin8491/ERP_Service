@@ -15,8 +15,8 @@ public interface MemberMapper {
     @Select("SELECT * FROM member WHERE id = #{id} AND status = 1")
     MemberDTO find(MemberDTO memberDTO);
     // 로그인
-    @Select("SELECT * FROM member WHERE id = #{id} and pwd = #{pwd}")
-    MemberDTO login(MemberDTO memberDTO);
+    @Select("SELECT * FROM member WHERE id = #{id}")
+    MemberDTO login(String id);
     // 회원가입
     @Insert("INSERT INTO member VALUES (#{m_code}, #{id}, #{pwd}, #{name}, #{phone_number}, #{email}, #{dept_name}, #{auth}, #{status})")
     int join(MemberDTO memberDTO);
@@ -26,6 +26,8 @@ public interface MemberMapper {
     // 회원삭제(비활성으로 변경 => status = 0)
     @Update("UPDATE member SET status = 0 WHERE m_code = #{m_code}")
     int delete(MemberDTO memberDTO);
-
+    // 중복체크
+    @Select("select count(*) from member where email = #{email}")
+    int checkEmail(String email);
 
 }

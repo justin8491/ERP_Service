@@ -5,7 +5,6 @@
 
 <th:block layout:fragment="Content">
     <div>
-        <!-- table -->
         <div class="table-responsive p-3 bxShadow">
             <div class="mb-3" style="display:flex; justify-content:space-between;">
                 <select style="width:120px;" class="form-select form-select-lg" aria-label=".form-select-lg example">
@@ -14,7 +13,6 @@
                     <option value="2">50</option>
                     <option value="3">100</option>
                 </select>
-
                 <form method="post" action="/input/search" style="display:flex;">
                     <div class="input-group" style="width:210px;">
                         <input type="search" class="form-control" placeholder="Search" aria-label="Search"
@@ -28,32 +26,32 @@
             <table class="table">
                 <thead class="thead-light">
                 <tr>
-                    <th scope="col">번호</th>
-                    <th scope="col">받은날짜</th>
-                    <th scope="col">협력회사</th>
-                    <th scope="col">창고</th>
-                    <th scope="col">품목</th>
-                    <th scope="col">수량</th>
-                    <th scope="col" style="text-align: center;">검수 상태</th>
+                    <th>번호</th>
+                    <th>받은날짜</th>
+                    <th>협력회사</th>
+                    <th>창고</th>
+                    <th>품목</th>
+                    <th>수량</th>
+                    <th style="text-align: center;">검수 상태</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="list : ${boardList}" th:id="${list.inputId}">
-                    <td th:text="${list.inputId}">번호</td>
+                <tr th:each="list,iter : ${boardList}" th:id="${list.inputId}">
+                    <td th:text="${iter.index + 1}">번호</td>
                     <td th:text="${list.recDate}">받은날짜</td>
                     <td th:text="${list.supName}">협력회사</td>
                     <td th:text="${list.invenName}">창고</td>
                     <td th:text="${list.itemName}">품목</td>
                     <td th:text="${list.qty}">수량</td>
                     <td style="text-align: center;">
-                        <button type="button" class="modal-btn btn btn-primary a" data-toggle="modal" data-target="#exampleModal" th:data-id="${list.inputId}">진행중</button>
+                        <button type="button" class="modal-btn btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:data-id="${list.inputId}">진행중</button>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <nav aria-label="Page navigation example mt-3">
                 <ul class="pagination">
-                    <li class="page-item"  th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}" >
+                    <li class="page-item" th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}" >
                         <a class="page-link" th:href="@{/input/paging(page=${i})}" th:text="${i}">1</a>
                     </li>
                 </ul>
@@ -76,13 +74,13 @@
                             <table class="mb-3">
                                 <thead>
                                 <tr>
-                                    <th scope="col">번호</th>
-                                    <th scope="col">받은날짜</th>
-                                    <th scope="col">협력회사</th>
-                                    <th scope="col">창고</th>
-                                    <th scope="col">품목</th>
-                                    <th scope="col">수량</th>
-                                    <th scope="col">검수처리</th>
+                                    <th>번호</th>
+                                    <th>받은날짜</th>
+                                    <th>협력회사</th>
+                                    <th>창고</th>
+                                    <th>품목</th>
+                                    <th>수량</th>
+                                    <th style="text-align: center;">검수처리</th>
                                 </tr>
                                 </thead>
                                 <tbody class="modal-table">
@@ -101,6 +99,5 @@
 
     </div>
 </th:block>
-<script th:src="@{/js/list.js}"></script>
 </html>
-
+<script th:src="@{/js/list.js}"></script>

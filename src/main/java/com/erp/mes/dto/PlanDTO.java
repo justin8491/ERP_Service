@@ -26,4 +26,7 @@ public class PlanDTO {
     // 품목
     private int item_id; // 품목 아이디
     private String item_name; // 품목 이름
+    private int price;
+    // 협력회사
+    private String supName;
 }
