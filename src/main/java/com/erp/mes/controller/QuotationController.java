@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/quotation")
 public class QuotationController {
 
     private final QuotationService quotationService;
@@ -20,11 +19,11 @@ public class QuotationController {
         this.quotationService = quotationService;
     }
     // 견적서 리스트
-    @GetMapping(value = "/quoList")
+    @GetMapping(value = "item/quoList")
     public String quoList(Map<String, Object> map){
         List<QuotationDTO> quoList = quotationService.quoList();
         map.put("quoList",quoList);
-        return "quotation/quoList";
+        return "item/quoList";
     }
 
 
