@@ -35,6 +35,7 @@ public class InputController {
             return "401";
         }
     }
+
     @PostMapping("/inseception")
     public String inseceptionForm(
             @RequestParam("orderCode") String orderCode,
@@ -48,6 +49,7 @@ public class InputController {
         service.updateInputStatus(map);
         return "redirect:/input/paging";
     }
+    // 검색
     @PostMapping("/search")
     public String search(OrderDTO orderDTO,Model model) {
         List<OrderDTO> list = service.serachList(orderDTO);
@@ -55,13 +57,14 @@ public class InputController {
         model.addAttribute("list",list);
         return "input/search";
     }
+    // 구매검색
     @PostMapping("/searchTrans")
     public String searchTrans(OrderDTO orderDTO,Model model) {
         List<OrderDTO> list = service.serachListTrans(orderDTO);
         model.addAttribute("list",list);
         return "input/searchTrans";
     }
-
+    // 입고페이지
     @GetMapping("/paging")
     public String paging(Model model,
                          @RequestParam(value = "page", required = false,defaultValue = "1") int page) {
@@ -72,6 +75,7 @@ public class InputController {
         model.addAttribute("paging",pageDTO);
         return "input/list";
     }
+    // 검수페이지
     @GetMapping("/insep")
     public String insep(Model model,
                         @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
@@ -85,6 +89,7 @@ public class InputController {
         model.addAttribute("paging", pageDTO);
         return "input/insep";
     }
+    // 구매 페이지
     @GetMapping("/bom")
     public String bom(Model model) {
         List<OrderDTO> orders = service.selectOrders();
@@ -92,6 +97,7 @@ public class InputController {
         model.addAttribute("orders",orders);
         return "input/bom";
     }
+    // 거래페이지
     @GetMapping("/transaction")
     public String transaction(Model model) {
         List<OrderDTO> trans = service.selectTran();
