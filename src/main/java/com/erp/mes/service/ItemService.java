@@ -39,10 +39,16 @@ public class ItemService {
     public ItemDTO selectItemById(int itemId) {
         return itemMapper.selectItemById(itemId);
     }
-
+    // 품목 상세 아이디 및 이름 초이스 검색
     public ItemDTO selectItemByIdOrName(Map<String, Object> map) {
         return itemMapper.selectItemByIdOrName(map);
     }
 
-
+    // 계약서 등록
+    public int addContract(Map<String, Object> map) {
+        System.out.println(map.get("sup_id"));
+        System.out.println(map.get("d_day"));
+        System.out.println(map.get("total_amount"));
+        return itemMapper.addContract(map);
+    }
 }

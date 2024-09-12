@@ -37,5 +37,6 @@ public interface ItemMapper {
     @SelectProvider(type = ItemBuilder.class, method = "selectItemByIdOrName")
     ItemDTO selectItemByIdOrName(Map<String, Object> map);
 
-
+    @InsertProvider(type = ItemBuilder.class, method = "addContract")
+    int addContract(Map<String, Object> map);
 }
