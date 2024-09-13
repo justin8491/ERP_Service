@@ -1,6 +1,7 @@
 package com.erp.mes.restController;
 
 import com.erp.mes.dto.EmailDTO;
+import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PlanDTO;
 import com.erp.mes.dto.SupplierDTO;
 import com.erp.mes.service.MailService;
@@ -65,32 +66,6 @@ public class PurchaseRestController {
         }
         return map;
     }
-    /**
-     * 구매발주서 리스트
-     *
-     * @param
-     * @return
-     */
-//    @GetMapping(value = "purchase/order")
-//    public Map<String, Object> order() {
-//        Map<String, Object> map = new HashMap<>();
-//        List<OrderDTO> orderList = purchaseService.order();
-//        map.put("orderList", orderList);
-//        return map;
-//    }
-
-    /**
-     * 구매발주서 수정
-     *
-     * @param map
-     * @return
-     */
-    @PostMapping(value = "purchase/orderForm")
-    public Map<String, Object> orderForm(@RequestBody Map<String, Object> map) {
-        int result = purchaseService.orderForm(map);
-        map.put("result", result);
-        return map;
-    }
 
     /**
      * 검수 확인
@@ -98,12 +73,12 @@ public class PurchaseRestController {
      * @param
      * @return
      */
-    @GetMapping(value = "purchase/inspection")
-    public Map<String, Object> inspection() {
-        Map<String, Object> map = new HashMap<>();
-        int result = purchaseService.inspection();
-        return map;
-    }
+//    @GetMapping(value = "purchase/inspection")
+//    public Map<String, Object> inspection(Map<String, Object> map) {
+//        List<OrderDTO> orderList = purchaseService.inspection();
+//        map.put("orderList",orderList);
+//        return map;
+//    }
 
     /**
      * 검수 생성
@@ -111,9 +86,10 @@ public class PurchaseRestController {
      * @param map
      * @return
      */
-    @PostMapping(value = "purchase/inspection")
-    public Map<String, Object> inspectionForm(Map<String, Object> map) {
-        int result = purchaseService.inspectionForm(map);
+    @PostMapping(value = "purchase/addInspec")
+    public Map<String, Object> addInspec(Map<String, Object> map) {
+        int result = purchaseService.addInspec(map);
+        map.put("msg","검수 등록 성공");
         return map;
     }
 
@@ -123,9 +99,15 @@ public class PurchaseRestController {
      * @param map
      * @return
      */
-    @PatchMapping(value = "purchase/inspection")
-    public Map<String, Object> inspectionUpdate(Map<String, Object> map) {
+    @PostMapping(value = "/purchase/inspectionUpdate")
+    public Map<String, Object> inspectionUpdate(@RequestBody Map<String, Object> map) {
+
+        System.out.println(" ORDER ID : " + map.get("orderId"));
+        System.out.println(" ORDER_CODE : " + map.get("orderCode"));
+        System.out.println(" STATUS : " + map.get("status"));
+
         int result = purchaseService.inspectionUpdate(map);
+
         return map;
     }
 

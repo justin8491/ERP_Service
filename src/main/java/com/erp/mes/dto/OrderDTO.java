@@ -15,6 +15,9 @@ import java.time.LocalDate;
 @ToString
 @Slf4j
 public class OrderDTO {
+    private int orderId;
+    private int inputId;
+    private String type;
     private String keyword;
     // 발주서
     private LocalDate date; // 발주일자

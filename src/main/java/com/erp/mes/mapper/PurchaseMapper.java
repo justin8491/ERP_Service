@@ -26,12 +26,12 @@ public interface PurchaseMapper {
     int orderForm(Map<String, Object> map); // 구매 발주서 수정 - 납기, 상태, 금액 부분 변경 - 이외 사항 발주 새로 발행
 
     @SelectProvider(type = PurchaseBuilder.class, method = "selectInspections")
-    int inspection(); // 검수 확인
+    List<OrderDTO> inspection(); // 검수 확인
 
-    @InsertProvider(type = PurchaseBuilder.class,method = "insertInspection")
-    int inspectionForm(Map<String, Object> map); // 검수 생성
+    @InsertProvider(type = PurchaseBuilder.class,method = "addInspec")
+    int addInspec(Map<String, Object> map); // 검수 생성
 
-    @UpdateProvider(type = PurchaseBuilder.class, method = "updateInspection")
+    @UpdateProvider(type = PurchaseBuilder.class, method = "inspectionUpdate")
     int inspectionUpdate(Map<String, Object> map); // 검수 업데이트
 
 

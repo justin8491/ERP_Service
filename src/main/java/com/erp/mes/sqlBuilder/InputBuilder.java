@@ -72,17 +72,7 @@ public class InputBuilder {
             WHERE("transaction.tran_id = #{tranId}");
         }}.toString();
     }
-    //    public String buildInsertOrder() {
-//        return new SQL(){{
-//            INSERT_INTO("`order`");
-//            VALUES("order_code","#{orderCode}");
-//            VALUES("date","#{date}");
-//            VALUES("status","'진행중'");
-//            VALUES("value","#{value}");
-//            VALUES("sup_id","#{supId}");
-//            VALUES("plan_id","#{planId}");
-//        }}.toString();
-//    }
+
     // 구매발주서 조회
     public String buildSelectOrder() {
         return new SQL(){{
@@ -91,14 +81,7 @@ public class InputBuilder {
             JOIN("item on item.item_id = `order`.item_id");
         }}.toString();
     }
-    //    // 구매발주서 업데이트
-//    public String buildUpdateOrder() {
-//        return new SQL(){{
-//            UPDATE("order");
-//            SET("status = #{status}");
-//            WHERE("order_code = #{order_code}");
-//        }}.toString();
-//    }
+
     // 구매발주서 검수
     public String buildUpdateInputStatus(Map<String,Object> map) {
         return new SQL() {{
