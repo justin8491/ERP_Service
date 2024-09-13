@@ -7,6 +7,7 @@ import com.erp.mes.dto.TransactionDTO;
 import com.erp.mes.mapper.InputMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -17,9 +18,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class InputService {
     private final InputMapper mapper;
-    public List<InputDTO> inputList() {
-        return mapper.inputList();
-    }
     public int inputForm(InputDTO inputDTO) {
         return mapper.inputForm(inputDTO);
     }
@@ -29,20 +27,20 @@ public class InputService {
     public int transactionFrom(TransactionDTO transactionDTO) {
         return mapper.transactionForm(transactionDTO);
     }
-    public int insertOrder(OrderDTO orderDTO){
-        return mapper.insertOrder(orderDTO);
-    }
+    //    public int insertOrder(OrderDTO orderDTO){
+//        return mapper.insertOrder(orderDTO);
+//    }
     public List<OrderDTO> orderList() {
         return mapper.orderList();
     }
-    public int orderForm(Map<String,Object> map) {
-        return mapper.orderForm(map);
-    }
+    //    public int orderForm(Map<String,Object> map) {
+//        return mapper.orderForm(map);
+//    }
     public int updateInputStatus(Map<String,Object> map) {
         return mapper.updateInputStatus(map);
     }
 
-    public List<InputDTO> serachList(InputDTO inputDTO){return mapper.serachList(inputDTO);}
+    public List<OrderDTO> serachList(OrderDTO orderDTO){return mapper.serachList(orderDTO);}
     public List<OrderDTO> serachListTrans(OrderDTO orderDTO){return mapper.serachListTrans(orderDTO);}
 
     public List<OrderDTO> selectOrders(){
@@ -71,20 +69,20 @@ public class InputService {
 
     private static int pageLimit = 10; // 한페이지당 보여줄 글 갯수
     private static int blockLimit = 10; // 하단에 보여줄 페이지 번호 수
-    public List<InputDTO> pagingList(int page) {
+    public List<OrderDTO> pagingList(int page) {
         int pagingStart = (page - 1 ) * pageLimit;
         Map<String,Object> pagingParams = new HashMap<>();
         pagingParams.put("start", pagingStart);
         pagingParams.put("limit",pageLimit);
-        List<InputDTO> pagingList = mapper.pagingList(pagingParams);
+        List<OrderDTO> pagingList = mapper.pagingList(pagingParams);
         return pagingList;
     }
-    public List<InputDTO> pagingListTrue(int page) {
+    public List<OrderDTO> pagingListTrue(int page) {
         int pagingStart = (page - 1 ) * pageLimit;
         Map<String,Object> pagingParams = new HashMap<>();
         pagingParams.put("start", pagingStart);
         pagingParams.put("limit",pageLimit);
-        List<InputDTO> pagingList = mapper.pagingListTrue(pagingParams);
+        List<OrderDTO> pagingList = mapper.pagingListTrue(pagingParams);
         return pagingList;
     }
 

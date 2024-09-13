@@ -4,27 +4,21 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="4">
-            <item index="0" class="java.lang.String" itemvalue="th:each" />
-            <item index="1" class="java.lang.String" itemvalue="th:id" />
-            <item index="2" class="java.lang.String" itemvalue="th:text" />
-            <item index="3" class="java.lang.String" itemvalue="th:src" />
-          </list>
-        </value>
-      </option>
-      <option name="myCustomValuesEnabled" value="true" />
-    </inspection_tool>
-    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="myValues">
-        <value>
-          <list size="7">
-            <item index="0" class="java.lang.String" itemvalue="nobr" />
-            <item index="1" class="java.lang.String" itemvalue="noembed" />
-            <item index="2" class="java.lang.String" itemvalue="comment" />
-            <item index="3" class="java.lang.String" itemvalue="noscript" />
-            <item index="4" class="java.lang.String" itemvalue="embed" />
-            <item index="5" class="java.lang.String" itemvalue="script" />
-            <item index="6" class="java.lang.String" itemvalue="td" />
+          <list size="14">
+            <item index="0" class="java.lang.String" itemvalue="th:data-status" />
+            <item index="1" class="java.lang.String" itemvalue="th:data-value" />
+            <item index="2" class="java.lang.String" itemvalue="th:data-sup-name" />
+            <item index="3" class="java.lang.String" itemvalue="th:data-leadtime" />
+            <item index="4" class="java.lang.String" itemvalue="th:data-qty" />
+            <item index="5" class="java.lang.String" itemvalue="th:data-item-name" />
+            <item index="6" class="java.lang.String" itemvalue="th:data-order-code" />
+            <item index="7" class="java.lang.String" itemvalue="th:text" />
+            <item index="8" class="java.lang.String" itemvalue="th:data-itemname" />
+            <item index="9" class="java.lang.String" itemvalue="th:data-ordercode" />
+            <item index="10" class="java.lang.String" itemvalue="th:data-plan_id" />
+            <item index="11" class="java.lang.String" itemvalue="th:data-name" />
+            <item index="12" class="java.lang.String" itemvalue="th:data-supname" />
+            <item index="13" class="java.lang.String" itemvalue="th:each" />
           </list>
         </value>
       </option>
