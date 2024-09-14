@@ -13,6 +13,15 @@
                     <option value="2">50</option>
                     <option value="3">100</option>
                 </select>
+                <form method="post" action="/input/search" style="display:flex;">
+                    <div class="input-group" style="width:210px;">
+                        <input type="search" class="form-control" placeholder="Search" aria-label="Search"
+                               aria-describedby="search-addon" name="keyword"/>
+                        <div class="input-group-append">
+                            <button class="input-group-text" id="search-addon" style="height: 43px;"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <table class="table">

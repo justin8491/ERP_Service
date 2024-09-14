@@ -29,7 +29,7 @@ public class ItemController {
         return request.getServletPath();
     }
 
-    // 품목 목록 조회
+    // 소요 품목 목록 조회
     @GetMapping("itemList")
     public String itemList(Map<String, Object> map) {
         // 서비스 호출 및 필터링 결과 전달

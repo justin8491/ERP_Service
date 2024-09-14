@@ -11,9 +11,6 @@ $(document).ready(function() {
     // 모달 열기 함수
     function openModal(modalId) {
         if (!isModalOpen) {
-            $(modalId).modal({
-                backdrop: false // 백드롭 비활성화
-            });
             $(modalId).modal('show');
             isModalOpen = true; // 모달 열림 상태로 변경
         }
@@ -27,20 +24,17 @@ $(document).ready(function() {
     function sendEmail(){
         console.log("보낸 이메일 : " + supplierEmail);
         $.ajax({
-            url: '/purchase/orderCreate', // 요청할 URL
+            url: '/purchase/sendEmail', // 요청할 URL
             type: 'POST', // 요청 방식 (GET, POST 등)
             data: JSON.stringify({"targetMail": supplierEmail}), // JSON 형식으로 데이터 전송
             contentType: 'application/json', // JSON 형식으로 전송
             dataType: 'json', // 서버에서 반환할 데이터 형식
             success: function(data) {
-                console.log(data); // 받은 데이터 처리
-                console.log("메일발송 성공");
-//                alert("메일발송 성공");
+                console.log(data.msg); // 받은 데이터 처리
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);
-                console.log("메일발송 실패");
-//                alert("메일발송 실패");
+                console.log(data.msg); // 받은 데이터 처리
             }
         });
     }
@@ -120,7 +114,7 @@ $(document).ready(function() {
         const orderData = {
             sup_id: $("#order_sup_id").val(),
             plan_id: selectItem[0].plan_id,
-            sup_id: $("#order_sup_id").val(),
+            sup_name: $("#order_sup_name").val(),
             order_code: order_code,
             item_name: selectItem[0].item_name,
             quantity: $("#order_qty").val(),

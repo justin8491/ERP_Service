@@ -10,27 +10,56 @@ import java.util.Map;
 @Mapper
 public interface ShipmentMapper {
 
-    // 출고 요청 생성
     @InsertProvider(type = ShipmentBuilder.class, method = "insertShipment")
     int insertShipment(ShipmentDTO shipmentDTO);
 
-    // 출고 목록 조회
     @SelectProvider(type = ShipmentBuilder.class, method = "selectShipmentList")
+    @Results({
+            @Result(property = "shipId", column = "ship_id"),
+            @Result(property = "stkId", column = "stk_id"),
+            @Result(property = "reqDate", column = "req_date"),
+            @Result(property = "reqQty", column = "req_qty"),
+            @Result(property = "qty", column = "qty"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "loc", column = "loc"),
+            @Result(property = "itemName", column = "item_name"),
+            @Result(property = "availableQty", column = "available_qty")
+    })
     List<ShipmentDTO> selectShipmentList(Map<String, Object> params);
 
-    // 출고 완료 처리
     @UpdateProvider(type = ShipmentBuilder.class, method = "updateShipmentStatusToCompleted")
-    int updateShipmentStatusToCompleted(@Param("shipId") int shipId);
+    int updateShipmentStatusToCompleted(@Param("shipId") int shipId, @Param("qty") int qty);
 
-    // 출고 요청 취소
     @UpdateProvider(type = ShipmentBuilder.class, method = "cancelShipment")
     int cancelShipment(@Param("shipId") int shipId);
 
-    // 출고 요청 상태 업데이트
     @UpdateProvider(type = ShipmentBuilder.class, method = "updateShipmentStatus")
     int updateShipmentStatus(@Param("shipId") int shipId, @Param("status") String status);
 
-    // 출고 요청 시 재고 차감
     @UpdateProvider(type = ShipmentBuilder.class, method = "updateStockAfterShipment")
-    int updateStockAfterShipment(@Param("stkId") int stkId, @Param("reqQty") int reqQty);
+    int updateStockAfterShipment(@Param("stkId") int stkId, @Param("qty") int qty);
+
+    @SelectProvider(type = ShipmentBuilder.class, method = "selectShipmentById")
+    @Results({
+            @Result(property = "shipId", column = "ship_id"),
+            @Result(property = "stkId", column = "stk_id"),
+            @Result(property = "reqDate", column = "req_date"),
+            @Result(property = "reqQty", column = "req_qty"),
+            @Result(property = "qty", column = "qty"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "loc", column = "loc"),
+            @Result(property = "itemName", column = "item_name"),
+            @Result(property = "availableQty", column = "available_qty")
+    })
+    ShipmentDTO selectShipmentById(@Param("shipId") int shipId);
+
+    @SelectProvider(type = ShipmentBuilder.class, method = "checkStockAvailability")
+    Map<String, Object> checkStockAvailability(@Param("stkId") int stkId);
+    // 새로 추가된 메서드
+
+    @Select("SELECT qty FROM stock WHERE stk_id = #{stkId}")
+    int getAvailableStock(@Param("stkId") int stkId);
+
+    @Update("UPDATE shipment SET qty = #{qty} WHERE ship_id = #{shipId}")
+    int updateShipmentQuantity(@Param("shipId") int shipId, @Param("qty") int qty);
 }

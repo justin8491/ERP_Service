@@ -3,12 +3,14 @@ package com.erp.mes.controller;
 import com.erp.mes.dto.OrderDTO;
 import com.erp.mes.dto.PlanDTO;
 import com.erp.mes.service.PurchaseService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +21,10 @@ import static java.awt.SystemColor.info;
 @Slf4j
 @Controller
 public class PurchaseController {
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(PurchaseController.class);
 

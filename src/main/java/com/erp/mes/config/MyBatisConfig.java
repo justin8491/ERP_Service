@@ -21,7 +21,7 @@ public class MyBatisConfig {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/mes");
         dataSource.setUsername("root");
-        dataSource.setPassword("0000");
+        dataSource.setPassword("12345");
         return dataSource;
     }
     @Bean

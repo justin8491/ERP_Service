@@ -20,6 +20,7 @@ public class PurchaseBuilder {
             INSERT_INTO("`order`");
             VALUES("sup_id", "#{sup_id}");
             VALUES("plan_id", "#{plan_id}");
+            VALUES("sup_id", "#{sup_id}");
             VALUES("order_code", "#{order_code}");
             VALUES("date", "NOW()");
             VALUES("status", "#{status}");
