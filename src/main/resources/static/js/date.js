@@ -13,7 +13,9 @@ $('#DataInput, ' +
     '#deadline, ' +
     '#scheduleDate, ' +
     '#modalStartDate, ' +
-    '#modalEndDate').val(getTodayDate());
+    '#modalEndDate, ' +
+    '#startDate, ' +
+    '#endDate').val(getTodayDate());
 
 $('.dateInput .date, ' +
     '.deliveryDateInput .date, ' +

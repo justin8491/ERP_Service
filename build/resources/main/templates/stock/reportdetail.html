@@ -1,60 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>재고 상세 정보</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-5">
-  <h1 class="mb-4">재고 상세 정보</h1>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
 
-  <div th:if="${stock}">
-    <table class="table table-bordered">
-      <tr>
-        <th>재고 ID</th>
-        <td th:text="${stock.stk_id}"></td>
-      </tr>
-      <tr>
-        <th>품목명</th>
-        <td th:text="${stock.itemName}"></td>
-      </tr>
-      <tr>
-        <th>품목 코드</th>
-        <td th:text="${stock.itemCode}"></td>
-      </tr>
-      <tr>
-        <th>수량</th>
-        <td th:text="${stock.totalQty}"></td>
-      </tr>
-      <tr>
-        <th>위치</th>
-        <td th:text="${stock.location}"></td>
-      </tr>
-      <tr>
-        <th>단가</th>
-        <td th:text="${#numbers.formatDecimal(stock.unitPrice, 0, 'COMMA', 2, 'POINT')} + ' 원'"></td>
-      </tr>
-      <tr>
-        <th>총 가치</th>
-        <td th:text="${#numbers.formatDecimal(stock.totalValue, 0, 'COMMA', 2, 'POINT')} + ' 원'"></td>
-      </tr>
-      <tr>
-        <th>입고일</th>
-        <td th:text="${#dates.format(stock.date, 'yyyy-MM-dd')}"></td>
-      </tr>
-      <tr>
-        <th>유효기간</th>
-        <td th:text="${#dates.format(stock.expirationDate, 'yyyy-MM-dd')}"></td>
-      </tr>
-      <tr>
-        <th>상태</th>
-        <td th:text="${stock.status}"></td>
-      </tr>
-    </table>
+<th:block layout:fragment="Content">
+  <div>
+    <div class="p-3 mb-3 bxShadow">
+      <div class="row" th:if="${stock}">
+        <div class="form-group w-50">
+          <label>재고 ID</label>
+          <input type="text" class="form-control" th:value="${stock.stk_id}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>품목명</label>
+          <input type="text" class="form-control" th:value="${stock.itemName}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>품목 코드</label>
+          <input type="text" class="form-control" th:value="${stock.itemCode}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>수량</label>
+          <input type="text" class="form-control" th:value="${stock.totalQty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>위치</label>
+          <input type="text" class="form-control" th:value="${stock.location}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>단가</label>
+          <input type="text" class="form-control" th:value="${#numbers.formatDecimal(stock.unitPrice, 0, 'COMMA', 2, 'POINT')} + ' 원'" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>총 가치</label>
+          <input type="text" class="form-control" th:value="${#numbers.formatDecimal(stock.totalValue, 0, 'COMMA', 2, 'POINT')} + ' 원'" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>입고일</label>
+          <input type="text" class="form-control" th:value="${#dates.format(stock.date, 'yyyy-MM-dd')}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>유효기간</label>
+          <input type="text" class="form-control" th:value="${#dates.format(stock.expirationDate, 'yyyy-MM-dd')}" readonly>
+        </div>
+      </div>
+
+      <div class="tableBtn">
+        <a th:href="@{'/stock-report/export/excel/' + ${stock.stk_id}}" class="btn btn-success">Excel로 내보내기</a>
+        <a th:href="@{'/stock-report/export/pdf/' + ${stock.stk_id}}" class="btn btn-primary">PDF로 내보내기</a>
+        <a href="javascript:history.back()" class="btn btn-dark">뒤로가기</a>
+      </div>
+    </div>
   </div>
-
-  <a href="javascript:history.back()" class="btn btn-secondary">뒤로 가기</a>
-</div>
-</body>
+</th:block>
 </html>

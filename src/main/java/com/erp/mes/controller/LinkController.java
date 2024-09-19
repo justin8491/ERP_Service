@@ -22,4 +22,17 @@ public class LinkController {
 //    public String itemList() {
 //        return "item/itemList";
 //    }
+
+    @GetMapping("/stock/report")
+    public String report() {
+        return "stock/report";
+    }
+    @GetMapping("/stock/reportdetail")
+    public String reportdetail() {
+        return "stock/reportdetail";
+    }
+    @GetMapping("/stock/value")
+    public String itemList() {
+        return "stock/value";
+    }
 }
