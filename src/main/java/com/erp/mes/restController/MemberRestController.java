@@ -1,6 +1,4 @@
 package com.erp.mes.restController;
-
-
 import com.erp.mes.dto.MemberDTO;
 import com.erp.mes.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,22 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 @RestController
 @RequestMapping(value = "/member/*") // /member/~ 경로로 들어오는 모든 API 처리
 @Slf4j
 public class MemberRestController {
-
     @Autowired
     MemberService memberService;
-
-
-
     /**
      * 회원 찾기 1명
      *
@@ -46,7 +37,6 @@ public class MemberRestController {
         }
         return map;
     }
-
     /**
      * 로그인
      * @param memberDTO
@@ -75,7 +65,6 @@ public class MemberRestController {
         response.put("message","로그인 성공했습니다.");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
     /**
      * 회원가입
      * @param memberDTO
@@ -91,7 +80,6 @@ public class MemberRestController {
             vaildateUsersDTO(memberDTO);
             map.put("email",memberDTO.getEmail());
             checkEmail(map);
-
             memberService.join(memberDTO);
             response.put("message", "회원가입 성공했습니다.");
             return new ResponseEntity<>(response, HttpStatus.CREATED); // 성공시 201보냄
@@ -107,7 +95,6 @@ public class MemberRestController {
             return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR); // 500 서버오류
         }
     }
-
     /**
      * 회원 수정
      * @param memberDTO
@@ -125,7 +112,6 @@ public class MemberRestController {
         }
         return map;
     }
-
     /**
      * 회원 탈퇴(비활성 상태 변환)
      * @param memberDTO
