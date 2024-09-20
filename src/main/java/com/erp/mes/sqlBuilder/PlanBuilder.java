@@ -6,9 +6,9 @@ public class PlanBuilder {
 
     public String buildSelectPlan() {
         return new SQL(){{
-            SELECT("plan.date ,plan.qty, plan.leadtime, plan.status,item.name as item_name,item.price,item.item_id");
+            SELECT("plan.date, plan.qty, plan.leadtime, plan.status, item.name AS item_name, item.price, item.item_id");
             FROM("plan");
-            JOIN("item on item.item_id = plan.item_id");
+            JOIN("item ON item.item_id = plan.item_id");
         }}.toString();
     }
     public String buildInsertPlan() {

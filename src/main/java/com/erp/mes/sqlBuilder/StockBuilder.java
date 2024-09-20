@@ -158,4 +158,15 @@ public class StockBuilder {
         }}.toString();
     }
 
+    public String stockItemList() {
+        return new SQL() {{
+            SELECT("s.stk_id, i.item_id, i.name AS item_name, i.item_code, " +
+                    "s.qty, s.loc, s.value, s.in_date, s.exp_date, " +
+                    "s.cons_qty, s.cons_date, s.cons_loc, i.spec, i.price, i.type");
+            FROM("stock s");
+            JOIN("item i ON s.item_id = i.item_id");
+            WHERE("s.cons_qty > 0");
+        }}.toString();
+    }
+
 }
