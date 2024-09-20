@@ -33,7 +33,7 @@ public class ItemController {
     @GetMapping("itemList")
     public String itemList(Map<String, Object> map) {
         // 서비스 호출 및 필터링 결과 전달
-        List<StockDTO> stockList = stockService.getStockItemList();
+        List<StockDTO> stockList = stockService.stockItemList();
         System.out.println(stockList);
         map.put("stockList", stockList);
         return "item/itemList";
@@ -76,6 +76,14 @@ public class ItemController {
         ItemDTO itemDTO = itemService.selectItemById(itemId);
         model.addAttribute("itemDTO", itemDTO);
         return "item/itemView"; // itemView.html로 반환
+    }
+
+    @PostMapping("/selectItemByIdOrName")
+    public Map<String,Object> selectItemByIdOrName(@RequestBody Map<String,Object> map){
+        System.out.println(map.get("item_name"));
+        ItemDTO itemDTO = itemService.selectItemByIdOrName(map);
+        map.put("itemDTO",itemDTO);
+        return map;
     }
 
 

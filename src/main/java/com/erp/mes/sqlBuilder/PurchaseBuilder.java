@@ -8,9 +8,9 @@ public class PurchaseBuilder {
     // 조달계획 리스트
     public String selectPlans() {
         return new SQL() {{
-            SELECT("p.plan_id, i.name as itemName, p.qty, p.date, p.leadtime, p.status");
-            FROM("plan p");
-            JOIN("item i on i.item_id = p.item_id");
+            SELECT("plan.date, plan.qty, plan.leadtime, plan.status, item.name AS item_name, item.price, item.item_id");
+            FROM("plan");
+            JOIN("item ON item.item_id = plan.item_id");
         }}.toString();
     }
 
@@ -35,7 +35,7 @@ public class PurchaseBuilder {
             JOIN("supplier s ON s.sup_id = o.sup_id");
             JOIN("plan p ON p.plan_id = o.plan_id");
             JOIN("item i ON i.item_id = p.item_id");
-            WHERE("o.status = '발주완료' OR o.status = '검수마감'");
+            WHERE("o.status = '발주완료' OR o.status = '검수진행중'");
             WHERE("o.insep_status = 0");
         }}.toString();
     }

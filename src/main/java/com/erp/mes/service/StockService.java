@@ -55,4 +55,8 @@ public class StockService {
     public List<StockDTO> getStockItemList() {
         return stockMapper.selectStockItemList();
     }
+
+    public List<StockDTO> stockItemList() {
+        return stockMapper.stockItemList();
+    }
 }

@@ -40,4 +40,7 @@ public interface StockMapper {
     // 발주 품목 소요 자재 확인
     @SelectProvider(type = StockBuilder.class, method = "selectStockItemList")
     List<StockDTO> selectStockItemList();
+
+    @SelectProvider(type = StockBuilder.class, method = "stockItemList")
+    List<StockDTO> stockItemList();
 }

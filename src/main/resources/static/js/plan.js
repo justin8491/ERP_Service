@@ -151,10 +151,6 @@ $(document).ready(function() {
             type: 'POST',
             dataType: 'json',
             success: function(response) {
-                if (response.supList && response.supList.length > 100) { // 예시: 최대 100개 항목
-                    alert("협력업체 수가 너무 많습니다.");
-                    return;
-                }
                 openModal('#searchModal'); // 모달 열기
                 supplierList = response.supList;
                 displayPartners(supplierList);
