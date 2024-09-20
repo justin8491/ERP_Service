@@ -1,76 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>출고 목록</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container mt-5">
-  <h1>출고 목록</h1>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
 
-  <!-- 검색 폼 -->
-  <form th:action="@{/shipment/search}" method="get" class="mb-4">
-    <div class="form-row">
-      <div class="col">
-        <input type="text" class="form-control" placeholder="품목명" name="itemName">
+<th:block layout:fragment="Content">
+  <div>
+    <div class="p-3 mb-3 bxShadow">
+      <table class="table">
+        <thead class="thead-light">
+        <tr>
+          <th>출고 ID</th>
+          <th>품목명</th>
+          <th>요청 수량</th>
+          <th>출고 수량</th>
+          <th>상태</th>
+          <th>요청 날짜</th>
+          <th>위치</th>
+          <th style="text-align: center;">액션</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="shipment : ${shipmentList}">
+          <td th:text="${shipment.shipId}"></td>
+          <td th:text="${shipment.itemName}"></td>
+          <td th:text="${shipment.reqQty}"></td>
+          <td th:text="${shipment.qty}"></td>
+          <td th:text="${shipment.status}"></td>
+          <td th:text="${#temporals.format(shipment.reqDate, 'yyyy-MM-dd')}"></td>
+          <td th:text="${shipment.loc}"></td>
+          <td style="text-align: center;">
+            <a th:href="@{/shipment/detail/{id}(id=${shipment.shipId})}" class="btn btn-outline-primary mr-2">상세</a>
+            <a th:href="@{/shipment/check-stock/{id}(id=${shipment.shipId})}" class="btn btn-primary">재고 확인</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="tableBtn">
+        <a th:href="@{/shipment/create}" class="btn btn-primary">새 출고 요청</a>
       </div>
-      <div class="col">
-        <select class="form-control" name="status">
-          <option value="">모든 상태</option>
-          <option value="REQUESTED">요청됨</option>
-          <option value="PROCESSING">처리중</option>
-          <option value="PARTIALLY_COMPLETED">부분 완료</option>
-          <option value="COMPLETED">완료됨</option>
-          <option value="CANCELLED">취소됨</option>
-        </select>
-      </div>
-      <div class="col">
-        <input type="date" class="form-control" name="reqDate">
-      </div>
-      <div class="col">
-        <button type="submit" class="btn btn-primary">검색</button>
-      </div>
+
     </div>
-  </form>
-
-  <!-- 출고 목록 테이블 -->
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>출고 ID</th>
-      <th>품목명</th>
-      <th>요청 수량</th>
-      <th>출고 수량</th>
-      <th>상태</th>
-      <th>요청 날짜</th>
-      <th>위치</th>
-      <th>액션</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="shipment : ${shipmentList}">
-      <td th:text="${shipment.shipId}"></td>
-      <td th:text="${shipment.itemName}"></td>
-      <td th:text="${shipment.reqQty}"></td>
-      <td th:text="${shipment.qty}"></td>
-      <td th:text="${shipment.status}"></td>
-      <td th:text="${#temporals.format(shipment.reqDate, 'yyyy-MM-dd')}"></td>
-      <td th:text="${shipment.loc}"></td>
-      <td>
-        <a th:href="@{/shipment/detail/{id}(id=${shipment.shipId})}" class="btn btn-info btn-sm">상세</a>
-        <a th:href="@{/shipment/check-stock/{id}(id=${shipment.shipId})}" class="btn btn-warning btn-sm">재고 확인</a>
-
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <a href="/shipment/create" class="btn btn-primary">새 출고 요청</a>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
+  </div>
+</th:block>
 </html>

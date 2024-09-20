@@ -1,32 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>재고 확인</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container mt-5">
-  <h1>재고 확인</h1>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">출고 ID: <span th:text="${shipment.shipId}"></span></h5>
-      <p class="card-text">품목명: <span th:text="${shipment.itemName}"></span></p>
-      <p class="card-text">요청 수량: <span th:text="${shipment.reqQty}"></span></p>
-      <p class="card-text">현재 재고 수량: <span th:text="${shipment.availableQty}"></span></p>
-      <p class="card-text">출고 가능 여부:
-        <span th:text="${shipment.availableQty >= shipment.reqQty ? '가능' : '불가능'}"
-              th:class="${shipment.availableQty >= shipment.reqQty ? 'text-success' : 'text-danger'}">
-                    </span>
-      </p>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
+
+<th:block layout:fragment="Content">
+  <div>
+    <div class="p-3 mb-3 bxShadow">
+      <div class="row">
+        <div class="form-group w-50">
+          <label>출고 ID</label>
+          <input type="text" class="form-control" th:value="${shipment.shipId}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>품목명</label>
+          <input type="text" class="form-control" th:value="${shipment.itemName}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>요청 수량</label>
+          <input type="text" class="form-control" th:value="${shipment.reqQty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>현재 재고 수량</label>
+          <input type="text" class="form-control" th:value="${shipment.availableQty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>출고 가능 여부</label>
+          <input type="text" class="form-control" th:value="${shipment.availableQty >= shipment.reqQty ? '가능' : '불가능'}" readonly>
+        </div>
+      </div>
+
+      <div class="tableBtn">
+        <a th:href="@{/shipment/list}" class="btn btn-outline-primary mr-2">목록</a>
+        <a th:href="@{/shipment/detail/{id}(id=${shipment.shipId})}" class="btn btn-primary">상세 정보</a>
+      </div>
+
     </div>
   </div>
-  <a href="/shipment/list" class="btn btn-secondary mt-3">목록으로 돌아가기</a>
-  <a th:href="@{/shipment/detail/{id}(id=${shipment.shipId})}" class="btn btn-primary mt-3">상세 정보로 이동</a>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
+</th:block>
 </html>

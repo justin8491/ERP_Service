@@ -1,54 +1,69 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>출고 상세 정보</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container mt-5">
-  <h1>출고 상세 정보</h1>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{include/layout/defaultLayout.html}">
 
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">출고 ID: <span th:text="${shipment.shipId}"></span></h5>
-      <p class="card-text">품목명: <span th:text="${shipment.itemName}"></span></p>
-      <p class="card-text">요청 수량: <span th:text="${shipment.reqQty}"></span></p>
-      <p class="card-text">출고 수량: <span th:text="${shipment.qty}"></span></p>
-      <p class="card-text">상태: <span th:text="${shipment.status}"></span></p>
-      <p class="card-text">요청 날짜: <span th:text="${#temporals.format(shipment.reqDate, 'yyyy-MM-dd')}"></span></p>
-      <p class="card-text">위치: <span th:text="${shipment.loc}"></span></p>
+<th:block layout:fragment="Content">
+  <div>
+    <div class="p-3 mb-3 bxShadow">
+      <div class="row">
+        <div class="form-group w-50">
+          <label>출고 ID</label>
+          <input type="text" class="form-control" th:value="${shipment.shipId}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>품목명</label>
+          <input type="text" class="form-control" th:value="${shipment.itemName}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>요청 수량</label>
+          <input type="text" class="form-control" th:value="${shipment.reqQty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>출고 수량</label>
+          <input type="text" class="form-control" th:value="${shipment.qty}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>상태</label>
+          <input type="text" class="form-control" th:value="${shipment.status}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>요청 날짜</label>
+          <input type="text" class="form-control" th:value="${#temporals.format(shipment.reqDate, 'yyyy-MM-dd')}" readonly>
+        </div>
+        <div class="form-group w-50">
+          <label>위치</label>
+          <input type="text" class="form-control" th:value="${shipment.loc}" readonly>
+        </div>
+      </div>
+
+      <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
+            th:action="@{/shipment/partial-complete/{id}(id=${shipment.shipId})}" method="post" style="display: inline;">
+        <input type="number" name="qty" required placeholder="출고수량" class="form-control form-control-sm d-inline" style="width: 100px;">
+        <button type="submit" class="btn btn-success">부분 출고</button>
+      </form>
+      <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
+            th:action="@{/shipment/update-quantity/{id}(id=${shipment.shipId})}" method="post" style="display: inline;">
+        <input type="number" name="newQty" required placeholder="새 수량" class="form-control form-control-sm d-inline" style="width: 100px;">
+        <button type="submit" class="btn btn-primary">수량 변경</button>
+      </form>
+      <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
+            th:action="@{/shipment/update-status}" method="post" style="display: inline;">
+        <input type="hidden" name="shipId" th:value="${shipment.shipId}">
+        <select name="status" class="form-control form-control-sm d-inline" style="width: 120px;">
+          <option value="PROCESSING">처리중</option>
+          <option value="COMPLETED">완료</option>
+          <option value="CANCELLED">취소</option>
+        </select>
+        <button type="submit" class="btn btn-primary">상태 변경</button>
+      </form>
+
+      <div class="tableBtn">
+        <a th:href="@{/shipment/list}" class="btn btn-outline-primary mr-2">목록</a>
+        <a th:href="@{/shipment/check-stock/{id}(id=${shipment.shipId})}" class="btn btn-primary">재고 확인</a>
+      </div>
+
     </div>
   </div>
-
-  <div class="mt-3">
-    <a href="/shipment/list" class="btn btn-secondary">목록으로 돌아가기</a>
-    <a th:href="@{/shipment/check-stock/{id}(id=${shipment.shipId})}" class="btn btn-warning">재고 확인</a>
-    <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
-          th:action="@{/shipment/partial-complete/{id}(id=${shipment.shipId})}" method="post" style="display: inline;">
-      <input type="number" name="qty" required placeholder="출고수량" class="form-control form-control-sm d-inline" style="width: 100px;">
-      <button type="submit" class="btn btn-success">부분 출고</button>
-    </form>
-    <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
-          th:action="@{/shipment/update-quantity/{id}(id=${shipment.shipId})}" method="post" style="display: inline;">
-      <input type="number" name="newQty" required placeholder="새 수량" class="form-control form-control-sm d-inline" style="width: 100px;">
-      <button type="submit" class="btn btn-primary">수량 변경</button>
-    </form>
-    <form th:if="${shipment.status == 'REQUESTED' or shipment.status == 'PROCESSING'}"
-          th:action="@{/shipment/update-status}" method="post" style="display: inline;">
-      <input type="hidden" name="shipId" th:value="${shipment.shipId}">
-      <select name="status" class="form-control form-control-sm d-inline" style="width: 120px;">
-        <option value="PROCESSING">처리중</option>
-        <option value="COMPLETED">완료</option>
-        <option value="CANCELLED">취소</option>
-      </select>
-      <button type="submit" class="btn btn-primary">상태 변경</button>
-    </form>
-  </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
+</th:block>
 </html>
