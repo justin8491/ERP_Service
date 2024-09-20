@@ -1,6 +1,7 @@
 package com.erp.mes.sqlBuilder;
 
 import org.apache.ibatis.jdbc.SQL;
+
 import java.util.Map;
 
 public class ItemBuilder {
@@ -121,15 +122,11 @@ public class ItemBuilder {
             // item_id가 존재하면 WHERE 조건 추가
             if (item_id != null && !item_id.isEmpty()) {
                 WHERE("item_id = #{itemId}");
-            }
-
-            if(item_id == null){
-                // item_name이 존재하면 WHERE 조건 추가
+            } else {
                 if (item_name != null && !item_name.isEmpty()) {
                     WHERE("name = #{item_name}");
                 }
             }
-
         }}.toString();
     }
 

@@ -78,6 +78,14 @@ public class ItemController {
         return "item/itemView"; // itemView.html로 반환
     }
 
+    @PostMapping("/selectItemByIdOrName")
+    public Map<String,Object> selectItemByIdOrName(@RequestBody Map<String,Object> map){
+        System.out.println(map.get("item_name"));
+        ItemDTO itemDTO = itemService.selectItemByIdOrName(map);
+        map.put("itemDTO",itemDTO);
+        return map;
+    }
+
 
 
 }
