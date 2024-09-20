@@ -44,7 +44,7 @@ $(document).ready(function() {
         console.log(quoData);
 
         $.ajax({
-            url: '/purchase/quoCreate',
+            url: '/quotation/quoCreate',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(quoData),

@@ -59,7 +59,7 @@ $(document).ready(function() {
 
             // 선택한 품목 찾기
             $.ajax({
-                url: '/item/selectItemByIdOrName',
+                url: '/purchase/getItem',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({ item_name: item_name }),

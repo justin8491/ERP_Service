@@ -101,12 +101,12 @@ public class PurchaseRestController {
         return map;
     }
 
-    @PostMapping(value = "purchase/getAllSupplier")
-    public Map<String, Object> getSupplier(Map<String, Object> map) {
-        List<SupplierDTO> supList = purchaseService.getSupplier();
-        map.put("supList",supList);
-        return map;
-    }
+//    @PostMapping(value = "purchase/getAllSupplier")
+//    public Map<String, Object> getSupplier(Map<String, Object> map) {
+//        List<SupplierDTO> supList = purchaseService.getSupplier();
+//        map.put("supList",supList);
+//        return map;
+//    }
 
     @PostMapping(value = "purchase/quoCreate")
     public Map<String,Object> quoCreate(Map<String,Object> map){
