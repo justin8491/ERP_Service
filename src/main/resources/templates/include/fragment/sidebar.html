@@ -71,9 +71,6 @@
         <a class="collapse-item" th:href="@{/input/insep}" th:classappend="${servletPath != null && servletPath == '/input/insep'} ? 'active' : ''">
           <span>검수 조회</span>
         </a>
-        <a class="collapse-item" th:href="@{/input/#}" th:classappend="${servletPath != null && servletPath == '/input/#'} ? 'active' : ''">
-          <span>현황관리 리포트</span>
-        </a>
       </div>
     </div>
   </li>
@@ -92,7 +89,7 @@
           <span>재고조회</span>
         </a>
         <a class="collapse-item" th:href="@{/stock/calculate-value}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
-          <span> 재고 산출</span>
+          <span>재고 산출</span>
         </a>
         <a class="collapse-item" th:href="@{/stock-report/generate}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
           <span>현황조회</span>
