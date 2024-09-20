@@ -13,6 +13,7 @@ import java.util.Date;
 @Data
 public class StockDTO {
 
+    private Boolean inputType;
     private int item_id; // 품목 ID
     private String item_code; // 품목 코드
     private String item_name;
@@ -33,5 +34,15 @@ public class StockDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date cons_date;    // 소모일자
     private String cons_loc;   // 소모위치
+    private int quantity;
+    private double unitPrice;
+    private double totalPrice;
+    private int initial_qty;
+    private int incoming_quantity;
+    private int outgoing_quantity;
+    private int current_qty;
 
+    public int calculateCurrentQty() {
+        return this.initial_qty + this.incoming_quantity - this.outgoing_quantity;
+    }
 }

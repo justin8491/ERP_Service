@@ -14,7 +14,7 @@ public class ShipmentBuilder {
             VALUES("qty", "#{qty}");
             VALUES("status", "#{status}");
             VALUES("loc", "#{loc}");
-            // process와 schedule_date는 shipment 테이블에 없으므로 제거
+
         }}.toString();
     }
 
@@ -25,20 +25,19 @@ public class ShipmentBuilder {
             INNER_JOIN("stock s ON sh.stk_id = s.stk_id");
             INNER_JOIN("item i ON s.item_id = i.item_id");
 
-            if (params.containsKey("itemName") && params.get("itemName") != null) {
+            if (params.containsKey("itemName") && params.get("itemName") != null && !params.get("itemName").toString().isEmpty()) {
                 WHERE("i.name LIKE CONCAT('%', #{itemName}, '%')");
             }
-            if (params.containsKey("status") && params.get("status") != null) {
+            if (params.containsKey("status") && params.get("status") != null && !params.get("status").toString().isEmpty()) {
                 WHERE("sh.status = #{status}");
             }
-            if (params.containsKey("reqDate") && params.get("reqDate") != null) {
-                WHERE("sh.req_date = #{reqDate}");
+            if (params.containsKey("reqDate") && params.get("reqDate") != null && !params.get("reqDate").toString().isEmpty()) {
+                WHERE("DATE(sh.req_date) = DATE(#{reqDate})");
             }
 
             ORDER_BY("sh.req_date DESC");
         }}.toString();
     }
-
     public String updateShipmentStatusToCompleted() {
         return new SQL() {{
             UPDATE("shipment");

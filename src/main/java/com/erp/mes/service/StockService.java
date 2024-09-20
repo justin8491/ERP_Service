@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Service
@@ -37,9 +40,23 @@ public class StockService {
     }
 
     // 재고 금액 산출
-    public double calculateStockValue(String startDate, String endDate) {
-        Double result = stockMapper.calculateStockValue(startDate, endDate);
-        return result != null ? result : 0.0;
+
+    public Map<String, Object> calculateStockValue(String startDate, String endDate) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+
+        List<Map<String, Object>> stockDetails = stockMapper.calculateStockValue(params);
+
+        double totalStockValue = stockDetails.stream()
+                .mapToDouble(item -> Double.parseDouble(item.get("item_total_value").toString()))
+                .sum();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalStockValue", totalStockValue);
+        result.put("stockDetails", stockDetails);
+
+        return result;
     }
 
     public StockDTO getStockDetails(int stkId) {
@@ -51,8 +68,20 @@ public class StockService {
         return stockMapper.getPrice(stkId);
     }
 
+    public List<StockDTO> getFilteredStockList(Map<String, Object> params) {
+        return stockMapper.selectStockList(params); // StockMapper에 정의된 메서드 호출
+    }
 
     public List<StockDTO> getStockItemList() {
-        return stockMapper.selectStockItemList();
+        List<StockDTO> result = stockMapper.selectStockItemList();
+        System.out.println("Stock item list size from database: " + (result != null ? result.size() : "null"));
+        return result;
+    }
+
+    public List<StockDTO> calculateStock(LocalDate startDate, LocalDate endDate) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        return stockMapper.getStockCalculation(params);
     }
 }

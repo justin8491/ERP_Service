@@ -3,53 +3,49 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{include/layout/defaultLayout.html}">
 
-<head>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-
 <th:block layout:fragment="Content">
   <div>
-    <!-- 검색 결과 -->
     <div class="p-3 mb-3 bxShadow">
-      <h2>검색 결과</h2>
       <table class="table">
-        <thead class="thead-light">
+        <thead>
         <tr>
-          <th scope="col">출고 번호</th>
-          <th scope="col">품목명</th>
-          <th scope="col">출고 수량</th>
-          <th scope="col">출고 위치</th>
-          <th scope="col">상태</th>
-          <th scope="col">출고 날짜</th>
-          <th scope="col">액션</th>
+          <th>출고 번호</th>
+          <th>품목명</th>
+          <th>출고 수량</th>
+          <th>출고 위치</th>
+          <th>상태</th>
+          <th>출고 날짜</th>
+          <th>액션</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="shipment : ${shipments}">
+        <tr th:each="shipment : ${shipmentList}">
           <td th:text="${shipment.shipId}">출고 번호</td>
           <td th:text="${shipment.itemName}">품목명</td>
           <td th:text="${shipment.qty}">출고 수량</td>
           <td th:text="${shipment.loc}">출고 위치</td>
-          <td th:text="${shipment.status}">상태</td>
-          <td th:text="${shipment.reqDate}">출고 날짜</td>
           <td>
-            <a th:href="@{/shipment/{shipmentId}(shipmentId=${shipment.shipId})}" class="btn btn-info">상세 보기</a>
-            <a th:href="@{/shipment/cancel(shipId=${shipment.shipId})}" class="btn btn-danger">취소</a>
+            <span th:switch="${shipment.status}">
+              <span class="badge badge-warning" th:case="'REQUESTED'">출고 요청</span>
+              <span class="badge badge-info" th:case="'PROCESSING'">진행중</span>
+              <span class="badge badge-success" th:case="'COMPLETED'">출고 완료</span>
+              <span class="badge badge-danger" th:case="'REJECTED'">반려</span>
+              <span th:case="*" th:text="${shipment.status}"></span>
+            </span>
+          </td>
+          <td th:text="${#temporals.format(shipment.reqDate, 'yyyy-MM-dd')}">출고 날짜</td>
+          <td>
+            <a class="btn btn-dark mr-2" th:href="@{/shipment/cancel/{shipId}(shipId=${shipment.shipId})}">취소</a>
+            <a class="btn btn-primary" th:href="@{/shipment/detail/{shipmentId}(shipmentId=${shipment.shipId})}">상세 보기</a>
           </td>
         </tr>
         </tbody>
       </table>
-
       <div class="tableBtn">
-        <a href="/shipment/list" class="btn btn-secondary">목록으로 돌아가기</a>
+        <a class="btn btn-primary" th:href="@{/shipment/list}">목록</a>
       </div>
     </div>
   </div>
-</th:block>
 
-<!-- Bootstrap JS, jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</th:block>
 </html>

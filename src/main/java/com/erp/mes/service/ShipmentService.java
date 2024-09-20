@@ -21,21 +21,22 @@ public class ShipmentService {
     public int createShipment(ShipmentDTO shipmentDTO) {
         StockDTO stock = stockService.getStockDetails(shipmentDTO.getStkId());
         if (stock == null) {
-            throw new RuntimeException("해당 재고를 찾을 수 없습니다.");
+            return -1;  // 재고를 찾을 수 없는 경우
         }
+
         if (stock.getQty() < shipmentDTO.getReqQty()) {
-            throw new RuntimeException("재고가 부족합니다. 현재 재고: " + stock.getQty());
+            return -2;  // 재고 부족
         }
+
+        // 재고가 충분한 경우
+        shipmentDTO.setStatus("REQUESTED");
+        shipmentDTO.setQty(shipmentDTO.getReqQty());
+        int result = shipmentMapper.insertShipment(shipmentDTO);
 
         // 재고 차감
-        int updateResult = shipmentMapper.updateStockAfterShipment(shipmentDTO.getStkId(), shipmentDTO.getReqQty());
-        if (updateResult <= 0) {
-            throw new RuntimeException("재고 차감에 실패했습니다.");
-        }
+        shipmentMapper.updateStockAfterShipment(shipmentDTO.getStkId(), shipmentDTO.getReqQty());
 
-        shipmentDTO.setStatus("REQUESTED");
-        shipmentDTO.setQty(shipmentDTO.getReqQty()); // 요청 수량을 실제 출고 수량으로 설정
-        return shipmentMapper.insertShipment(shipmentDTO);
+        return result;
     }
 
     public List<ShipmentDTO> getShipmentList(Map<String, Object> params) {
@@ -68,10 +69,22 @@ public class ShipmentService {
         return shipmentMapper.cancelShipment(shipId);
     }
 
+    @Transactional
     public int updateShipmentStatus(int shipId, String status) {
-        if (!Arrays.asList("REQUESTED", "PROCESSING", "PARTIALLY_COMPLETED", "COMPLETED", "CANCELLED").contains(status)) {
-            throw new IllegalArgumentException("Invalid status");
+        ShipmentDTO shipment = shipmentMapper.selectShipmentById(shipId);
+        if (shipment == null) {
+            throw new RuntimeException("해당 출고 요청을 찾을 수 없습니다.");
         }
+
+        if ("COMPLETED".equals(status)) {
+            // 출고 완료 처리
+            int availableStock = shipmentMapper.getAvailableStock(shipment.getStkId());
+            if (availableStock < shipment.getReqQty()) {
+                throw new RuntimeException("재고가 부족합니다. 현재 재고: " + availableStock);
+            }
+            shipmentMapper.updateStockAfterShipment(shipment.getStkId(), shipment.getReqQty());
+        }
+
         return shipmentMapper.updateShipmentStatus(shipId, status);
     }
 
@@ -125,4 +138,6 @@ public class ShipmentService {
         }
         shipmentMapper.updateShipmentQuantity(shipId, newQty);
     }
+
+
 }
