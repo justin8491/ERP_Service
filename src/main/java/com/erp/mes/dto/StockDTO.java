@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -41,6 +42,7 @@ public class StockDTO {
     private int incoming_quantity;
     private int outgoing_quantity;
     private int current_qty;
+    private Date last_completed_date;
 
     public int calculateCurrentQty() {
         return this.initial_qty + this.incoming_quantity - this.outgoing_quantity;

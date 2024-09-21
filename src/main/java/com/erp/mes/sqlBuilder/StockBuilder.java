@@ -140,21 +140,50 @@ public class StockBuilder {
             ORDER_BY("s.stk_id DESC");
         }}.toString();
     }
+
+
     public String getStockCalculation(Map<String, Object> params) {
         return new SQL() {{
-            SELECT("s.stk_id, i.name AS item_name, " +
-                    "s.qty AS current_qty, " +  // 현재 재고 수량
-                    "COALESCE(SUM(CASE WHEN inp.type = true AND inp.rec_date BETWEEN #{startDate} AND #{endDate} THEN p.qty ELSE 0 END), 0) AS incoming_quantity, " +  // 입고 수량 계산
-                    "COALESCE(SUM(CASE WHEN sh.status = 'COMPLETED' AND sh.req_date BETWEEN #{startDate} AND #{endDate} THEN sh.qty ELSE 0 END), 0) AS outgoing_quantity, " +  // 출고 수량 계산
-                    "s.loc, s.value, s.status");
+            SELECT("s.stk_id");
+            SELECT("i.name AS item_name");
+            SELECT("s.qty AS current_qty");
+            SELECT("(" +
+                    "SELECT COALESCE(SUM(p.qty), 0) " +
+                    "FROM input inp " +
+                    "JOIN transaction t ON inp.tran_id = t.tran_id " +
+                    "JOIN plan p ON t.plan_id = p.plan_id " +
+                    "WHERE inp.type = TRUE " +
+                    "AND inp.rec_date BETWEEN #{startDate} AND #{endDate} " +
+                    "AND p.item_id = s.item_id" +
+                    ") AS incoming_quantity");
+            SELECT("COALESCE(SUM(CASE WHEN sh.status = 'COMPLETED' THEN sh.qty ELSE 0 END), 0) AS outgoing_quantity");
+            SELECT("MAX(CASE WHEN sh.status = 'COMPLETED' THEN sh.req_date END) AS last_completed_date");
+            SELECT("s.loc");
+            SELECT("s.value");
+            SELECT("s.status");
+            // 기존의 s.in_date를 최근 입고 요청 날짜로 변경
+            SELECT("(" +
+                    "SELECT MAX(inp.rec_date) " +
+                    "FROM input inp " +
+                    "JOIN transaction t ON inp.tran_id = t.tran_id " +
+                    "JOIN plan p ON t.plan_id = p.plan_id " +
+                    "WHERE inp.type = TRUE " +
+                    "AND inp.rec_date BETWEEN #{startDate} AND #{endDate} " +
+                    "AND p.item_id = s.item_id" +
+                    ") AS in_date");
             FROM("stock s");
-            INNER_JOIN("item i ON s.item_id = i.item_id");  // stock과 item의 관계
-            LEFT_OUTER_JOIN("`input` inp ON s.stk_id = inp.input_id");  // input 테이블과의 조인
-            LEFT_OUTER_JOIN("transaction t ON inp.tran_id = t.tran_id");  // transaction 테이블과의 조인
-            LEFT_OUTER_JOIN("plan p ON t.plan_id = p.plan_id");  // plan 테이블과의 조인
-            LEFT_OUTER_JOIN("shipment sh ON s.stk_id = sh.stk_id");  // shipment 테이블과의 조인
-            GROUP_BY("s.stk_id, i.name, s.qty, s.loc, s.value, s.status");
+            INNER_JOIN("item i ON s.item_id = i.item_id");
+            LEFT_OUTER_JOIN("shipment sh ON s.stk_id = sh.stk_id AND sh.req_date BETWEEN #{startDate} AND #{endDate}");
+            WHERE("s.qty > 0");
+            GROUP_BY("s.stk_id");
+            GROUP_BY("i.name");
+            GROUP_BY("s.qty");
+            GROUP_BY("s.loc");
+            GROUP_BY("s.value");
+            GROUP_BY("s.status");
+
         }}.toString();
     }
-}
 
+
+}
