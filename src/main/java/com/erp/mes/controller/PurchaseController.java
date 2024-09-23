@@ -50,5 +50,13 @@ public class PurchaseController {
         return "/purchase/order";
     }
 
+    @GetMapping(value = "purchase/inspection")
+    public String inspection(Map<String, Object> map){
+        List<OrderDTO> orderList = purchaseService.inspection();
+        map.put("orderList",orderList);
+        logger.info(orderList + "");
+        return "/purchase/inspection";
+    }
+
 
 }

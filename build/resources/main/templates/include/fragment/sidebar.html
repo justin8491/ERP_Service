@@ -20,7 +20,7 @@
         <a class="collapse-item" th:href="@{/item/itemList}" th:classappend="${servletPath != null && servletPath == '/item/itemList'} ? 'active' : ''">
           <span>조달계획 조회</span>
         </a>
-        <a class="collapse-item" th:href="@{/quotation/quoList}" th:classappend="${servletPath != null && servletPath == '/item/itemPlan'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/item/quoList}" th:classappend="${servletPath != null && servletPath == '/item/itemPlan'} ? 'active' : ''">
           <span>견적서 조회</span>
         </a>
         <a class="collapse-item" th:href="@{/item/addPlan}" th:classappend="${servletPath != null && servletPath == '/item/contract'} ? 'active' : ''">
@@ -72,9 +72,6 @@
         <a class="collapse-item" th:href="@{/input/insep}" th:classappend="${servletPath != null && servletPath == '/input/insep'} ? 'active' : ''">
           <span>검수 조회</span>
         </a>
-        <a class="collapse-item" th:href="@{/input/#}" th:classappend="${servletPath != null && servletPath == '/input/#'} ? 'active' : ''">
-          <span>현황관리 리포트</span>
-        </a>
       </div>
     </div>
   </li>
@@ -84,15 +81,18 @@
       <span>출고관리</span>
     </a>
     <div id="collapseShipment" class="collapse" aria-labelledby="headingShipment" data-parent="#accordionSidebar"
-         th:classappend="${servletPath != null && servletPath.startsWith('/shipment')} ? 'show' : ''">
+         th:classappend="${servletPath != null && servletPath.startsWith('/shipment') || servletPath.startsWith('/stock') || servletPath.startsWith('/stock-report') } ? 'show' : ''">
       <div class="collapse-inner">
         <a class="collapse-item" th:href="@{/shipment/list}" th:classappend="${servletPath != null && servletPath == '/shipment/list'} ? 'active' : ''">
           <span>출고등록</span>
         </a>
-        <a class="collapse-item" th:href="@{/shipment/#}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/stock/list}" th:classappend="${servletPath != null && servletPath == '/shipment/list'} ? 'active' : ''">
+          <span>재고조회</span>
+        </a>
+        <a class="collapse-item" th:href="@{/stock/calculate}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
           <span> 재고 산출</span>
         </a>
-        <a class="collapse-item" th:href="@{/shipment/#}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
+        <a class="collapse-item" th:href="@{/stock-report/generate}" th:classappend="${servletPath != null && servletPath == '/shipment/#'} ? 'active' : ''">
           <span>현황조회</span>
         </a>
       </div>

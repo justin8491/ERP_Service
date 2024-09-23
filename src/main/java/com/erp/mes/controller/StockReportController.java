@@ -4,6 +4,7 @@ import com.erp.mes.dto.StockReportDTO;
 import com.erp.mes.service.StockReportService;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -34,6 +35,10 @@ import java.util.stream.Stream;
 public class StockReportController {
     private final StockReportService stockReportService;
 
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
 
     @GetMapping("/generate")
     public String generateReport(
@@ -82,16 +87,22 @@ public class StockReportController {
         return "stock/reportdetail";
     }
 
-
     @GetMapping("/export/excel")
     public ResponseEntity<InputStreamResource> exportToExcel(
             @RequestParam String startDate,
             @RequestParam String endDate,
-            @RequestParam(required = false) Integer itemId) throws IOException, ParseException {
+            @RequestParam(required = false) Integer itemId) throws IOException {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
-        Date parsedStartDate = dateFormat.parse(startDate);
-        Date parsedEndDate = dateFormat.parse(endDate);
+        Date parsedStartDate = null;
+        Date parsedEndDate = null;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+            parsedStartDate = dateFormat.parse(startDate);
+            parsedEndDate = dateFormat.parse(endDate);
+        } catch (ParseException e) {
+            // 날짜 파싱 실패 시 에러 처리
+            return ResponseEntity.badRequest().body(new InputStreamResource(new ByteArrayInputStream("Invalid date format".getBytes())));
+        }
 
         Map<String, Object> params = new HashMap<>();
         params.put("startDate", parsedStartDate);
@@ -111,23 +122,23 @@ public class StockReportController {
         headerRow.createCell(1).setCellValue("제품명");
         headerRow.createCell(2).setCellValue("수량");
         headerRow.createCell(3).setCellValue("재고 위치");
-        headerRow.createCell(4).setCellValue("공급 가격 ");
+        headerRow.createCell(4).setCellValue("공급 가격");
         headerRow.createCell(5).setCellValue("총 재고 금액");
 
         int rowNum = 1;
         for (StockReportDTO item : reportData) {
             Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(item.getDate().toString());
-            row.createCell(1).setCellValue(item.getItemName());
-            row.createCell(2).setCellValue(item.getTotalQty());
-            row.createCell(3).setCellValue(item.getLocation());
-            row.createCell(4).setCellValue(item.getUnitPrice().doubleValue());
-            row.createCell(5).setCellValue(item.getTotalValue().doubleValue());
+            row.createCell(0).setCellValue(item.getDate() != null ? item.getDate().toString() : "");
+            row.createCell(1).setCellValue(item.getItemName() != null ? item.getItemName() : "");
+            row.createCell(2).setCellValue(item.getTotalQty()); // int는 null이 될 수 없으므로 체크 불필요
+            row.createCell(3).setCellValue(item.getLocation() != null ? item.getLocation() : "");
+            row.createCell(4).setCellValue(item.getUnitPrice() != null ? item.getUnitPrice().doubleValue() : 0.0);
+            row.createCell(5).setCellValue(item.getTotalValue() != null ? item.getTotalValue().doubleValue() : 0.0);
         }
 
         Row totalRow = sheet.createRow(rowNum);
         totalRow.createCell(0).setCellValue("Total");
-        totalRow.createCell(5).setCellValue(totalValue);
+        totalRow.createCell(5).setCellValue(totalValue != null ? totalValue : 0.0);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         workbook.write(outputStream);
@@ -144,7 +155,6 @@ public class StockReportController {
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
                 .body(new InputStreamResource(in));
     }
-
 
     @GetMapping("/export/pdf")
     public ResponseEntity<InputStreamResource> exportToPdf(

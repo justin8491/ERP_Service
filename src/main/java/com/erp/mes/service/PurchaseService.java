@@ -40,13 +40,13 @@ public class PurchaseService {
     }
 
     // 검수 확인
-    public int inspection() {
+    public List<OrderDTO> inspection() {
         return purchaseMapper.inspection();
     }
 
     // 검수 생성
-    public int inspectionForm(Map<String, Object> map) {
-        return purchaseMapper.inspectionForm(map);
+    public int addInspec(Map<String, Object> map) {
+        return purchaseMapper.addInspec(map);
     }
 
     // 검수 수정

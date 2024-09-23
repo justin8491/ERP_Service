@@ -8,9 +8,9 @@ public class PurchaseBuilder {
     // 조달계획 리스트
     public String selectPlans() {
         return new SQL() {{
-            SELECT("p.plan_id, i.name as item_name, p.qty, p.date, p.leadtime, p.status");
-            FROM("plan p");
-            JOIN("item i on i.item_id = p.item_id");
+            SELECT("plan.date, plan.qty, plan.leadtime, plan.status, item.name AS item_name, item.price, item.item_id");
+            FROM("plan");
+            JOIN("item ON item.item_id = plan.item_id");
         }}.toString();
     }
 
@@ -18,39 +18,25 @@ public class PurchaseBuilder {
     public String orderCreate(Map<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("`order`");
-            VALUES("sup_id", "#{sup_id}");
             VALUES("plan_id", "#{plan_id}");
             VALUES("sup_id", "#{sup_id}");
             VALUES("order_code", "#{order_code}");
             VALUES("date", "NOW()");
             VALUES("status", "#{status}");
             VALUES("value", "#{value}");
-            VALUES("insep_status","0");
         }}.toString();
     }
 
     // 발주서 리스트
     public String selectOrders(Map<String, Object> params) {
         return new SQL() {{
-            SELECT("o.order_code as orderCode, i.name, p.qty, p.leadtime, s.name AS supName, o.value");
+            SELECT("o.order_id as orderId ,o.order_code as orderCode, i.name as itemName, p.qty, p.leadtime, s.name AS supName, o.value, o.status");
             FROM("`order` o");
             JOIN("supplier s ON s.sup_id = o.sup_id");
             JOIN("plan p ON p.plan_id = o.plan_id");
             JOIN("item i ON i.item_id = p.item_id");
-            if(params != null){
-                // 공급업체 이름 필터링
-                if (params.get("supplier_name") != null) {
-                    WHERE("s.name = #{supplier_name}");
-                }
-                // 날짜 범위 필터링
-                if (params.get("startDate") != null) {
-                    WHERE("p.leadtime >= #{startDate}");
-                }
-                if (params.get("endDate") != null) {
-                    WHERE("p.leadtime <= #{endDate}");
-                }
-            }
-
+            WHERE("o.status = '발주완료' OR o.status = '검수진행중'");
+            WHERE("o.insep_status = 0");
         }}.toString();
     }
 
@@ -68,27 +54,32 @@ public class PurchaseBuilder {
     // 검수 리스트 확인
     public String selectInspections() {
         return new SQL() {{
-            SELECT("*");
-            FROM("inspection");
+            SELECT("o.order_id AS orderId, o.order_code AS orderCode, i.name AS itemName, p.qty, p.leadtime, s.name AS supName, o.value, o.status");
+            FROM("`order` o");
+            JOIN("supplier s ON s.sup_id = o.sup_id");
+            JOIN("plan p ON p.plan_id = o.plan_id");
+            JOIN("item i ON i.item_id = p.item_id");
+            WHERE("o.insep_status = 1");
         }}.toString();
     }
 
     // 검수 등록
-    public String insertInspection(Map<String, Object> map) {
+    public String addInspec(Map<String, Object> map) {
         return new SQL() {{
             INSERT_INTO("inspection");
-            VALUES("`date`", "NOW()");
-            VALUES("status", "#{status}");
+            VALUES("date", "NOW()");
+            VALUES("status", "'검수진행중'");
             VALUES("notice", "#{notice}");
         }}.toString();
     }
 
     // 검수 수정
-    public String updateInspection(Map<String, Object> map) {
+    public String inspectionUpdate(Map<String, Object> map) {
         return new SQL() {{
-            UPDATE("inspection");
+            UPDATE("`order`");
             SET("status = #{status}");
-            SET("notice = #{notice}");
+            SET("insep_status = 1");
+            WHERE("order_id = #{orderId}");
         }}.toString();
     }
 
