@@ -14,7 +14,7 @@ public interface StockMapper {
     @InsertProvider(type = StockBuilder.class, method = "insertStockFromCompletedInput")
     int insertStockFromCompletedInput();
 
-    // 재고 목록 조회 (필터링 처리)
+    // 재고 목록 조회 (필터링 처리) - Map<String, Object>로 통일
     @SelectProvider(type = StockBuilder.class, method = "selectStockList")
     List<StockDTO> selectStockList(Map<String, Object> params);
 
@@ -28,8 +28,7 @@ public interface StockMapper {
 
     // 재고 금액 산출
     @SelectProvider(type = StockBuilder.class, method = "calculateStockValue")
-    Double calculateStockValue(@Param("startDate") String startDate, @Param("endDate") String endDate);
-
+    List<Map<String, Object>> calculateStockValue(Map<String, Object> params);
     // 공급가 확인
     @SelectProvider(type = StockBuilder.class, method = "getSupplyPrice")
     List<Map<String, Object>> getPrice(@Param("stkId") int stkId);
@@ -41,6 +40,7 @@ public interface StockMapper {
     @SelectProvider(type = StockBuilder.class, method = "selectStockItemList")
     List<StockDTO> selectStockItemList();
 
-    @SelectProvider(type = StockBuilder.class, method = "stockItemList")
-    List<StockDTO> stockItemList();
+
+    @SelectProvider(type = StockBuilder.class, method = "getStockCalculation")
+    List<StockDTO> getStockCalculation(Map<String, Object> params);
 }

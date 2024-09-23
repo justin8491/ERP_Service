@@ -17,12 +17,12 @@
                             </div>
                         </div>
                         <div>
-                            <p>사용 상태</p>
+                            <p>재고 상태</p>
                             <div class="input-group">
-                                <select name="status" class="form-control">
+                                <select name="stockStatus" class="form-control">
                                     <option value="">선택</option>
-                                    <option value="available">사용 가능</option>
-                                    <option value="unavailable">사용 불가</option>
+                                    <option value="available">가용재고</option>
+                                    <option value="unavailable">비가용재고</option>
                                 </select>
                             </div>
                         </div>
@@ -34,27 +34,31 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="row">
                     <div class="searchFormInner">
                         <div class="dateInput">
                             <p>입고 시작일</p>
                             <div class="input-group date">
-                                <input type="text" class="form-control" id="startDate" name="startDate">
+                                <input type="date" class="form-control" id="startDate" name="startDate">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+
                                 </div>
                             </div>
                         </div>
+
                         <div class="deliveryDateInput">
                             <p>입고 종료일</p>
                             <div class="input-group date">
-                                <input type="text" class="form-control" id="endDate" name="endDate">
+                                <input type="date" class="form-control" id="endDate" name="endDate">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+
                                 </div>
                             </div>
                         </div>
                         <div>
+
                             <p>위치</p>
                             <div class="input-group">
                                 <input type="text" id="loc" name="loc" class="form-control">
@@ -101,81 +105,4 @@
                 </tbody>
             </table>
 
-            <!-- 재고 금액 산출 버튼 및 폼 -->
-            <div class="tableBtn">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#stockValueModal">
-                    재고 금액 계산
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stock Value Modal -->
-    <div class="modal newModal fade" id="stockValueModal" tabindex="-1" role="dialog" aria-labelledby="stockValueLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content" style="width: 500px;">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="stockValueLabel">재고 금액</h6>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- 기간 입력 폼 -->
-                    <form id="stockValueForm">
-                        <div class="form-group modalStartDate">
-                            <label for="modalStartDate">시작 날짜</label>
-                            <div class="input-group date">
-                                <input type="text" class="form-control" id="modalStartDate" name="modalStartDate" required>
-                                <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group modalEndDate">
-                            <label for="modalEndDate">종료 날짜</label>
-                            <div class="input-group date">
-                                <input type="text" class="form-control" id="modalEndDate" name="modalEndDate" required>
-                                <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">계산</button>
-                    </form>
-                    <!-- 결과 표시 -->
-                    <p class="mt-3">총 재고 금액: <span id="stockValue">0</span> 원</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</th:block>
 </html>
-<script th:src="@{/js/date.js}"></script>
-<!-- JavaScript for AJAX and Modals -->
-<script>
-    // 재고 금액 모달을 위한 AJAX
-    document.getElementById("stockValueForm").addEventListener("submit", function(event){
-        event.preventDefault();
-
-        const startDate = document.getElementById("modalStartDate").value;
-        const endDate = document.getElementById("modalEndDate").value;
-
-        fetch(`/stock/calculate-value?startDate=${startDate}&endDate=${endDate}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById("stockValue").innerText = data.totalStockValue;
-            })
-            .catch(error => {
-                document.getElementById("stockValue").innerText = 'Error retrieving value';
-            });
-    });
-</script>

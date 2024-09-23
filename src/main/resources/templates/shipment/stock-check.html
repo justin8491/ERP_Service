@@ -8,32 +8,28 @@
     <div class="p-3 mb-3 bxShadow">
       <div class="row">
         <div class="form-group w-50">
-          <label>출고 ID</label>
-          <input type="text" class="form-control" th:value="${shipment.shipId}" readonly>
+          <strong>출고 ID:</strong> <span th:text="${shipment.shipId}"></span>
         </div>
         <div class="form-group w-50">
-          <label>품목명</label>
-          <input type="text" class="form-control" th:value="${shipment.itemName}" readonly>
+          <strong>품목명:</strong> <span th:text="${shipment.itemName}"></span>
         </div>
         <div class="form-group w-50">
-          <label>요청 수량</label>
-          <input type="text" class="form-control" th:value="${shipment.reqQty}" readonly>
+          <strong>요청 수량:</strong> <span th:text="${shipment.reqQty}"></span>
         </div>
         <div class="form-group w-50">
-          <label>현재 재고 수량</label>
-          <input type="text" class="form-control" th:value="${shipment.availableQty}" readonly>
+          <strong>현재 재고 수량:</strong> <span th:text="${currentStock}"></span>
         </div>
         <div class="form-group w-50">
-          <label>출고 가능 여부</label>
-          <input type="text" class="form-control" th:value="${shipment.availableQty >= shipment.reqQty ? '가능' : '불가능'}" readonly>
+          <strong>출고 가능 여부:</strong>
+          <span th:if="${currentStock >= shipment.reqQty}" class="text-success">가능</span>
+          <span th:unless="${currentStock >= shipment.reqQty}" class="text-danger">불가능 (재고 부족)</span>
         </div>
       </div>
 
       <div class="tableBtn">
-        <a th:href="@{/shipment/list}" class="btn btn-outline-primary mr-2">목록</a>
-        <a th:href="@{/shipment/detail/{id}(id=${shipment.shipId})}" class="btn btn-primary">상세 정보</a>
+        <a class="btn btn-outline-primary mr-2" th:href="@{/shipment/list}">목록</a>
+        <a class="btn btn-primary" th:href="@{/shipment/detail/{id}(id=${shipment.shipId})}">상세 정보</a>
       </div>
-
     </div>
   </div>
 </th:block>

@@ -4,11 +4,15 @@ import com.erp.mes.dto.StockDTO;
 import com.erp.mes.service.StockService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,42 +29,58 @@ public class StockController {
         return request.getServletPath();
     }
 
-
-    // 입고 완료된 자재를 재고로 반영
-    @PostMapping("/insert")
-    public String insertStockFromCompletedInput(Model model) {
-        int result = stockService.insertStockFromCompletedInput();
-        if (result > 0) {
-            return "redirect:/stock/list";
-        } else {
-            model.addAttribute("error", "입고 완료된 자재를 재고로 반영하는 데 실패했습니다.");
-            return "errorPage";
-        }
-    }
-
-    // 재고 목록 조회 (필터링 가능)
     @GetMapping("/list")
-    public String listStock(@RequestParam Map<String, Object> params, Model model) {
-        // 필터링 조건이 있는 경우, Map에 추가됨
-        List<StockDTO> stockList = stockService.getStockList(params);
+    public String listStock(@RequestParam(required = false) String itemName,
+                            @RequestParam(required = false) String stockStatus,  // stockStatus 추가
+                            @RequestParam(required = false) String minQty,
+                            @RequestParam(required = false) String startDate,
+                            @RequestParam(required = false) String endDate,
+                            @RequestParam(required = false) String loc,
+                            Model model) {
+
+        Map<String, Object> params = new HashMap<>();
+
+        // 검색 조건이 있을 경우에만 파라미터를 Map에 추가
+        if (itemName != null && !itemName.isEmpty()) {
+            params.put("itemName", itemName);
+        }
+
+        // 재고 상태 필터링
+        if (stockStatus != null && !stockStatus.isEmpty()) {
+            if ("available".equals(stockStatus)) {
+                // 가용재고: 10 이상
+                params.put("minQty", 10);
+            } else if ("unavailable".equals(stockStatus)) {
+                // 비가용재고: 10 이하
+                params.put("maxQty", 10);  // SQL 쿼리에서 이 값으로 10 이하 필터링
+            }
+        }
+
+        // 최소 재고 수량 필터링
+        if (minQty != null && !minQty.isEmpty()) {
+            params.put("minQty", Integer.parseInt(minQty));
+        }
+
+        if (startDate != null && !startDate.isEmpty()) {
+            params.put("startDate", startDate);
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            params.put("endDate", endDate);
+        }
+        if (loc != null && !loc.isEmpty()) {
+            params.put("loc", loc);
+        }
+
+        // 필터링된 목록을 가져옴
+        List<StockDTO> stockList = stockService.getFilteredStockList(params);
+
         if (stockList != null && !stockList.isEmpty()) {
             model.addAttribute("stockList", stockList);
         } else {
             model.addAttribute("error", "재고 목록을 찾을 수 없습니다.");
         }
-        return "stock/list";
-    }
 
-    // 출고 후 재고 수량 업데이트
-    @PostMapping("/updateaftershipment")
-    public String updateStockAfterShipment(@RequestParam int stkId, @RequestParam int qty, Model model) {
-        int result = stockService.updateStockAfterShipment(stkId, qty);
-        if (result > 0) {
-            return "redirect:/stock/list";
-        } else {
-            model.addAttribute("error", "재고 수량 업데이트에 실패했습니다.");
-            return "errorPage";
-        }
+        return "stock/list";
     }
 
     // 재고 상태 업데이트
@@ -75,19 +95,25 @@ public class StockController {
         }
     }
 
-    // 재고 금액 산출 (기간별 재고 금액 산출)
+    @GetMapping("/stockValuePage")
+    public String showStockValuePage(Model model) {
+        model.addAttribute("pageTitle", "재고 금액 계산 시스템");
+        return "stock/stockValuePage";
+    }
+
     @GetMapping("/calculate-value")
-    public ResponseEntity<Map<String, Object>> calculateStockValue(
+    @ResponseBody
+    public ResponseEntity<?> calculateStockValue(
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate) {
-
-        // 시작 날짜와 종료 날짜를 이용해 재고 금액 계산 로직 수행
-        double totalStockValue = stockService.calculateStockValue(startDate, endDate);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("totalStockValue", totalStockValue);
-
-        return ResponseEntity.ok(response);
+        try {
+            Map<String, Object> result = stockService.calculateStockValue(startDate, endDate);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            e.printStackTrace(); // 서버 로그에 에러 출력
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("오류 발생: " + e.getMessage());
+        }
     }
 
     @GetMapping("/detail/{stkId}")
@@ -100,6 +126,7 @@ public class StockController {
         model.addAttribute("stock", stock);
         return "stock/detail";
     }
+
     @GetMapping("/price/{stkId}")
     public String viewPrice(@PathVariable("stkId") int stkId, Model model) {
         List<Map<String, Object>> priceList = stockService.getPrice(stkId);
@@ -110,5 +137,23 @@ public class StockController {
             model.addAttribute("error", "가격 정보를 찾을 수 없습니다.");
         }
         return "stock/price";
+    }
+
+    @GetMapping("/calculate")
+    public String calculateStock(
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+            Model model) {
+        if (startDate == null) {
+            startDate = LocalDate.now().minusMonths(1);
+        }
+        if (endDate == null) {
+            endDate = LocalDate.now();
+        }
+        List<StockDTO> result = stockService.calculateStock(startDate, endDate);
+        model.addAttribute("stockCalculation", result);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        return "stock/calculation";
     }
 }

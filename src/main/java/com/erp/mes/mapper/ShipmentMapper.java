@@ -33,8 +33,6 @@ public interface ShipmentMapper {
     @UpdateProvider(type = ShipmentBuilder.class, method = "cancelShipment")
     int cancelShipment(@Param("shipId") int shipId);
 
-    @UpdateProvider(type = ShipmentBuilder.class, method = "updateShipmentStatus")
-    int updateShipmentStatus(@Param("shipId") int shipId, @Param("status") String status);
 
     @UpdateProvider(type = ShipmentBuilder.class, method = "updateStockAfterShipment")
     int updateStockAfterShipment(@Param("stkId") int stkId, @Param("qty") int qty);
@@ -62,4 +60,7 @@ public interface ShipmentMapper {
 
     @Update("UPDATE shipment SET qty = #{qty} WHERE ship_id = #{shipId}")
     int updateShipmentQuantity(@Param("shipId") int shipId, @Param("qty") int qty);
+    @Update("UPDATE shipment SET status = #{status} WHERE ship_id = #{shipId}")
+    int updateShipmentStatus(@Param("shipId") int shipId, @Param("status") String status);
+
 }
