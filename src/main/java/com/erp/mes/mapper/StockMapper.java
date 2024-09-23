@@ -43,4 +43,7 @@ public interface StockMapper {
 
     @SelectProvider(type = StockBuilder.class, method = "getStockCalculation")
     List<StockDTO> getStockCalculation(Map<String, Object> params);
+
+    @SelectProvider(type = StockBuilder.class, method = "stockItemList")
+    List<StockDTO> stockItemList();
 }
