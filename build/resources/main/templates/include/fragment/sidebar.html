@@ -80,7 +80,7 @@
       <span>출고관리</span>
     </a>
     <div id="collapseShipment" class="collapse" aria-labelledby="headingShipment" data-parent="#accordionSidebar"
-         th:classappend="${servletPath != null && servletPath.startsWith('/shipment')} ? 'show' : ''">
+         th:classappend="${servletPath != null && servletPath.startsWith('/shipment') || servletPath.startsWith('/stock') || servletPath.startsWith('/stock-report') } ? 'show' : ''">
       <div class="collapse-inner">
         <a class="collapse-item" th:href="@{/shipment/list}" th:classappend="${servletPath != null && servletPath == '/shipment/list'} ? 'active' : ''">
           <span>출고등록</span>

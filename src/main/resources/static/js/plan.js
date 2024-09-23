@@ -136,6 +136,7 @@ $(document).ready(function() {
                 $("#orderModalTableBody").find("input").val(''); // 입력 필드 초기화
                 closeModal("#orderModal");
                 sendEmail();
+                window.location.href = "/purchase/plan";
             },
             error: function(xhr, status, error) {
                 alert("주문 추가에 실패했습니다: " + (xhr.status ? xhr.status + ': ' + xhr.statusText : error));

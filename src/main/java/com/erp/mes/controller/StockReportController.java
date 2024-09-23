@@ -4,6 +4,7 @@ import com.erp.mes.dto.StockReportDTO;
 import com.erp.mes.service.StockReportService;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -34,6 +35,10 @@ import java.util.stream.Stream;
 public class StockReportController {
     private final StockReportService stockReportService;
 
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
 
     @GetMapping("/generate")
     public String generateReport(

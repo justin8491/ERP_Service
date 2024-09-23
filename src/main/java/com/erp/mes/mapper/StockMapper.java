@@ -40,10 +40,11 @@ public interface StockMapper {
     @SelectProvider(type = StockBuilder.class, method = "selectStockItemList")
     List<StockDTO> selectStockItemList();
 
-
+    // 재고 계산?
     @SelectProvider(type = StockBuilder.class, method = "getStockCalculation")
     List<StockDTO> getStockCalculation(Map<String, Object> params);
 
+    // 재고 리스트 도출(발주 계획)
     @SelectProvider(type = StockBuilder.class, method = "stockItemList")
     List<StockDTO> stockItemList();
 }

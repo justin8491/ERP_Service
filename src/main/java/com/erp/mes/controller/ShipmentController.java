@@ -3,6 +3,7 @@ package com.erp.mes.controller;
 import com.erp.mes.dto.ShipmentDTO;
 import com.erp.mes.service.ShipmentService;
 import com.erp.mes.service.StockService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,11 @@ public class ShipmentController {
     // 출고 요청 생성
     private final ShipmentService shipmentService;
     private final StockService stockService;
+
+    @ModelAttribute("servletPath")
+    String getRequestServletPath(HttpServletRequest request) {
+        return request.getServletPath();
+    }
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
