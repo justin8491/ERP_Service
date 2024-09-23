@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     // 변수 초기화
     let selectItem = [];
     let checkData = false;
