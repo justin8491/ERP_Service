@@ -73,7 +73,7 @@ public class MemberRestController {
         session.setAttribute("id",member.getId());
         session.setAttribute("name",member.getName());
         response.put("message","로그인 성공했습니다.");
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -90,7 +90,8 @@ public class MemberRestController {
             Map<String, Object> map = new HashMap<>();
             vaildateUsersDTO(memberDTO);
             map.put("email",memberDTO.getEmail());
-            checkEmail(map);
+            map.put("id",memberDTO.getId());
+            check(map);
 
             memberService.join(memberDTO);
             response.put("message", "회원가입 성공했습니다.");
@@ -153,7 +154,7 @@ public class MemberRestController {
             throw new IllegalArgumentException("이름이 비어있습니다.");
         }
         if(!memberDTO.getName().matches(nameRegExp)) {
-            throw new IllegalArgumentException("한국어로 입력해주세요.");
+            throw new IllegalArgumentException("이름을 한국어로 입력해주세요.");
         }
         if(memberDTO.getEmail() == null || memberDTO.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("이메일이 비어있습니다.");
@@ -169,10 +170,15 @@ public class MemberRestController {
             throw new IllegalArgumentException("비밀번호 (숫자, 문자, 특수문자 포함 8~15자리 이내) 입력하세요.");
         }
     }
-    private void checkEmail(Map<String,Object> map) {
+    private void check(Map<String,Object> map) {
+        String id = (String) map.get("id");
         String email = (String) map.get("email");
+        int m = memberService.checkId(id);
         int n = memberService.checkEmail(email);
         log.info("n={}",n);
+        if(m > 0) {
+            throw new IllegalArgumentException("이미 있는 아이디입니다.");
+        }
         if (n > 0){
             throw new IllegalArgumentException("이미 있는 이메일입니다.");
         }

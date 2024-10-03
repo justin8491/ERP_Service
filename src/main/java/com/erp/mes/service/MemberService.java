@@ -44,4 +44,7 @@ public class MemberService {
     public int checkEmail(String email) {
         return memberMapper.checkEmail(email);
     }
+    public int checkId(String id) {
+        return memberMapper.checkId(id);
+    }
 }

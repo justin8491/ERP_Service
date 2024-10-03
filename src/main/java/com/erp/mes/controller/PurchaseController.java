@@ -55,8 +55,6 @@ public class PurchaseController {
         List<OrderDTO> orderList = purchaseService.inspection();
         map.put("orderList",orderList);
         logger.info(orderList + "");
-        return "/purchase/inspection";
+        return "/purchase/insepection";
     }
-
-
 }

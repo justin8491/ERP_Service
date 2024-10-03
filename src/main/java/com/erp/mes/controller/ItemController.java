@@ -1,8 +1,11 @@
+
 package com.erp.mes.controller;
 
 import com.erp.mes.dto.ItemDTO;
+import com.erp.mes.dto.PlanDTO;
 import com.erp.mes.dto.StockDTO;
 import com.erp.mes.service.ItemService;
+import com.erp.mes.service.PlanService;
 import com.erp.mes.service.StockService;
 import groovy.util.logging.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +27,30 @@ public class ItemController {
     private final ItemService itemService;
 
     private final StockService stockService;
+    private final PlanService service;
+    @GetMapping("/addPlan")
+    public String addPlan(Model model) {
+        List<PlanDTO> list = service.selectPlan();
+        model.addAttribute("list",list);
+        return "item/plan";
+    }
+    @PostMapping("/insertForm")
+    public String insertPlan(
+            @RequestParam("date") String date,
+            @RequestParam("itemId") String itemId,
+            @RequestParam("deadline") String deadline,
+            @RequestParam("quantity") String quantity,
+            @RequestParam("status") String status
+    ){
+        Map<String,Object> map = new HashMap<>();
+        map.put("date",date);
+        map.put("itemId",itemId);
+        map.put("leadtime",deadline);
+        map.put("qty",quantity);
+        map.put("status",status);
+        int n = service.insertPlan(map);
+        return "redirect:/item/addPlan";
+    }
 
     @ModelAttribute("servletPath")
     String getRequestServletPath(HttpServletRequest request) {
@@ -33,14 +61,14 @@ public class ItemController {
     @GetMapping("itemList")
     public String itemList(Map<String, Object> map) {
         // 서비스 호출 및 필터링 결과 전달
-        List<StockDTO> stockList = stockService.getStockItemList();
+        List<StockDTO> stockList = stockService.stockItemList();
         System.out.println(stockList);
         map.put("stockList", stockList);
         return "item/itemList";
     }
 
-    // 품목 등록 폼
-//    @GetMapping("add")
+//     품목 등록 폼
+//    @GetMapping("addPlan")
 //    public String showAddForm(Model model) {
 //        model.addAttribute("itemDTO", new ItemDTO());
 //        return "item/itemForm";
@@ -76,6 +104,14 @@ public class ItemController {
         ItemDTO itemDTO = itemService.selectItemById(itemId);
         model.addAttribute("itemDTO", itemDTO);
         return "item/itemView"; // itemView.html로 반환
+    }
+
+    @PostMapping("/selectItemByIdOrName")
+    public Map<String,Object> selectItemByIdOrName(@RequestBody Map<String,Object> map){
+        System.out.println(map.get("item_name"));
+        ItemDTO itemDTO = itemService.selectItemByIdOrName(map);
+        map.put("itemDTO",itemDTO);
+        return map;
     }
 
 

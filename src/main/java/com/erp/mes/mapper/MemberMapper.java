@@ -29,5 +29,7 @@ public interface MemberMapper {
     // 중복체크
     @Select("select count(*) from member where email = #{email}")
     int checkEmail(String email);
+    @Select("select count(*) from member where id = #{id}")
+    int checkId(String id);
 
 }
