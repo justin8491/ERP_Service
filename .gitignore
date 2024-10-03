@@ -213,5 +213,5 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,macos,intellij,windows,sass
 
-/config/
+/config/**
 .properties
